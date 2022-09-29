@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/09/29 12:46:16 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:21:18 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@
 #include <iostream>
 #include <cstdio>			// perror
 #include <cstdlib>			// exit
-#include <sys/socket.h>
+#include <sys/socket.h>		// socket && bind
+#include <netinet/in.h>		// struct sockaddr_in && htons
+#include <unistd.h>			// read && close
+#include <string.h>
 
 #if TEST
 # define PORT 5555
