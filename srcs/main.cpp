@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:18:05 by thhusser          #+#    #+#             */
-/*   Updated: 2022/09/29 15:21:51 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/09/30 21:22:55 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int main() {
 
 		hello = (char *)malloc(sizeof(char) * strlen(("Hello from server") + 1));
 		strcpy(hello, "Hello from server");
-		sockaddr_in address;
+		struct sockaddr_in address;
 		int addrlen = sizeof(address);
 		
 		/*
@@ -53,7 +53,7 @@ int main() {
     		char             sin_zero[8];  // zero this if you want to
 		*/
 		
-		if (!(fd = socket(AF_LOCAL, SOCK_STREAM, 0))) {
+		if ((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 			perror("Socket failled");
 			exit(EXIT_FAILURE);
 		}
@@ -63,12 +63,13 @@ int main() {
 			perror("Setsockopt failled");
 			exit(EXIT_FAILURE);
 		}
-		address.sin_family = AF_LOCAL;
+		// Fonctionne pas avec AF_LOCAL
+		address.sin_family = AF_INET;
 		address.sin_addr.s_addr = INADDR_ANY;
   		address.sin_port = htons(PORT);
 		
 		// cast de sockaddr_in en sockaddr
-		if (bind(fd, (struct sockaddr *)&address, sizeof(address))) {
+		if (bind(fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
 			perror("Bind failled");
 			exit(EXIT_FAILURE);
 		}
@@ -77,7 +78,7 @@ int main() {
 			perror("Listen failled");
 			exit(EXIT_FAILURE);
 		}
-		if ((new_socket = accept(fd, (struct sockaddr*)&address, (socklen_t*)&addrlen))) {
+		if ((new_socket = accept(fd, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
         	perror("accept");
         	exit(EXIT_FAILURE);
   	 	}
@@ -89,6 +90,7 @@ int main() {
 		close(new_socket);
 		// closing the listening socket
 		shutdown(fd, SHUT_RDWR);
+		free(hello);
 	}
 	return (0);
 }
