@@ -6,12 +6,12 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:18:05 by thhusser          #+#    #+#             */
-/*   Updated: 2022/09/30 21:22:55 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:12:08 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <header.hpp>
-
+#include <typeinfo>
 // domaine AF_LOCAL communication precessus sur le meme hote
 // tpe de communication SOCK_STREAM pour TCP
 // protocole 0 pour internet protocole (IP)
@@ -31,6 +31,7 @@ struct sockaddr_in {
 */
 
 int main() {
+	
 	if (TEST) {
 		
 		int fd = -1;
@@ -38,11 +39,11 @@ int main() {
 		int valread = -1;
 
 		int opt = 1;
-		char buffer[1024] = { 0 };
-		char* hello;
+		char buffer[2048] = {0};
+		// char* hello;
 
-		hello = (char *)malloc(sizeof(char) * strlen(("Hello from server") + 1));
-		strcpy(hello, "Hello from server");
+		// hello = (char *)malloc(sizeof(char) * strlen(("Hello from server") + 1));
+		// strcpy(hello, "Hello from server");
 		struct sockaddr_in address;
 		int addrlen = sizeof(address);
 		
@@ -78,19 +79,22 @@ int main() {
 			perror("Listen failled");
 			exit(EXIT_FAILURE);
 		}
-		if ((new_socket = accept(fd, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
-        	perror("accept");
-        	exit(EXIT_FAILURE);
-  	 	}
-		valread = read(new_socket, buffer, 1024);
-		printf("%s\n", buffer);
-		send(new_socket, hello, strlen(hello), 0);
-		printf("Hello message sent\n");
-	// closing the connected socket
+		for(;;) {
+			if ((new_socket = accept(fd, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
+				perror("accept");
+				exit(EXIT_FAILURE);
+			}
+			valread = read(new_socket, buffer, 2048);
+			printf("%s\n", buffer);
+			buffer[0] = 0;
+		}
+		// send(new_socket, hello, strlen(hello), 0);
+		// printf("Hello message sent\n");
+		// closing the connected socket
 		close(new_socket);
 		// closing the listening socket
 		shutdown(fd, SHUT_RDWR);
-		free(hello);
+		// free(hello);
 	}
 	return (0);
 }

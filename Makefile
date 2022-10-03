@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/09/29 12:38:21 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/03 14:12:11 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ OS		=		$(shell echo -n ${GDMSESSION})
 
 NAME		=		ft_irc
 
+CLIENT		=		client
+
 RM	=	rm -rf
 
 CC	=	c++
@@ -34,17 +36,21 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98
 DIR_INC		= -I ./includes/
 
 SRCS		:= 	main.cpp \
+
+SRCS_CLIENT := client.cpp \
 				
 
 DIR_SRCS	:= ./srcs/
 
 DIR_OBJ	:= obj
+
 OBJS	:= \
 			$(addprefix ${DIR_OBJ}/, ${SRCS:.cpp=.o})
 
-
-all: $(NAME)
-
+OBJS_CLIENT	:= \
+			$(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
+			
+all: $(NAME) $(CLIENT)
 
 $(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.cpp
 		@mkdir -p $(dir $@)
@@ -54,12 +60,16 @@ $(NAME):			$(OBJS)
 				 @$(CC) $(FLAGS) ${DIR_INC} $(OBJS) -o $(NAME)
 				@echo "$(_GREEN)Generating $(NAME) $(_NC)"
 
+
+$(CLIENT):		$(OBJS_CLIENT)
+				@$(CC) $(FLAGS) ${DIR_INC} $(OBJS_CLIENT) -o $(CLIENT)
+				@echo "$(_GREEN)Generating $(CLIENT) $(_NC)"
 clean:
 		@$(RM) $(DIR_OBJ)
 		@echo "$(_GREEN)Deletes objects files $(NAME) $(_NC)"
 
 fclean:		clean
-			@$(RM) $(NAME)
+			@$(RM) $(NAME) $(CLIENT)
 			@echo "$(_GREEN)Delete $(NAME) $(_NC)"
 
 re:			fclean all

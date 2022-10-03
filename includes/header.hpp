@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/09/29 15:21:18 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/03 13:58:17 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@
 #include <unistd.h>			// read && close
 #include <string.h>
 
-#if TEST
 # define PORT 5555
+
+#if TEST
 # define TRUE 1
 #else
-# define PORT "Not mode test"
 # define TRUE "Not mode test"
 #endif
 
