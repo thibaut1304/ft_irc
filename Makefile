@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/03 14:12:11 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/13 15:18:29 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS		:= 	main.cpp \
 SRCS_CLIENT := client.cpp \
 				
 
-DIR_SRCS	:= ./srcs/
+DIR_SRCS	:= ./srcs
 
 DIR_OBJ	:= obj
 
@@ -50,11 +50,15 @@ OBJS	:= \
 OBJS_CLIENT	:= \
 			$(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 			
+DEPS = $(OBJS:.o=.d)
+			
 all: $(NAME) $(CLIENT)
+
+-include $(DEPS)
 
 $(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.cpp
 		@mkdir -p $(dir $@)
-		@${CC} ${FLAGS} ${DIR_INC} -DTEST=$(TEST) -o $@ -c $<
+		@${CC} ${FLAGS} ${DIR_INC} -DTEST=$(TEST) -o $@ -c $< -MMD
 
 $(NAME):			$(OBJS)
 				 @$(CC) $(FLAGS) ${DIR_INC} $(OBJS) -o $(NAME)
