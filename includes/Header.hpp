@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.hpp                                         :+:      :+:    :+:   */
+/*   Header.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/03 13:58:17 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/16 20:42:37 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _HEADER_HPP
 # define _HEADER_HPP
+
+# define Debug 1
 
 # define _NC "\033[0;0m"
 # define _RED "\033[0;31m"
@@ -27,15 +29,9 @@
 #include <cstdlib>			// exit
 #include <sys/socket.h>		// socket && bind
 #include <netinet/in.h>		// struct sockaddr_in && htons
-#include <unistd.h>			// read && close
+#include <unistd.h>			// read && close && sysconf
 #include <string.h>
-
-# define PORT 5555
-
-#if TEST
-# define TRUE 1
-#else
-# define TRUE "Not mode test"
-#endif
+#include <signal.h>
+#include <sys/select.h>		//select
 
 #endif

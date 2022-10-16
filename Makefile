@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/13 15:18:29 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/16 18:05:40 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ _PURPLE=\033[0;95m
 _CYAN=\033[0;36m
 _WHITE=\033[0;37m
 
-TEST = 1
+DEBUG = 1
 
 OS		=		$(shell echo -n ${GDMSESSION})
 
@@ -36,6 +36,7 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98
 DIR_INC		= -I ./includes/
 
 SRCS		:= 	main.cpp \
+				Server.cpp
 
 SRCS_CLIENT := client.cpp \
 				
@@ -47,27 +48,28 @@ DIR_OBJ	:= obj
 OBJS	:= \
 			$(addprefix ${DIR_OBJ}/, ${SRCS:.cpp=.o})
 
-OBJS_CLIENT	:= \
-			$(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
+# OBJS_CLIENT	:= \
+			# $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 			
 DEPS = $(OBJS:.o=.d)
 			
-all: $(NAME) $(CLIENT)
+all: $(NAME)
+# $(CLIENT)
 
 -include $(DEPS)
 
 $(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.cpp
 		@mkdir -p $(dir $@)
-		@${CC} ${FLAGS} ${DIR_INC} -DTEST=$(TEST) -o $@ -c $< -MMD
+		@${CC} ${FLAGS} ${DIR_INC} -o $@ -c $< -MMD
 
 $(NAME):			$(OBJS)
 				 @$(CC) $(FLAGS) ${DIR_INC} $(OBJS) -o $(NAME)
 				@echo "$(_GREEN)Generating $(NAME) $(_NC)"
 
 
-$(CLIENT):		$(OBJS_CLIENT)
-				@$(CC) $(FLAGS) ${DIR_INC} $(OBJS_CLIENT) -o $(CLIENT)
-				@echo "$(_GREEN)Generating $(CLIENT) $(_NC)"
+# $(CLIENT):		$(OBJS_CLIENT)
+# 				@$(CC) $(FLAGS) ${DIR_INC} $(OBJS_CLIENT) -o $(CLIENT)
+# 				@echo "$(_GREEN)Generating $(CLIENT) $(_NC)"
 clean:
 		@$(RM) $(DIR_OBJ)
 		@echo "$(_GREEN)Deletes objects files $(NAME) $(_NC)"
