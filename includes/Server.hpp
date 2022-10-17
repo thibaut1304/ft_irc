@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/16 20:32:08 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/17 09:57:31 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@ extern bool serverLife;
 
 class Server {
 	private:
+		int					_fdServer;
+		fd_set 				_set;
 		
-		std::string	_passwd;	
-		std::string	_port;
+		struct sockaddr_in	_serverAddress;
+		struct sockaddr_in	_clientAddress;
+		
+		std::string			_passwd;	
+		std::string			_port;
+
+		int					_nbUers;
+		// std::vector<User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
 	
 	public:
 
@@ -33,7 +41,9 @@ class Server {
 		void		setPasswd(std::string);
 		void		setPort(std::string);
 
-		void		launch();		
+		void		init();		
+		void		launch();
+		int			newConnection(void);
 };
 
 #endif

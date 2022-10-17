@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:45:49 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/16 20:33:22 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/17 09:15:18 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv) {
 	std::cout << "Port     : " << _YELLOW << server.getPort() << _NC << std::endl;
 	std::cout << "Password : " << _YELLOW << server.getPasswd() << _NC << std::endl;
 #endif
-
+	server.init();
 	server.launch();
 	return (0);
 }
