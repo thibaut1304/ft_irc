@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/17 10:03:49 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/18 17:42:41 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98 -g3
 DIR_INC		= -I ./includes/
 
 SRCS		:= 	main.cpp \
-				Server.cpp
+				Server.cpp \
+				User.cpp \
 
 SRCS_CLIENT := client.cpp \
 				

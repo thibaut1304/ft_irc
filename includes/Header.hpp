@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/17 09:54:13 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:54:11 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # define _CYAN "\033[0;36m"
 # define _WHITE "\033[0;37m"
 
+
+
+
 # include <iostream>
 # include <cstdio>				// perror
 # include <cstdlib>				// exit
@@ -36,5 +39,7 @@
 # include <sys/select.h>		// select
 # include <stdlib.h>
 # include <arpa/inet.h>			// inet_ntoa
+# include <sys/epoll.h>
+# include <map>
 
 #endif
