@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/19 11:32:02 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:37:13 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,31 @@ int Server::newConnection() {
 	_users[fd] = User(fd, ip);
 	// _users.push_back(user(fd, ip));
 	return (0);
+}
+
+void	Server::requestClient(struct epoll_event user) {
+	char			buff[BUFF_SIZE];
+	int 			ret;
+	std::string		msg;
+	// std::vector<std::string>	all_cmd;
+    std::vector<Command>        cmds;
+
+	memset(buff, 0, BUFF_SIZE);
+	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
+		perror("Fail recv user");
+		exit(EXIT_FAILURE);
+	}
+	buff[ret] = 0;
+
+	_buffUsers[user.data.fd].append(buff);
+	
+#if Debug
+	std::cout << _BLUE << buff << _NC;
+#endif
+	
+// 	all_cmd = splitBy(_buffUsers[user.data.fd], "\n", &(_buffUsers[user.data.fd]));
+// 	splitCmds(all_cmd, &cmds);
+// 	displayCommands(cmds);
 }
 
 void	Server::init(void) {
@@ -135,6 +160,9 @@ void	Server::launch(void) {
 		for (int i = 0 ; i < ready; i++) {
 			if (user[i].data.fd == _fdServer) {
 				newConnection();
+			}
+			else {
+				requestClient(user[i]);
 			}
 		}
 	}
