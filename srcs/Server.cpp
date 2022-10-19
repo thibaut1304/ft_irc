@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/18 18:26:52 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:32:02 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	Server::launch(void) {
 		}
 	}
 #if Debug
-	std::cout << _GREEN << "Print number users : " << _users.size() << _NC << std::endl;
+	std::cout << "Print number users : " << _GREEN << _users.size() << _NC << std::endl;
 	typedef std::map<const int, User>::iterator it;
 	for (it e = _users.begin() ; e != _users.end(); e++) {
 		std::cout << "FD : " << _YELLOW << e->first << _NC;
