@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/19 17:21:33 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/21 00:15:01 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ DIR_INC		= -I ./includes/
 SRCS		:= 	main.cpp \
 				Server.cpp \
 				User.cpp \
-				parsing.cpp \
+				# parsing.cpp
 
 SRCS_CLIENT := client.cpp \
 				

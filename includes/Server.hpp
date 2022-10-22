@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/19 17:37:18 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/21 00:17:09 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 # include <Users.hpp>
 
 extern bool serverLife;
-
-struct Command
-{
-    std::string                 command;
-    std::string                 prefix;
-    std::vector<std::string>    params;
-
-    Command(std::string cmd, std::string prefix = std::string(), \
-            std::vector<std::string> params = std::vector<std::string>());
-};
 
 // class User;
 

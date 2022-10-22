@@ -7,3 +7,11 @@ Liste dependance pour weechat : https://weechat.org/files/doc/stable/weechat_use
 Socket : https://www.geeksforgeeks.org/socket-programming-cc/
 
 Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-epoll/#.Y0xRjtJBzd4
+
+# A faire
+
+- Parser les commandes recus ! Enregistrer un user correctement !
+
+- Comprendre les modes, les ping/pong
+
+- Connection avec netcat

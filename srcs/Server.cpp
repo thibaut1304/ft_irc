@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/19 17:37:13 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/22 12:49:50 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	Server::requestClient(struct epoll_event user) {
 	char			buff[BUFF_SIZE];
 	int 			ret;
 	std::string		msg;
-	// std::vector<std::string>	all_cmd;
-    std::vector<Command>        cmds;
 
 	memset(buff, 0, BUFF_SIZE);
 	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
@@ -88,9 +86,6 @@ void	Server::requestClient(struct epoll_event user) {
 	std::cout << _BLUE << buff << _NC;
 #endif
 	
-// 	all_cmd = splitBy(_buffUsers[user.data.fd], "\n", &(_buffUsers[user.data.fd]));
-// 	splitCmds(all_cmd, &cmds);
-// 	displayCommands(cmds);
 }
 
 void	Server::init(void) {
@@ -118,7 +113,7 @@ void	Server::init(void) {
 		perror("Listen failled");
 		exit(EXIT_FAILURE);
 	}
-	FD_SET(_fdServer, &(_set));
+	// FD_SET(_fdServer, &(_set));
 }
 
 // typedef union epoll_data {
@@ -153,7 +148,7 @@ void	Server::launch(void) {
 	}
 	while (serverLife) {
 		user_tmp = &(user[0]);
-		if ((ready = epoll_wait(_fdPoll, user, MAX_USERS, 0)) < 0) { // vois si le timeout on peut le mettre a 0
+		if ((ready = epoll_wait(_fdPoll, user_tmp, MAX_USERS, 0)) < 0) { // vois si le timeout on peut le mettre a 0
 			perror("Fail epoll wait");
 			exit(EXIT_FAILURE);
 			}
