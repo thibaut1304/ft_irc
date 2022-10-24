@@ -64,7 +64,7 @@ $(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.cpp
 
 $(NAME):			$(OBJS)
 				 @$(CC) $(FLAGS) ${DIR_INC} $(OBJS) -o $(NAME)
-				@echo "$(_GREEN)Generating $(NAME) $(_NC)"
+				@printf "$(_GREEN)Generating $(NAME) $(_NC)"
 
 
 # $(CLIENT):		$(OBJS_CLIENT)
@@ -72,10 +72,10 @@ $(NAME):			$(OBJS)
 # 				@echo "$(_GREEN)Generating $(CLIENT) $(_NC)"
 clean:
 		@$(RM) $(DIR_OBJ)
-		@echo "$(_GREEN)Deletes objects files $(NAME) $(_NC)"
+		@printf "$(_GREEN)Deletes objects files $(NAME) $(_NC)"
 
 fclean:		clean
 			@$(RM) $(NAME) $(CLIENT)
-			@echo "$(_GREEN)Delete $(NAME) $(_NC)"
+			@printf "$(_GREEN)Delete $(NAME) $(_NC)"
 
 re:			fclean all
