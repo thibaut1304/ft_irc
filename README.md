@@ -15,3 +15,5 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 - Comprendre les modes, les ping/pong
 
 - Connection avec netcat
+
+- :NickName!UserName@ip JOIN servername :efjeji 

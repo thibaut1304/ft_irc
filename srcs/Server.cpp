@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/22 12:49:50 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:19:20 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	Server::requestClient(struct epoll_event user) {
 	buff[ret] = 0;
 
 	_buffUsers[user.data.fd].append(buff);
+	
+	// parsing a faire pour user
 	
 #if Debug
 	std::cout << _BLUE << buff << _NC;
