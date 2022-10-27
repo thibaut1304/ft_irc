@@ -37,7 +37,9 @@ int	main(int argc, char **argv) {
 	std::cout << "Port     : " << _YELLOW << server.getPort() << _NC << std::endl;
 	std::cout << "Password : " << _YELLOW << server.getPasswd() << _NC << std::endl;
 #endif
-	server.init();
+
+
+	server.init(); // Init server : create sockets, set socket options
 	server.launch();
 	return (0);
 }

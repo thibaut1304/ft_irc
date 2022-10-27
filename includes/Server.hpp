@@ -15,6 +15,7 @@
 
 # include <Header.hpp>
 # include <Users.hpp>
+# include <cerrno>
 
 extern bool serverLife;
 
