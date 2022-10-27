@@ -23,22 +23,15 @@ Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(pa
 	memset(&_clientAddress, 0, sizeof(_clientAddress));
 }
 
-std::string	Server::getPasswd(void) const {
-	return (_passwd);
-}
+std::string Server::getPasswd (void) const { return (_passwd); }
+std::string Server::getPort   (void) const { return (_port);   }
 
-std::string	Server::getPort(void) const {
-	return (_port);
-}
+void Server::setPasswd (std::string pass) { _passwd = pass; }
+void Server::setPort   (std::string port) { _port   = port; }
 
-void	Server::setPasswd(std::string pass) {
-	_passwd = pass;
-}
-
-void	Server::setPort(std::string port) {
-	_port = port;
-}
-
+/* ...................................................... */
+/* ................... NEW CONNECTION ................... */
+/* ...................................................... */
 int Server::newConnection() {
 	int fd;
 	socklen_t	addrlen = sizeof(_clientAddress);
@@ -68,6 +61,9 @@ int Server::newConnection() {
 	return (0);
 }
 
+/* ...................................................... */
+/* ................... REQUEST CLIENT ................... */
+/* ...................................................... */
 void	Server::requestClient(struct epoll_event user) {
 	char			buff[BUFF_SIZE];
 	int 			ret;
@@ -183,7 +179,7 @@ void	Server::init(void) {
 void	Server::launch(void) {
 	// const int 			MAX_FD = sysconf(_SC_OPEN_MAX); //necessaire pour un usage avec select
 
-	// The  epoll  API  performs  a similar task to poll(2):
+	// NOTE: The  epoll  API  performs  a similar task to poll(2):
 	// monitoring multiple file descriptors to see if I/O is possible on any of them.
 	// The central concept of the epoll API is the epoll instance,
 	// an in-kernel data structure which, from a user-space perspective,
@@ -192,6 +188,9 @@ void	Server::launch(void) {
 	//     epoll_data_t data   - ready    list , list of fds which are ready for IO
 
 
+	/* .................................................. */
+	/* ............ EPOLL INSTANCE CREATION ............. */
+	/* .................................................. */
 	//  epoll_create() returns a file descriptor referring to the new epoll instance.
 	//  This file descriptor is used for all the subsequent calls to  the  epoll  interface.
 	//  When no longer required, the file descriptor returned by epoll_create() should be closed by using close(2).
@@ -201,7 +200,11 @@ void	Server::launch(void) {
 		exit(errno);
 	}
 
+	/* .................................................. */
+	/* ............ INIT EPOLL EVENT STRUCT ............. */
+	/* .................................................. */
 	struct epoll_event	ev;
+
 	memset(&ev, 0, sizeof(ev)); // TODO why not bzero
 	ev.events = EPOLLIN;        // == 0x001
 	ev.data.fd = _fdServer;     // TODO isn't this supposed to be automatic ? check man epoll()
@@ -223,6 +226,9 @@ void	Server::launch(void) {
 		exit(errno);
 	}
 
+	/* .................................................. */
+	/* ................. SERVER LAUNCH .................. */
+	/* .................................................. */
 	int	ready;
 	struct epoll_event	*user_tmp;
 	struct epoll_event	user[MAX_USERS];
