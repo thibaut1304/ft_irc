@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Server.hpp>
+#include "Server.hpp"
 
 Server::Server(void) : _passwd(), _port() {}
 
@@ -61,7 +61,7 @@ int Server::newConnection() {
 	ev.data.fd = fd;
 	if (epoll_ctl(_fdPoll, EPOLL_CTL_ADD, fd, &ev) < 0) {
 		perror("Epoll ctl User fail");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 	_users[fd] = User(fd, ip);
 	// _users.push_back(user(fd, ip));
@@ -76,7 +76,7 @@ void	Server::requestClient(struct epoll_event user) {
 	memset(buff, 0, BUFF_SIZE);
 	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
 		perror("Fail recv user");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 	buff[ret] = 0;
 
@@ -111,7 +111,7 @@ void	Server::init(void) {
 		) < 0)
 	{
 		perror("Socket failed");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 
 	/* .................................................. */
@@ -142,7 +142,7 @@ void	Server::init(void) {
 	   )
 	{
 		perror("Setsockopt failed");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 
 	/* .................................................. */
@@ -151,14 +151,14 @@ void	Server::init(void) {
 	// Bind need a general sockaddr, this is why we cast &sockaddr_in (which is spacialized) to sockaddr*
 	if ((bind(_fdServer, (struct sockaddr *)&_serverAddress, sizeof(_serverAddress))) < 0) {
 		perror("Bind failed");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 
 	// Listen for socket connections and limit the queue of incoming connections
 	// Second parameter (int) is the maximum number of outstanding (pending) connections
 	if (listen(_fdServer, 5)) {
 		perror("Listen failed");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 
 	// FD_SET(_fdServer, &(_set));
@@ -182,29 +182,68 @@ void	Server::init(void) {
 
 void	Server::launch(void) {
 	// const int 			MAX_FD = sysconf(_SC_OPEN_MAX); //necessaire pour un usage avec select
-	int					ready;
-	struct epoll_event	ev;
-	struct epoll_event	user[MAX_USERS];
-	struct epoll_event	*user_tmp;
 
-	memset(&ev, 0, sizeof(ev));
+	// The  epoll  API  performs  a similar task to poll(2):
+	// monitoring multiple file descriptors to see if I/O is possible on any of them.
+	// The central concept of the epoll API is the epoll instance,
+	// an in-kernel data structure which, from a user-space perspective,
+	// considered as a container for two lists:
+	//     uint32_t     events - interest list (== epoll set), is a list of fd that the process "wants" to monitor
+	//     epoll_data_t data   - ready    list , list of fds which are ready for IO
+
+
+	//  epoll_create() returns a file descriptor referring to the new epoll instance.
+	//  This file descriptor is used for all the subsequent calls to  the  epoll  interface.
+	//  When no longer required, the file descriptor returned by epoll_create() should be closed by using close(2).
+	//  NOTE epoll_create1(0) == epoll_create()
 	if ((_fdPoll = epoll_create1(0)) < 1) {
 		perror("Epoll create fail");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
-	ev.events = EPOLLIN;
-	ev.data.fd = _fdServer;
-	if (epoll_ctl(_fdPoll, EPOLL_CTL_ADD, _fdServer, &ev) < 0) {
+
+	struct epoll_event	ev;
+	memset(&ev, 0, sizeof(ev)); // TODO why not bzero
+	ev.events = EPOLLIN;        // == 0x001
+	ev.data.fd = _fdServer;     // TODO isn't this supposed to be automatic ? check man epoll()
+
+	// Used to add, modify, or remove entries in the interest list of the epoll(7) instance referred to by the file descriptor epfd.
+	// It re‐quests that the operation op be performed for the target file descriptor, fd.
+	if (epoll_ctl
+			(
+			 _fdPoll,          // == EPOLL fd
+			 EPOLL_CTL_ADD,    // Add an entry to the interest list of the epoll file descriptor, epfd.  The entry includes the file descriptor,
+							   // fd, a reference to the  corresponding open file description (see epoll(7) and open(2)),
+							   // and the settings specified in event.
+			 _fdServer,        // Target file descriptor
+			 &ev               // Previously declared epoll_event
+			) < 0
+	   )
+	{
 		perror("Epoll_ctl fail");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
-	while (serverLife) {
-		user_tmp = &(user[0]);
-		if ((ready = epoll_wait(_fdPoll, user_tmp, MAX_USERS, 0)) < 0) { // vois si le timeout on peut le mettre a 0
+
+	int	ready;
+	struct epoll_event	*user_tmp;
+	struct epoll_event	user[MAX_USERS];
+	while (serverLife) {          // TODO global variable which defaults to true, is this authorized ?
+		user_tmp = &(user[0]);    // TODO user was never initialized, how does this work ?
+
+		if ((ready = epoll_wait   // epoll_wait returns the numbers of FDs ready for IO; 0 if none; -1 if error
+					(
+					 _fdPoll,     // == EPOLL fd
+					 user_tmp,    // == EPOLL events TODO need explanations on events
+					 MAX_USERS,   // Maximum number of events
+					 0            // Specifies the number of milliseconds that epoll_wait() will block.
+								  // TODO check if timeout can be set at 0
+					)
+			) < 0)
+		{
 			perror("Fail epoll wait");
-			exit(EXIT_FAILURE);
+			exit(errno);
 		}
-		for (int i = 0 ; i < ready; i++) {
+
+		for (int i = 0 ; i < ready; i++) { // TODO not sure why this is happening
 			if (user[i].data.fd == _fdServer) {
 				newConnection();
 			}
@@ -223,6 +262,5 @@ void	Server::launch(void) {
 		else
 			std::cout << ".\n";
 	}
-
 #endif
 }
