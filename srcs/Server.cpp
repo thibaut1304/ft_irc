@@ -94,7 +94,7 @@ void	Server::init(void) {
 	int opt = 1;
 	
 	if ((_fdServer = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("Socket failled");
+		perror("Socket failed");
 		exit(EXIT_FAILURE);
 	}
 	
@@ -103,16 +103,16 @@ void	Server::init(void) {
 	_serverAddress.sin_port = htons(atoi(_port.c_str()));
 	
 	if (setsockopt(_fdServer, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
-		perror("Setsockopt failled");
+		perror("Setsockopt failed");
 		exit(EXIT_FAILURE);
 	}
 	
 	if ((bind(_fdServer, (struct sockaddr *)&_serverAddress, sizeof(_serverAddress))) < 0) {
-		perror("Bind failled");
+		perror("Bind failed");
 		exit(EXIT_FAILURE);
 	}
 	if (listen(_fdServer, 5)) {
-		perror("Listen failled");
+		perror("Listen failed");
 		exit(EXIT_FAILURE);
 	}
 	// FD_SET(_fdServer, &(_set));
