@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/24 14:19:20 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/28 17:20:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,12 @@ void	Server::requestClient(struct epoll_event user) {
 	buff[ret] = 0;
 
 	_buffUsers[user.data.fd].append(buff);
-
+	//Commande de test kill fd client et erase user de la map
+	if (strcmp(buff, "KILL\n") == 0) {
+		send(user.data.fd, "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
+		std::map<int, User>::iterator it = _users.find(user.data.fd);
+		killUserClient(it->second);
+	}
 	// parsing a faire pour user
 
 #if Debug
@@ -172,6 +177,53 @@ void	Server::init(void) {
 //     epoll_data_t data;    /* Variable utilisateur */
 // };
 
+// PING -> PONG
+void	Server::cmdPing(User user, std::string msg) {
+	// std::string msg = PING(NAME);
+    if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+		perror("error send msg ping to client");
+	}
+}
+
+void	Server::pingTime( void ) {
+	double tmp;	
+	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
+
+	for (; it != ite; it++) {
+		tmp = difftime(time(NULL), it->second.getTimeActivity());
+		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
+			cmdPing(it->second, "HOLA\n");
+			it->second.setPingStatus(true);
+			it->second.setTimeActivity();
+		}
+		else if (it->second.getPingStatus() == true) {
+			tmp = difftime(time(NULL), it->second.getTimeActivity());
+			if (tmp > PONG_TIME) {
+				cmdPing(it->second, "Erreur ping timeOut\n");
+				it->second.setTimeActivity();
+				it->second.setPingStatus(false);
+				//kill client !
+				killUserClient(it->second);
+			}
+		}
+	} 
+}
+
+// kill user
+void	Server::killUserClient( User user ) {
+	int fd = user.getFd();
+	
+    if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
+		perror("Error epoll ctl del client");
+		exit(EXIT_FAILURE);
+	}
+	if (close(fd) < 0) {
+		perror("Error close fd client");
+		exit(EXIT_FAILURE);
+	}
+	_users.erase(fd);
+}
+
 /* ========================================================================== */
 /* ----------------------------- SERVER LAUNCH ------------------------------ */
 /* ========================================================================== */
@@ -257,6 +309,9 @@ void	Server::launch(void) {
 				requestClient(user[i]);
 			}
 		}
+		// segfault avec le ping pong !
+		// revoir le msg de sortie !
+		// pingTime();
 	}
 #if Debug
 	std::cout << "Print number users : " << _GREEN << _users.size() << _NC << std::endl;
