@@ -37,7 +37,8 @@ DIR_INC		= -I ./includes/
 
 SRCS		:= 	main.cpp \
 				Server.cpp \
-				User.cpp \
+				Client.cpp \
+				Users.cpp \
 				# parsing.cpp
 
 SRCS_CLIENT := client.cpp \

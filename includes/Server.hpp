@@ -15,6 +15,7 @@
 
 # include <Header.hpp>
 # include <Users.hpp>
+# include <Client.hpp>
 
 extern bool serverLife;
 
@@ -36,8 +37,8 @@ class Server {
 		std::string			_port;
 
 		// int					_nbUers;
-		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
-		std::map<int, std::string>	_buffUsers;
+		std::map<const int, Client>	_client;			// --> creer classe user pour ajouter les infos pour les connections
+		std::map<int, User>	_user;
 	public:
 
 		Server(std::string, std::string);

@@ -46,7 +46,7 @@ int Server::newConnection() {
 	
 	memset(&_clientAddress, 0, addrlen);
 	fd = accept(_fdServer, (struct sockaddr*)&_clientAddress, &addrlen);
-	if (_users.size() >= MAX_USERS) {
+	if (_client.size() >= MAX_USERS) {
 		send(fd, "ERROR : Server is full !\n", strlen("ERROR : Server is full !\n"), 0);
 		close(fd);
 		return (1);
@@ -63,8 +63,7 @@ int Server::newConnection() {
 		perror("Epoll ctl User fail");
 		exit(EXIT_FAILURE);
 	}
-	_users[fd] = User(fd, ip);
-	// _users.push_back(user(fd, ip));
+	_client.insert(std::make_pair(fd, Client(fd, ip)));
 	return (0);
 }
 
@@ -79,13 +78,11 @@ void	Server::requestClient(struct epoll_event user) {
 		exit(EXIT_FAILURE);
 	}
 	buff[ret] = 0;
+	_client[user.data.fd].append_buff(buff);
+	
 
-	_buffUsers[user.data.fd].append(buff);
-	
-	// parsing a faire pour user
-	
 #if Debug
-	std::cout << _BLUE << buff << _NC;
+	//std::cout << _BLUE << buff << _NC;
 #endif
 	
 }
@@ -164,11 +161,11 @@ void	Server::launch(void) {
 		}
 	}
 #if Debug
-	std::cout << "Print number users : " << _GREEN << _users.size() << _NC << std::endl;
-	typedef std::map<const int, User>::iterator it;
-	for (it e = _users.begin() ; e != _users.end(); e++) {
+	std::cout << "Print number users : " << _GREEN << _client.size() << _NC << std::endl;
+	typedef std::map<const int, Client>::iterator it;
+	for (it e = _client.begin() ; e != _client.end(); e++) {
 		std::cout << "FD : " << _YELLOW << e->first << _NC;
-		if (e != --_users.end())
+		if (e != --_client.end())
 			std::cout << ", ";
 		else
 			std::cout << ".\n";
