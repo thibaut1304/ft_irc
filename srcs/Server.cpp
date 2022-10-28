@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/28 17:20:04 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/28 17:38:00 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,15 +282,13 @@ void	Server::launch(void) {
 	/* ................. SERVER LAUNCH .................. */
 	/* .................................................. */
 	int	ready;
-	struct epoll_event	*user_tmp;
 	struct epoll_event	user[MAX_USERS];
 	while (serverLife) {          // TODO global variable which defaults to true, is this authorized ?
-		user_tmp = &(user[0]);    // TODO user was never initialized, how does this work ?
 
 		if ((ready = epoll_wait   // epoll_wait returns the numbers of FDs ready for IO; 0 if none; -1 if error
 					(
 					 _fdPoll,     // == EPOLL fd
-					 user_tmp,    // == EPOLL events TODO need explanations on events
+					 user,    // == EPOLL events TODO need explanations on events
 					 MAX_USERS,   // Maximum number of events
 					 0            // Specifies the number of milliseconds that epoll_wait() will block.
 								  // TODO check if timeout can be set at 0
