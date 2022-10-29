@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/28 17:38:00 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/29 18:55:45 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ int Server::newConnection() {
 	int fd;
 	socklen_t	addrlen = sizeof(_clientAddress);
 	struct epoll_event  ev;
+	std::string msg = "ERROR : Server is full !\n";
 
 	memset(&_clientAddress, 0, addrlen);
 	fd = accept(_fdServer, (struct sockaddr*)&_clientAddress, &addrlen);
 	if (_users.size() >= MAX_USERS) {
-		send(fd, "ERROR : Server is full !\n", strlen("ERROR : Server is full !\n"), 0);
+		send(fd, msg.c_str(), msg.length(), 0);
 		close(fd);
 		return (1);
 	}
@@ -57,6 +58,10 @@ int Server::newConnection() {
 		exit(errno);
 	}
 	_users[fd] = User(fd, ip);
+	std::string w = ":irc.local 001 thib :";
+	std::string wil = "nick";
+	w += RPL_WELCOME(wil, ip, ip);
+	send(fd, w.c_str(), w.length(), 0);
 	// _users.push_back(user(fd, ip));
 	return (0);
 }
@@ -83,6 +88,18 @@ void	Server::requestClient(struct epoll_event user) {
 		std::map<int, User>::iterator it = _users.find(user.data.fd);
 		killUserClient(it->second);
 	}
+	// if (strcmp(buff, "test\n") == 0) {
+		// ping();
+		// _listCmd
+		// _listCmd[buff];
+		// std::cout << _listCmd[buff] << std::endl;
+	// }
+	
+	std::map<std::string, cmdFunc>::iterator it = _listCmd.find(buff);	
+	
+	if (it != _listCmd.end())
+		it->second();
+	// _listCmd.find(buff)->second(buff);	
 	// parsing a faire pour user
 
 #if Debug
@@ -95,6 +112,10 @@ void	Server::requestClient(struct epoll_event user) {
 /* ========================================================================== */
 /* ------------------------------ SERVER INIT ------------------------------- */
 /* ========================================================================== */
+
+void	Server::initCmd() {
+	_listCmd["PING\n"] = &ping;
+}
 
 void	Server::init(void) {
 	/* .................................................. */
@@ -161,8 +182,7 @@ void	Server::init(void) {
 		perror("Listen failed");
 		exit(errno);
 	}
-
-	// FD_SET(_fdServer, &(_set));
+	initCmd();
 }
 
 // typedef union epoll_data {
@@ -178,30 +198,43 @@ void	Server::init(void) {
 // };
 
 // PING -> PONG
-void	Server::cmdPing(User user, std::string msg) {
-	// std::string msg = PING(NAME);
+void	Server::cmdPing(User user, std::string hello) {
+	std::string msg = PING(hello);
+#if Debug
+	std::cout << "CMD PING" << std::endl;
+#endif
+	// if (user.getFd() == user.end())
+		// return ;
     if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-		perror("error send msg ping to client");
+		perror("Error send msg ping to client");
 	}
 }
 
 void	Server::pingTime( void ) {
-	double tmp;	
+	double tmp;
+	// std::string msg;
 	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
 
 	for (; it != ite; it++) {
 		tmp = difftime(time(NULL), it->second.getTimeActivity());
 		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
-			cmdPing(it->second, "HOLA\n");
+			cmdPing(it->second, it->second.getHostname());
+			// msg = PING(it->second.getHostname());
+			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+			// 	perror("Error send msg ping to client");
+			// }
 			it->second.setPingStatus(true);
 			it->second.setTimeActivity();
 		}
 		else if (it->second.getPingStatus() == true) {
+			// msg.clear();
+			// msg = "Erreur ping TimeOut";
 			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			if (tmp > PONG_TIME) {
+			if (tmp > PING_TIME) {
 				cmdPing(it->second, "Erreur ping timeOut\n");
-				it->second.setTimeActivity();
-				it->second.setPingStatus(false);
+				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+				// 	perror("Error send msg ping to client");
+				// }
 				//kill client !
 				killUserClient(it->second);
 			}

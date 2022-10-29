@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/21 00:15:01 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/29 17:33:03 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ DIR_INC		= -I ./includes/
 SRCS		:= 	main.cpp \
 				Server.cpp \
 				User.cpp \
+				commands/ping.cpp \
 				# parsing.cpp
 
 SRCS_CLIENT := client.cpp \
@@ -66,18 +67,14 @@ $(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.cpp
 
 $(NAME):			$(OBJS)
 				 @$(CC) $(FLAGS) ${DIR_INC} $(OBJS) -o $(NAME)
-				@printf "$(_GREEN)Generating $(NAME) $(_NC)"
+				@printf "$(_GREEN)Generating $(NAME) $(_NC)\n"
 
-
-# $(CLIENT):		$(OBJS_CLIENT)
-# 				@$(CC) $(FLAGS) ${DIR_INC} $(OBJS_CLIENT) -o $(CLIENT)
-# 				@printf "$(_GREEN)Generating $(CLIENT) $(_NC)"
 clean:
 		@$(RM) $(DIR_OBJ)
-		@printf "$(_GREEN)Deletes objects files $(NAME) $(_NC)"
+		@printf "$(_GREEN)Deletes objects files $(NAME) $(_NC)\n"
 
 fclean:		clean
 			@$(RM) $(NAME) $(CLIENT)
-			@printf "$(_GREEN)Delete $(NAME) $(_NC)"
+			@printf "$(_GREEN)Delete $(NAME) $(_NC)\n"
 
 re:			fclean all

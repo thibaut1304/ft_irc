@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/28 17:17:55 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/29 18:49:10 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 
 # include <Header.hpp>
 # include <Users.hpp>
+# include <commands.hpp>
+# include <numericsReplies.hpp>
+
 # include <cerrno>
+
 
 extern bool serverLife;
 
@@ -39,6 +43,10 @@ class Server {
 		// int					_nbUers;
 		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
 		std::map<int, std::string>	_buffUsers;
+
+        typedef void (*cmdFunc)();
+		std::map<std::string, cmdFunc>	_listCmd;
+		
 	public:
 
 		Server(std::string, std::string);
@@ -56,6 +64,8 @@ class Server {
 		void		cmdPing(User, std::string);
 		void		parse(int);
 		void		killUserClient(User);
+
+		void		initCmd();
 
 };
 

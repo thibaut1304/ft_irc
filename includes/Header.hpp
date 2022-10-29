@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/28 17:17:17 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/29 16:30:58 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 
 
 # define PING_TIME 5
-# define PONG_TIME 8
+# define PONG_TIME 20
 # define NAME "ft_irc.local"
-// # define	PING(origin) ("PONG " + origin)
-# define	PING(origin) ("HOLA ")
+# define PING(msg)                                    ("PING " + msg + "\r\n")
 
 # define _NC "\033[0;0m"
 # define _RED "\033[0;31m"
