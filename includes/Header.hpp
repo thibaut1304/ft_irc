@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/29 16:30:58 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:33:16 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@
 # define MAX_USERS 10
 # define BUFF_SIZE 4096
 
+# include <string>
 
 # define PING_TIME 5
 # define PONG_TIME 20
-# define NAME "ft_irc.local"
-# define PING(msg)                                    ("PING " + msg + "\r\n")
+
+# define PING(msg)   ("PING " + msg + "\r\n")
+
+# define NAME std::string(":ft_irc.local")
+# define VERSION std::string("V1.2")
+# define DATE std::string("30/10/2022")
 
 # define _NC "\033[0;0m"
 # define _RED "\033[0;31m"

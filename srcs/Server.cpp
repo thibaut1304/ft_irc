@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/29 18:55:45 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:36:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ void Server::setPort   (std::string port) { _port   = port; }
 /* ...................................................... */
 /* ................... NEW CONNECTION ................... */
 /* ...................................................... */
+
+int		parsing(User user) {
+	(void)user;
+	return (0);
+}
+
+void	generateError(User user)	{
+	(void)user;
+}
+
 int Server::newConnection() {
 	int fd;
 	socklen_t	addrlen = sizeof(_clientAddress);
@@ -58,13 +68,15 @@ int Server::newConnection() {
 		exit(errno);
 	}
 	_users[fd] = User(fd, ip);
-	std::string w = ":irc.local 001 thib :";
-	std::string wil = "nick";
-	w += RPL_WELCOME(wil, ip, ip);
-	send(fd, w.c_str(), w.length(), 0);
+	// std::string w = ":irc.local 001 thib :";
+	// std::string wil = "nick";
+	// w += RPL_WELCOME(wil, ip, ip);
+	// send(fd, w.c_str(), w.length(), 0);
 	// _users.push_back(user(fd, ip));
 	return (0);
 }
+
+
 
 /* ...................................................... */
 /* ................... REQUEST CLIENT ................... */
@@ -83,22 +95,31 @@ void	Server::requestClient(struct epoll_event user) {
 
 	_buffUsers[user.data.fd].append(buff);
 	//Commande de test kill fd client et erase user de la map
-	if (strcmp(buff, "KILL\n") == 0) {
-		send(user.data.fd, "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
-		std::map<int, User>::iterator it = _users.find(user.data.fd);
-		killUserClient(it->second);
-	}
+	// if (strcmp(buff, "KILL\n") == 0) {
+	// 	send(user.data.fd, "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
+	// 	std::map<int, User>::iterator it = _users.find(user.data.fd);
+	// 	killUserClient(it->second);
+	// }
 	// if (strcmp(buff, "test\n") == 0) {
 		// ping();
 		// _listCmd
 		// _listCmd[buff];
 		// std::cout << _listCmd[buff] << std::endl;
 	// }
+	/* ...................................................... */
+	/* ................... Parsing User accept ou non ! ..... */
+	/* ...................................................... */
 	
+	// if (!parsing(_users[user.data.fd]))
+		acceptUser(_users[user.data.fd]);
+	// else
+	// 	generateError(_users[user.data.fd]);
+	/* ...................................................... */
+	/* ...................................................... */
 	std::map<std::string, cmdFunc>::iterator it = _listCmd.find(buff);	
 	
 	if (it != _listCmd.end())
-		it->second();
+		it->second(this, _users[user.data.fd]);
 	// _listCmd.find(buff)->second(buff);	
 	// parsing a faire pour user
 
@@ -115,6 +136,7 @@ void	Server::requestClient(struct epoll_event user) {
 
 void	Server::initCmd() {
 	_listCmd["PING\n"] = &ping;
+	_listCmd["KILL\n"] = &kill;
 }
 
 void	Server::init(void) {
@@ -244,6 +266,7 @@ void	Server::pingTime( void ) {
 
 // kill user
 void	Server::killUserClient( User user ) {
+	std::cout << "CMD killUserClient\n";
 	int fd = user.getFd();
 	
     if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {

@@ -6,10 +6,14 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:29:55 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/29 18:33:49 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:02:43 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-void	ping();
+class Server;
+class User;
+
+void	ping(Server *, User);
+void	kill(Server *, User);

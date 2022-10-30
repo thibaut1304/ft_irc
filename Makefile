@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/29 17:33:03 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/30 14:55:24 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,15 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98 -g
 
 DIR_INC		= -I ./includes/
 
+DIR_INC		+= -I ./includes/numericReplies/
+
 SRCS		:= 	main.cpp \
 				Server.cpp \
 				User.cpp \
 				commands/ping.cpp \
-				# parsing.cpp
+				commands/connection.cpp \
+
+# SRCS		+= SRCS_CMD
 
 SRCS_CLIENT := client.cpp \
 				

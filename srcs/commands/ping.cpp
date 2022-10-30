@@ -6,12 +6,21 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:13:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/29 18:33:36 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:33:39 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-void	ping() {
-	std::cout << "CMD PING" << std::endl;
+void	ping(Server *serv, User user) {
+	std::string msg = PING(std::string("TEST PING"));
+	std::cout << msg << std::endl;
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
+	std::cout << "CMD PING " << user.getFd() << " port number " << serv->getPort() << std::endl;
+}
+
+void	kill(Server *serv, User user) {
+	std::cout << "CMD KILL " << user.getFd() << " port number " << serv->getPort() << std::endl;
+	serv->killUserClient(user);
+
 }
