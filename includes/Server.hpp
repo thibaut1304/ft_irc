@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 15:38:55 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 17:40:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 # define _SERVER_HPP_
 
 # include <Header.hpp>
+# include <utils.hpp>
 # include <Users.hpp>
 # include <commands.hpp>
 
 
-# include <connectionReplies.hpp>
 # include <connectionReplies.hpp>
 
 # include <cerrno>
 
 
 extern bool serverLife;
-
-// class User;
 
 class Server {
 	private:
@@ -43,14 +41,13 @@ class Server {
 		std::string			_passwd;	
 		std::string			_port;
 
-		// int					_nbUers;
 		std::map<int, std::string>	_buffUsers;
 
         typedef void (*cmdFunc)(Server *,User);
 		std::map<std::string, cmdFunc>	_listCmd;
 		
+		std::map<const int, User>	_users;
 	public:
-		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
 
 		Server(std::string, std::string);
 		~Server(void);
@@ -63,8 +60,6 @@ class Server {
 		void		launch();
 		int			newConnection(void);
 		void		requestClient(struct epoll_event);
-		void		pingTime();
-		void		cmdPing(User, std::string);
 		void		parse(int);
 		void		killUserClient(User);
 
@@ -73,6 +68,11 @@ class Server {
 		void 		acceptUser(User);
 		void		exploreCmd(int, std::string);
 
+		/*******************************/
+		/************ TRASH ************/
+		/*******************************/
+		// void		pingTime();
+		// void		cmdPing(User, std::string);
 };
 
 #endif

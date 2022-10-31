@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 16:06:01 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 17:37:24 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,6 @@ void Server::setPort   (std::string port) { _port   = port; }
 /* ...................................................... */
 /* ................... NEW CONNECTION ................... */
 /* ...................................................... */
-
-int		parsing(User user) {
-	(void)user;
-	return (0);
-}
-
-void	generateError(User user)	{
-	(void)user;
-}
 
 int Server::newConnection() {
 	int fd;
@@ -72,35 +63,6 @@ int Server::newConnection() {
 	return (0);
 }
 
-void	splitCmd(std::vector<std::string> & sCmd, std::string cmd) {
-
-	size_t					pos = 0;
-	std::string				delimiter = " \n\r";
-	std::string::iterator	it;
-	
-	while ((pos = cmd.find_first_of(delimiter)) != std::string::npos)
-	{
-		sCmd.push_back(cmd.substr(0, pos));
-		for (it = cmd.begin() + pos; it != cmd.end() && delimiter.find(*it) != std::string::npos; it++)
-			pos++;
-		cmd.erase(0, pos);
-	}
-}
-
-void	print_buff(std::vector<std::string> buff) {
-	std::vector<std::string>::iterator it = buff.begin();
-	for (;it != buff.end();it++) {
-		std::cout << _RED << *it << _NC << std::endl;
-	}
-}
-
-void		myToupper(std::string & emma) {
-	std::string::iterator	it = emma.begin();
-
-	for (; it != emma.end();it++)
-		*it = std::toupper(*it);
-}
-
 void	Server::exploreCmd(int fd, std::string buff) {
 	std::vector<std::string> allBuff;
 	splitCmd(allBuff, buff);
@@ -111,7 +73,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 
 	// check cmd exist
 	// check cmd params error
-	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
+	// Si user pas enregistrer et commande non existant n'affiche rien ! si enregistre command unknown
 	if (itCmdList != _listCmd.end())
 		itCmdList->second(this, _users[fd]);
 	// execution
@@ -146,34 +108,19 @@ void	Server::requestClient(struct epoll_event user) {
 	buff[ret] = 0;
 
 	// _buffUsers[user.data.fd].append(buff);
-	//Commande de test kill fd client et erase user de la map
+		/*********************************************************************************/
+		/************ Commande de test kill fd client et erase user de la map ************/
+		/*********************************************************************************/
 	// if (strcmp(buff, "KILL\n") == 0) {
 	// 	send(user.data.fd, "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
 	// 	std::map<int, User>::iterator it = _users.find(user.data.fd);
 	// 	killUserClient(it->second);
 	// }
-	// if (strcmp(buff, "test\n") == 0) {
-		// ping();
-		// _listCmd
-		// _listCmd[buff];
-		// std::cout << _listCmd[buff] << std::endl;
-	// }
+		/*********************************************************************************/
 	/* ...................................................... */
 	/* ................... Parsing User accept ou non ! ..... */
 	/* ...................................................... */
 	exploreCmd(user.data.fd, buff);
-	// if (!_users[user.data.fd].getValidUser()) {
-		
-	// }
-	// else if (!parsing(_users[user.data.fd]))
-			// acceptUser(_users[user.data.fd]);
-	// else
-	// 	generateError(_users[user.data.fd]);
-	/* ...................................................... */
-	/* ...................................................... */
-
-	// _listCmd.find(buff)->second(buff);	
-	// parsing a faire pour user
 
 #if Debug
 	std::cout << _BLUE << buff << _NC;
@@ -258,79 +205,6 @@ void	Server::init(void) {
 		exit(errno);
 	}
 	initCmd();
-}
-
-// typedef union epoll_data {
-//     void *ptr;
-//     int fd;
-//     __uint32_t u32;
-//     __uint64_t u64;
-// } epoll_data_t;
-
-// struct epoll_event {
-//     __uint32_t events;    /* Événement epoll      */
-//     epoll_data_t data;    /* Variable utilisateur */
-// };
-
-// PING -> PONG
-void	Server::cmdPing(User user, std::string hello) {
-	std::string msg = PING(hello);
-#if Debug
-	std::cout << "CMD PING" << std::endl;
-#endif
-	// if (user.getFd() == user.end())
-		// return ;
-    if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-		perror("Error send msg ping to client");
-	}
-}
-
-void	Server::pingTime( void ) {
-	double tmp;
-	// std::string msg;
-	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
-
-	for (; it != ite; it++) {
-		tmp = difftime(time(NULL), it->second.getTimeActivity());
-		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
-			cmdPing(it->second, it->second.getHostname());
-			// msg = PING(it->second.getHostname());
-			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-			// 	perror("Error send msg ping to client");
-			// }
-			it->second.setPingStatus(true);
-			it->second.setTimeActivity();
-		}
-		else if (it->second.getPingStatus() == true) {
-			// msg.clear();
-			// msg = "Erreur ping TimeOut";
-			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			if (tmp > PING_TIME) {
-				cmdPing(it->second, "Erreur ping timeOut\n");
-				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-				// 	perror("Error send msg ping to client");
-				// }
-				//kill client !
-				killUserClient(it->second);
-			}
-		}
-	} 
-}
-
-// kill user
-void	Server::killUserClient( User user ) {
-	std::cout << "CMD killUserClient\n";
-	int fd = user.getFd();
-	
-    if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
-		perror("Error epoll ctl del client");
-		exit(EXIT_FAILURE);
-	}
-	if (close(fd) < 0) {
-		perror("Error close fd client");
-		exit(EXIT_FAILURE);
-	}
-	_users.erase(fd);
 }
 
 /* ========================================================================== */

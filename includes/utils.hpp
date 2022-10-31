@@ -1,20 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ping.cpp                                           :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 17:13:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 17:35:38 by thhusser         ###   ########.fr       */
+/*   Created: 2022/10/31 17:38:09 by thhusser          #+#    #+#             */
+/*   Updated: 2022/10/31 17:38:52 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Server.hpp>
+#pragma once
 
-void	ping(Server *serv, User user) {
-	std::string msg = PING(std::string("TEST PING"));
-	std::cout << msg << std::endl;
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	std::cout << "CMD PING " << user.getFd() << " port number " << serv->getPort() << std::endl;
-}
+void		splitCmd(std::vector<std::string> & sCmd, std::string cmd);
+void		print_buff(std::vector<std::string> buff);
+void		myToupper(std::string & emma);

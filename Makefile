@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/30 14:55:24 by thhusser         ###   ########.fr        #
+#    Updated: 2022/10/31 17:37:42 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,10 @@ DIR_INC		+= -I ./includes/numericReplies/
 SRCS		:= 	main.cpp \
 				Server.cpp \
 				User.cpp \
+				utils.cpp \
 				commands/ping.cpp \
 				commands/connection.cpp \
+				commands/kill.cpp \
 
 # SRCS		+= SRCS_CMD
 
