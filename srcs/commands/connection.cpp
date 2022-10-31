@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:56:39 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/30 17:09:50 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:10:44 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,4 @@ void 	Server::acceptUser(User user) {
 		perror("Error send msg 001");
 		exit(errno);
 	}
-	std::cout << "End send message\n";
 }

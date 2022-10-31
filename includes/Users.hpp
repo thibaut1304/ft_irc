@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:48 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/28 17:18:36 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:57:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ class User {
 		
 		time_t						_time;
 		bool						_statusPing;
+		bool						_validUser;
+
 		std::string					_hostname;
 		std::string					_nickname;			// max 9 characters
 		std::string					_username;			
@@ -42,6 +44,9 @@ class User {
 
 		time_t			getTimeActivity() const;
 		void			setTimeActivity();
+
+		bool			getValidUser() const;
+		void			setValidUser(bool);
 
 		bool			getPingStatus() const;
 		void			setPingStatus(bool);		

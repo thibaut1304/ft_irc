@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/30 17:36:06 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:28:55 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,60 @@ int Server::newConnection() {
 		perror("Epoll ctl User fail");
 		exit(errno);
 	}
+	
 	_users[fd] = User(fd, ip);
-	// std::string w = ":irc.local 001 thib :";
-	// std::string wil = "nick";
-	// w += RPL_WELCOME(wil, ip, ip);
-	// send(fd, w.c_str(), w.length(), 0);
-	// _users.push_back(user(fd, ip));
 	return (0);
 }
 
+void	splitCmd(std::vector<std::string> & sCmd, std::string cmd) {
 
+	size_t					pos = 0;
+	std::string				delimiter = " \n\r";
+	std::string::iterator	it;
+	
+	while ((pos = cmd.find_first_of(delimiter)) != std::string::npos)
+	{
+		sCmd.push_back(cmd.substr(0, pos));
+		for (it = cmd.begin() + pos; it != cmd.end() && delimiter.find(*it) != std::string::npos; it++)
+			pos++;
+		cmd.erase(0, pos);
+	}
+}
+
+void	print_buff(std::vector<std::string> buff) {
+	std::vector<std::string>::iterator it = buff.begin();
+	for (;it != buff.end();it++) {
+		std::cout << _RED << *it << _NC << std::endl;
+	}
+}
+
+void		myToupper(std::string & emma) {
+	std::string::iterator	it = emma.begin();
+
+	for (; it != emma.end();it++)
+		*it = std::toupper(*it);
+}
+
+void	Server::exploreCmd(int fd, std::string buff) {
+	std::vector<std::string> allBuff;
+	splitCmd(allBuff, buff);
+	std::vector<std::string>::iterator it_buff = allBuff.begin();
+	myToupper(*it_buff);
+	std::map<std::string, cmdFunc>::iterator it_user = _listCmd.find(*it_buff);
+	if (it_user != _listCmd.end())
+		it_user->second(this, _users[fd]);
+	if (_users[fd].getValidUser()) {
+		std::cout << _GREEN << "USER OK" << _NC << std::endl;
+		std::cout << _GREEN << *it_buff << _NC << std::endl;
+		std::cout << _GREEN << _users[fd].getValidUser() << _NC << std::endl;
+		//enregistrement user et error si il y a 
+	}
+	else {
+		std::cout << _RED << "USER NOK" << _NC << std::endl;
+		std::cout << _GREEN << *it_buff << _NC << std::endl;
+		//suite de toute les autres commande sauf user et dire que deja register !
+	}
+}
 
 /* ...................................................... */
 /* ................... REQUEST CLIENT ................... */
@@ -93,7 +137,7 @@ void	Server::requestClient(struct epoll_event user) {
 	}
 	buff[ret] = 0;
 
-	_buffUsers[user.data.fd].append(buff);
+	// _buffUsers[user.data.fd].append(buff);
 	//Commande de test kill fd client et erase user de la map
 	// if (strcmp(buff, "KILL\n") == 0) {
 	// 	send(user.data.fd, "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
@@ -109,17 +153,17 @@ void	Server::requestClient(struct epoll_event user) {
 	/* ...................................................... */
 	/* ................... Parsing User accept ou non ! ..... */
 	/* ...................................................... */
-	
-	// if (!parsing(_users[user.data.fd]))
-		acceptUser(_users[user.data.fd]);
+	exploreCmd(user.data.fd, buff);
+	// if (!_users[user.data.fd].getValidUser()) {
+		
+	// }
+	// else if (!parsing(_users[user.data.fd]))
+			// acceptUser(_users[user.data.fd]);
 	// else
 	// 	generateError(_users[user.data.fd]);
 	/* ...................................................... */
 	/* ...................................................... */
-	std::map<std::string, cmdFunc>::iterator it = _listCmd.find(buff);	
-	
-	if (it != _listCmd.end())
-		it->second(this, _users[user.data.fd]);
+
 	// _listCmd.find(buff)->second(buff);	
 	// parsing a faire pour user
 
@@ -135,8 +179,9 @@ void	Server::requestClient(struct epoll_event user) {
 /* ========================================================================== */
 
 void	Server::initCmd() {
-	_listCmd["PING\n"] = &ping;
-	_listCmd["KILL\n"] = &kill;
+	_listCmd["PING"] = &ping;
+	_listCmd["KILL"] = &kill;
+	// _listCmd["NICK"] = &nick;
 }
 
 void	Server::init(void) {
@@ -278,6 +323,7 @@ void	Server::killUserClient( User user ) {
 		exit(EXIT_FAILURE);
 	}
 	_users.erase(fd);
+	// std::map<const int>
 }
 
 /* ========================================================================== */

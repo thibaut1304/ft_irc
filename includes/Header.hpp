@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/30 17:33:16 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:14:35 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # define _PURPLE "\033[0;95m"
 # define _CYAN "\033[0;36m"
 # define _WHITE "\033[0;37m"
+
+# include <algorithm>    // std::transform
+# include <cctype> 
 
 # include <iostream>
 # include <cstdio>				// perror

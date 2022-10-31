@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/30 17:02:35 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:14:55 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ class Server {
 		void		initCmd();
 
 		void 		acceptUser(User);
+		void		exploreCmd(int, std::string);
 
 };
 
