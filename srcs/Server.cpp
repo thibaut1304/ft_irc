@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 15:28:55 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:06:01 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,22 +104,30 @@ void		myToupper(std::string & emma) {
 void	Server::exploreCmd(int fd, std::string buff) {
 	std::vector<std::string> allBuff;
 	splitCmd(allBuff, buff);
-	std::vector<std::string>::iterator it_buff = allBuff.begin();
-	myToupper(*it_buff);
-	std::map<std::string, cmdFunc>::iterator it_user = _listCmd.find(*it_buff);
-	if (it_user != _listCmd.end())
-		it_user->second(this, _users[fd]);
-	if (_users[fd].getValidUser()) {
+	std::vector<std::string>::iterator cmdName = allBuff.begin();
+	myToupper(*cmdName);
+	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
+	const bool isValidUser= _users[fd].getValidUser(); 
+
+	// check cmd exist
+	// check cmd params error
+	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
+	if (itCmdList != _listCmd.end())
+		itCmdList->second(this, _users[fd]);
+	// execution
+	if (isValidUser) {
 		std::cout << _GREEN << "USER OK" << _NC << std::endl;
-		std::cout << _GREEN << *it_buff << _NC << std::endl;
-		std::cout << _GREEN << _users[fd].getValidUser() << _NC << std::endl;
+		std::cout << _GREEN << *cmdName << _NC << std::endl;
+		std::cout << _GREEN << isValidUser << _NC << std::endl;
 		//enregistrement user et error si il y a 
+	
 	}
 	else {
 		std::cout << _RED << "USER NOK" << _NC << std::endl;
-		std::cout << _GREEN << *it_buff << _NC << std::endl;
+		std::cout << _GREEN << *cmdName << _NC << std::endl;
 		//suite de toute les autres commande sauf user et dire que deja register !
 	}
+
 }
 
 /* ...................................................... */
@@ -323,7 +331,6 @@ void	Server::killUserClient( User user ) {
 		exit(EXIT_FAILURE);
 	}
 	_users.erase(fd);
-	// std::map<const int>
 }
 
 /* ========================================================================== */

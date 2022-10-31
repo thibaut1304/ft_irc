@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 13:14:55 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:38:55 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ class Server {
 		// int					_nbUers;
 		std::map<int, std::string>	_buffUsers;
 
-        typedef void (*cmdFunc)(Server *, User);
+        typedef void (*cmdFunc)(Server *,User);
 		std::map<std::string, cmdFunc>	_listCmd;
 		
 	public:

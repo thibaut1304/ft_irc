@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:13:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/30 17:33:39 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:51:35 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	ping(Server *serv, User user) {
 
 void	kill(Server *serv, User user) {
 	std::cout << "CMD KILL " << user.getFd() << " port number " << serv->getPort() << std::endl;
+		send(user.getFd(), "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
 	serv->killUserClient(user);
-
 }
