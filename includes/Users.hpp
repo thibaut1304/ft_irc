@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:48 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 17:28:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 18:31:19 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class User {
 
 		time_t						_time;
 		bool						_statusPing;
+		
 		bool						_validUser;
 
 		std::string					_hostname;

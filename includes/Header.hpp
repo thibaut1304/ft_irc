@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 14:14:35 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 18:08:42 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # define PING_TIME 5
 # define PONG_TIME 20
 
-# define PING(msg)   ("PING " + msg + "\r\n")
 
 # define NAME std::string(":ft_irc.local")
 # define VERSION std::string("V1.2")

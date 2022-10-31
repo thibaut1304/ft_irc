@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 17:40:21 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 17:50:09 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 
 # include <cerrno>
 
+
+// Structure de commande a faire pour le parsing et le traitement !
+
+/*
+	struct s_commande {
+		std::vector<std::string>	buffAll;
+		std::string					commande;
+		int 						nbCommand;
+	}; 
+*/
 
 extern bool serverLife;
 

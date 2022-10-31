@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 17:37:24 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 18:29:54 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		std::cout << _GREEN << *cmdName << _NC << std::endl;
 		std::cout << _GREEN << isValidUser << _NC << std::endl;
 		//enregistrement user et error si il y a 
-	
 	}
 	else {
 		std::cout << _RED << "USER NOK" << _NC << std::endl;
@@ -136,7 +135,7 @@ void	Server::requestClient(struct epoll_event user) {
 void	Server::initCmd() {
 	_listCmd["PING"] = &ping;
 	_listCmd["KILL"] = &kill;
-	// _listCmd["NICK"] = &nick;
+	_listCmd["NICK"] = &nick;
 }
 
 void	Server::init(void) {
