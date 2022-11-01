@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 16:59:48 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:29:07 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ class Server {
 
 	public:
 		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
-		std::vector<std::string> _allBuff;
+		std::vector<std::string>	_allBuff;
+		std::string					_buff;
 
 		Server(std::string, std::string);
 		~Server(void);
@@ -88,6 +89,7 @@ void server_launch_start             (int fdServer, int fdPoll, Server      & se
 int server_new_connection_accept     (int fdServer, sockaddr_in & clientAddress, int size);
 void server_new_connection_epoll_ctl (int fdNew, int fdPoll);
 
+void splitCmdUser                        (std::vector<std::string> & sCmd, std::string cmd);
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);

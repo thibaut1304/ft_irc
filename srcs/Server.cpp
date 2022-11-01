@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 18:26:09 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:27:10 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,13 @@ void	Server::initCmd() {
 	_listCmd["PING"] = &ping;
 	_listCmd["KILL"] = &kill;
 	_listCmd["NICK"] = &nick;
+	_listCmd["USER"] = &user;
 }
 
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
+	_buff = buff;
 	splitCmd(_allBuff, buff);
 	std::vector<std::string>::iterator cmdName = _allBuff.begin();
 	myToupper(*cmdName);
