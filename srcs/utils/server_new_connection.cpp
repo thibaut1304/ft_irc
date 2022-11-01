@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_new_connection.cpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 05:40:21 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/01 05:40:40 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:55:16 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int server_new_connection_accept(int fdServer, sockaddr_in & clientAddress, int 
 	if (size >= MAX_USERS) {
 		send(new_conn_fd, msg.c_str(), msg.length(), 0);
 		close(new_conn_fd);
-		exit (1); // TODO Correct return value
+		return (-1);
+		// exit (1); // TODO Correct return value
 	}
 	return new_conn_fd;
 }

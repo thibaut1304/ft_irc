@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 14:24:47 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:55:53 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int Server::newConnection() {
 	std::string ip;
 
 	fdNew = server_new_connection_accept(_fdServer, _clientAddress, _users.size());
+	if (fdNew == -1)
+		return (1);
 	ip    = inet_ntoa(_clientAddress.sin_addr);
 	__debug_newConnection(ip);
 	server_new_connection_epoll_ctl(fdNew, _fdPoll);
@@ -130,15 +132,14 @@ void	generateError(User user) { (void)user; }
 void	Server::initCmd() {
 	_listCmd["PING"] = &ping;
 	_listCmd["KILL"] = &kill;
-	// _listCmd["NICK"] = &nick;
+	_listCmd["NICK"] = &nick;
 }
 
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
-	std::vector<std::string> allBuff;
-	splitCmd(allBuff, buff);
-	std::vector<std::string>::iterator cmdName = allBuff.begin();
+	splitCmd(_allBuff, buff);
+	std::vector<std::string>::iterator cmdName = _allBuff.begin();
 	myToupper(*cmdName);
 	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
 	const bool isValidUser= _users[fd].getValidUser();
@@ -148,6 +149,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
 	if (itCmdList != _listCmd.end())
 		itCmdList->second(this, _users[fd]);
+	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
 	// execution
 	if (isValidUser) {
 		std::cout << _GREEN << "USER OK" << _NC << std::endl;
@@ -160,6 +162,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		std::cout << _RED << *cmdName << _NC << std::endl;
 		//suite de toute les autres commande sauf user et dire que deja register !
 	}
+	_allBuff.clear();
 }
 
 void	Server::cmdPing(User user, std::string hello) {

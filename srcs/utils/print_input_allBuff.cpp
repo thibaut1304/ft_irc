@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ping.cpp                                           :+:      :+:    :+:   */
+/*   print_input_allBuff.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 17:13:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 14:55:19 by thhusser         ###   ########.fr       */
+/*   Created: 2022/11/01 14:58:01 by thhusser          #+#    #+#             */
+/*   Updated: 2022/11/01 15:59:30 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#include <Server.hpp>
 
-void	ping(Server *serv, User user) {
-	std::string msg = PING(std::string("TEST PING"));
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	std::cout << "CMD PING " << user.getFd() << " port number " << serv->getPort() << std::endl;
+std::string print_cmd(std::vector<std::string> buff) {
+	std::vector<std::string>::iterator it = buff.begin();
+	return (*it);
+}
+
+std::string	print_allBuff(std::vector<std::string> buff) {
+	std::vector<std::string>::iterator it = ++buff.begin();
+	std::string msg;
+	
+	for (;it != buff.end(); it++) {
+		msg+= *it;
+		if (it != --buff.end())
+			msg += " ";
+	}
+	return (msg);
 }

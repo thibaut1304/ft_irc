@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 14:30:21 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:54:37 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define _HEADER_HPP
 
 # define Debug     1
-# define MAX_USERS 10
+# define MAX_USERS 2
 # define BUFF_SIZE 4096
 
 # include <string>

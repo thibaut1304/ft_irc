@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:38:13 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 13:57:19 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 14:48:14 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ std::string User::getUsername     (void) const { return (_username);   }
 std::string User::getFullName     (void) const { return (_fullname);   }
 std::string User::getHostname     (void) const { return (_hostname);   }
 
-void	User::setTimeActivity (void)     { _time = time(NULL); }
-void	User::setPingStatus   (bool ret) { _statusPing = ret;  }
-void	User::setValidUser    (bool ret) { _validUser  = ret;  }
+void	User::setTimeActivity	(void)				{ _time = time(NULL); }
+void	User::setPingStatus		(bool ret)			{ _statusPing = ret;  }
+void	User::setValidUser		(bool ret) 			{ _validUser  = ret;  }
+void	User::setNickname		(std::string nick)	{ _nickname   = nick; }

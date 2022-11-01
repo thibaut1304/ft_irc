@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 15:38:55 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:59:48 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ class Server {
 
         typedef void (*cmdFunc)(Server *,User);
 		std::map<std::string, cmdFunc>	_listCmd;
+	
 
 	public:
 		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
+		std::vector<std::string> _allBuff;
 
 		Server(std::string, std::string);
 		~Server(void);
@@ -93,6 +95,6 @@ void myToupper                       (std::string & emma);
 void __debug_newConnection(std::string ip);
 void __debug_requestClient(char *buff);
 void __debug_exploreCmd   (void);
-
+void   __debug_unknown(Server & serv); // TODO find corresponding method to debug
 
 #endif
