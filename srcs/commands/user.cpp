@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 19:11:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 22:31:48 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 00:01:52 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	user(Server *serv, User user) {
 	else {
 		std::vector<std::string>::iterator it = ++serv->_allBuff.begin();
 		serv->_users[user.getFd()].setUsername(*it++);
-		serv->_users[user.getFd()].setHostname(*it);
-		// serv->_users[user.getFd()]->setHostname(*it++);		--> server name pas besoin si ?
+		serv->_users[user.getFd()].setHostname(*it++);
+		serv->_users[user.getFd()]->setHostname(*it);
 		serv->_users[user.getFd()].setFullName(bis);
 	}
 }
