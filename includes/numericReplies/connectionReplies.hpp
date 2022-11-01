@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 20:53:50 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 22:17:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,5 @@
 
 # define ERR_NEEDMOREPARAMS(cmd) (" 461 * " + cmd + " :Not enough parameters")
 # define ERR_ALREADYREGISTRED(nick) (" 462 " + nick + " :You may not reregister")
+// :irc.local 461 huhu USER :Not enough parameters.
+// :irc.local 462 huhu :You may not reregister

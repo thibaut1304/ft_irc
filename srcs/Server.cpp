@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 19:27:10 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 22:43:50 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	std::vector<std::string>::iterator cmdName = _allBuff.begin();
 	myToupper(*cmdName);
 	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-	const bool isValidUser = _users[fd].getValidUser();
 
 	// check cmd exist
 	// check cmd params error
@@ -158,8 +157,18 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	}
 	else
 		itCmdList->second(this, _users[fd]);
-		
-	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
+
+	if (!_users[fd].getValidUser()				\
+		&& !_users[fd].getNickname().empty() 	\
+		&& !_users[fd].getUsername().empty()	\
+		&& !_users[fd].getFullName().empty()	\
+		&& !_users[fd].getHostname().empty())	{
+		_users[fd].setValidUser(true);
+		acceptUser(_users[fd]);
+	}
+	const bool isValidUser = _users[fd].getValidUser();
+
+	// std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
 	// execution
 	if (isValidUser) {
 		std::cout << _GREEN << "USER OK" << _NC << std::endl;

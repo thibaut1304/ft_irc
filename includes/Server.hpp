@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 19:29:07 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 22:33:10 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class Server {
 		int					_fdServer;
 		int					_fdPoll;
 		fd_set 				_set;
+
 
 		struct sockaddr_in	_serverAddress;
 		struct sockaddr_in	_clientAddress;
