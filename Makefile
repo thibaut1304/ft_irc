@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/10/30 14:55:24 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/01 14:33:01 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ DEPS        =  $(OBJS:.o=.d)
 # OBJS_CLIENT	:= $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 
 all: $(NAME)
-	# $(CLIENT)
+# $(CLIENT)
 
 -include $(DEPS)
 
