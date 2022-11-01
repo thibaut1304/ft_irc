@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 17:50:09 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:38:55 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define _SERVER_HPP_
 
 # include <Header.hpp>
-# include <utils.hpp>
 # include <Users.hpp>
 # include <commands.hpp>
 
@@ -24,52 +23,47 @@
 # include <cerrno>
 
 
-// Structure de commande a faire pour le parsing et le traitement !
-
-/*
-	struct s_commande {
-		std::vector<std::string>	buffAll;
-		std::string					commande;
-		int 						nbCommand;
-	}; 
-*/
-
 extern bool serverLife;
+
+// class User;
 
 class Server {
 	private:
-		
+
 		Server(void);
-		
+
 		int					_fdServer;
 		int					_fdPoll;
 		fd_set 				_set;
-		
+
 		struct sockaddr_in	_serverAddress;
 		struct sockaddr_in	_clientAddress;
-		
-		std::string			_passwd;	
+
+		std::string			_passwd;
 		std::string			_port;
 
+		// int					_nbUers;
 		std::map<int, std::string>	_buffUsers;
 
         typedef void (*cmdFunc)(Server *,User);
 		std::map<std::string, cmdFunc>	_listCmd;
-		
-		std::map<const int, User>	_users;
+
 	public:
+		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
 
 		Server(std::string, std::string);
 		~Server(void);
-		std::string getPasswd() const;			
+		std::string getPasswd() const;
 		std::string getPort() const;
 		void		setPasswd(std::string);
 		void		setPort(std::string);
 
-		void		init();		
+		void		init();
 		void		launch();
 		int			newConnection(void);
 		void		requestClient(struct epoll_event);
+		void		pingTime();
+		void		cmdPing(User, std::string);
 		void		parse(int);
 		void		killUserClient(User);
 
@@ -78,11 +72,27 @@ class Server {
 		void 		acceptUser(User);
 		void		exploreCmd(int, std::string);
 
-		/*******************************/
-		/************ TRASH ************/
-		/*******************************/
-		// void		pingTime();
-		// void		cmdPing(User, std::string);
 };
+
+void server_init_socket_fd           (int *fd);
+void server_init_socket_struct       (int fd, sockaddr_in & server_sock_struct, std::string port);
+void server_init_bind_fd_to_socket   (int fd, sockaddr_in & server_sock_struct);
+void server_init_check               (int fd);
+
+void server_launch_epoll_init        (int & fdPoll);
+void server_launch_epoll_struct_init (int fdServer, int fdPoll);
+void server_launch_start             (int fdServer, int fdPoll, Server      & server);
+
+int server_new_connection_accept     (int fdServer, sockaddr_in & clientAddress, int size);
+void server_new_connection_epoll_ctl (int fdNew, int fdPoll);
+
+void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
+void print_buff                      (std::vector<std::string> buff);
+void myToupper                       (std::string & emma);
+
+void __debug_newConnection(std::string ip);
+void __debug_requestClient(char *buff);
+void __debug_exploreCmd   (void);
+
 
 #endif

@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
+/*   basic_utils.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 17:36:51 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 17:37:26 by thhusser         ###   ########.fr       */
+/*   Created: 2022/10/31 19:23:13 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/10/31 19:23:50 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Server.hpp>
+#include "Server.hpp"
 
 void	splitCmd(std::vector<std::string> & sCmd, std::string cmd) {
 
 	size_t					pos = 0;
 	std::string				delimiter = " \n\r";
 	std::string::iterator	it;
-	
+
 	while ((pos = cmd.find_first_of(delimiter)) != std::string::npos)
 	{
 		sCmd.push_back(cmd.substr(0, pos));
