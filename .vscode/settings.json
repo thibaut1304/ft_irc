@@ -10,5 +10,6 @@
 		"ranges": "cpp",
 		"ostream": "cpp",
 		"utility": "cpp"
-	}
+	},
+	"C_Cpp.errorSquiggles": "Disabled"
 }

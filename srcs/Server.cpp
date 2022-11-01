@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 17:36:01 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 18:26:09 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,23 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	// check cmd exist
 	// check cmd params error
 	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
-	if (itCmdList != _listCmd.end())
+	if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
+		return ;
+	}
+	else if (itCmdList == _listCmd.end()) {
+		std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
+		send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
+	}
+	else
 		itCmdList->second(this, _users[fd]);
+		
 	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
 	// execution
 	if (isValidUser) {
 		std::cout << _GREEN << "USER OK" << _NC << std::endl;
 		std::cout << _GREEN << *cmdName << _NC << std::endl;
 		std::cout << _GREEN << isValidUser << _NC << std::endl;
-		//enregistrement user et error si il y a
+		// enregistrement user et error si il y a
 	}
 	else {
 		std::cout << _RED << "USER NOK" << _NC << std::endl;
