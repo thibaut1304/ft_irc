@@ -6,66 +6,84 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/24 14:19:20 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 14:24:47 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Server.hpp>
+#include "Server.hpp"
+#include <netinet/in.h>
 
-Server::Server(void) : _passwd(), _port() {}
+/* ========================================================================== */
+/* ----------------------- CONSTRUCTORS / DESTRUCTOR ------------------------ */
+/* ========================================================================== */
 
-Server::~Server(void) {}
-
+// NOTE TODO @thibault added _fdServer(-1) to default constructor, please check if ok
+Server::Server(void)                                 : _fdServer(-1), _passwd(),       _port()     {}
 Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(passwd), _port(port) {
 	FD_ZERO(&(_set));
-	
+
 	memset(&_serverAddress, 0, sizeof(_serverAddress));
 	memset(&_clientAddress, 0, sizeof(_clientAddress));
 }
+Server::~Server(void) {}
 
-std::string	Server::getPasswd(void) const {
-	return (_passwd);
+std::string Server::getPasswd (void) const       { return (_passwd); }
+std::string Server::getPort   (void) const       { return (_port);   }
+void        Server::setPasswd (std::string pass) { _passwd = pass;   }
+void        Server::setPort   (std::string port) { _port   = port;   }
+
+/* ========================================================================== */
+/* ------------------------------ SERVER INIT ------------------------------- */
+/* ========================================================================== */
+
+
+void	Server::init(void) {
+	server_init_socket_fd         (&_fdServer);
+	server_init_socket_struct     (_fdServer, _serverAddress, _port);
+	server_init_bind_fd_to_socket (_fdServer, _serverAddress);
+	server_init_check             (_fdServer);
+	initCmd(); // NOTE this is a Server::method
 }
 
-std::string	Server::getPort(void) const {
-	return (_port);
+/* ========================================================================== */
+/* ----------------------------- SERVER LAUNCH ------------------------------ */
+/* ========================================================================== */
+
+void	Server::launch(void) {
+	// const int 			MAX_FD = sysconf(_SC_OPEN_MAX); //necessaire pour un usage avec select
+
+	// NOTE: The  epoll  API  performs  a similar task to poll(2):
+	// monitoring multiple file descriptors to see if I/O is possible on any of them.
+	// The central concept of the epoll API is the epoll instance,
+	// an in-kernel data structure which, from a user-space perspective,
+	// considered as a container for two lists:
+	//     uint32_t     events - interest list (== epoll set), is a list of fd that the process "wants" to monitor
+	//     epoll_data_t data   - ready    list , list of fds which are ready for IO
+
+	server_launch_epoll_init        (_fdPoll);
+	server_launch_epoll_struct_init (_fdServer, _fdPoll);
+	server_launch_start             (_fdServer, _fdPoll, *this);
 }
 
-void	Server::setPasswd(std::string pass) {
-	_passwd = pass;
-}
-
-void	Server::setPort(std::string port) {
-	_port = port;
-}
+/* ========================================================================== */
+/* ----------------------------- NEW CONNECTION ----------------------------- */
+/* ========================================================================== */
 
 int Server::newConnection() {
-	int fd;
-	socklen_t	addrlen = sizeof(_clientAddress);
-    struct epoll_event  ev;
-	
-	memset(&_clientAddress, 0, addrlen);
-	fd = accept(_fdServer, (struct sockaddr*)&_clientAddress, &addrlen);
-	if (_client.size() >= MAX_USERS) {
-		send(fd, "ERROR : Server is full !\n", strlen("ERROR : Server is full !\n"), 0);
-		close(fd);
-		return (1);
-	}
+	int         fdNew;
+	std::string ip;
 
-	std::string ip = inet_ntoa(_clientAddress.sin_addr);
-#if Debug
-	std::cout << "Your IP is : " << _BLUE << ip << _NC << std::endl;
-#endif
-	memset(&ev, 0, sizeof(struct epoll_event));
-	ev.events = EPOLLIN | EPOLLET;
-	ev.data.fd = fd;
-	if (epoll_ctl(_fdPoll, EPOLL_CTL_ADD, fd, &ev) < 0) {
-		perror("Epoll ctl User fail");
-		exit(EXIT_FAILURE);
-	}
-	_client.insert(std::make_pair(fd, Client(fd, ip)));
+	fdNew = server_new_connection_accept(_fdServer, _clientAddress, _users.size());
+	ip    = inet_ntoa(_clientAddress.sin_addr);
+	__debug_newConnection(ip);
+	server_new_connection_epoll_ctl(fdNew, _fdPoll);
+	_users[fdNew] = User(fdNew, ip);
 	return (0);
 }
+
+/* ========================================================================== */
+/* ----------------------------- REQUEST CLIENT ----------------------------- */
+/* ========================================================================== */
 
 void	Server::requestClient(struct epoll_event user) {
 	char			buff[BUFF_SIZE];
@@ -75,101 +93,113 @@ void	Server::requestClient(struct epoll_event user) {
 	memset(buff, 0, BUFF_SIZE);
 	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
 		perror("Fail recv user");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 	buff[ret] = 0;
-	_client[user.data.fd].append_buff(buff);
-	
-
-#if Debug
-	//std::cout << _BLUE << buff << _NC;
-#endif
-	
+	_buffUsers[user.data.fd].append(buff);
+	exploreCmd(user.data.fd, buff);
+	__debug_requestClient(buff);
 }
 
-void	Server::init(void) {
-	int opt = 1;
-	
-	if ((_fdServer = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("Socket failled");
+/* ========================================================================== */
+/* ---------------------------- KILL USER CLIENT ---------------------------- */
+/* ========================================================================== */
+
+void	Server::killUserClient( User user ) {
+	std::cout << "CMD killUserClient\n";
+	int fd = user.getFd();
+
+	if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
+		perror("Error epoll ctl del client");
 		exit(EXIT_FAILURE);
 	}
-	
-	_serverAddress.sin_family = AF_INET;
-	_serverAddress.sin_addr.s_addr = INADDR_ANY;
-	_serverAddress.sin_port = htons(atoi(_port.c_str()));
-	
-	if (setsockopt(_fdServer, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
-		perror("Setsockopt failled");
+	if (close(fd) < 0) {
+		perror("Error close fd client");
 		exit(EXIT_FAILURE);
 	}
-	
-	if ((bind(_fdServer, (struct sockaddr *)&_serverAddress, sizeof(_serverAddress))) < 0) {
-		perror("Bind failled");
-		exit(EXIT_FAILURE);
-	}
-	if (listen(_fdServer, 5)) {
-		perror("Listen failled");
-		exit(EXIT_FAILURE);
-	}
-	// FD_SET(_fdServer, &(_set));
+	_users.erase(fd);
 }
 
-// typedef union epoll_data {
-//     void *ptr;
-//     int fd;
-//     __uint32_t u32;
-//     __uint64_t u64;
-// } epoll_data_t;
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ------------------------- TODO WORK IN PROGRESS -------------------------- */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-// struct epoll_event {
-//     __uint32_t events;    /* Événement epoll      */
-//     epoll_data_t data;    /* Variable utilisateur */
-// };
+int		parsing      (User user) { (void)user; return (0); }
+void	generateError(User user) { (void)user; }
 
-void	Server::launch(void) {
-	// const int 			MAX_FD = sysconf(_SC_OPEN_MAX); //necessaire pour un usage avec select
-	int					ready;
-	struct epoll_event	ev;
-	struct epoll_event	user[MAX_USERS];
-	struct epoll_event	*user_tmp;
+void	Server::initCmd() {
+	_listCmd["PING"] = &ping;
+	_listCmd["KILL"] = &kill;
+	// _listCmd["NICK"] = &nick;
+}
 
-	memset(&ev, 0, sizeof(ev));
-	if ((_fdPoll = epoll_create1(0)) < 1) {
-		perror("Epoll create fail");
-		exit(EXIT_FAILURE);
+void	Server::exploreCmd(int fd, std::string buff) {
+	if (buff.size() == 0)
+		return ;
+	std::vector<std::string> allBuff;
+	splitCmd(allBuff, buff);
+	std::vector<std::string>::iterator cmdName = allBuff.begin();
+	myToupper(*cmdName);
+	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
+	const bool isValidUser= _users[fd].getValidUser();
+
+	// check cmd exist
+	// check cmd params error
+	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
+	if (itCmdList != _listCmd.end())
+		itCmdList->second(this, _users[fd]);
+	// execution
+	if (isValidUser) {
+		std::cout << _GREEN << "USER OK" << _NC << std::endl;
+		std::cout << _GREEN << *cmdName << _NC << std::endl;
+		std::cout << _GREEN << isValidUser << _NC << std::endl;
+		//enregistrement user et error si il y a
 	}
-	ev.events = EPOLLIN;
-	ev.data.fd = _fdServer;
-	if (epoll_ctl(_fdPoll, EPOLL_CTL_ADD, _fdServer, &ev) < 0) {
-		perror("Epoll_ctl fail");
-		exit(EXIT_FAILURE);
+	else {
+		std::cout << _RED << "USER NOK" << _NC << std::endl;
+		std::cout << _RED << *cmdName << _NC << std::endl;
+		//suite de toute les autres commande sauf user et dire que deja register !
 	}
-	while (serverLife) {
-		user_tmp = &(user[0]);
-		if ((ready = epoll_wait(_fdPoll, user_tmp, MAX_USERS, 0)) < 0) { // vois si le timeout on peut le mettre a 0
-			perror("Fail epoll wait");
-			exit(EXIT_FAILURE);
-			}
-		for (int i = 0 ; i < ready; i++) {
-			if (user[i].data.fd == _fdServer) {
-				newConnection();
-			}
-			else {
-				requestClient(user[i]);
+}
+
+void	Server::cmdPing(User user, std::string hello) {
+	std::string msg = PING(hello);
+	__debug_exploreCmd();
+	// if (user.getFd() == user.end())
+	// return ;
+	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+		perror("Error send msg ping to client");
+	}
+}
+
+void	Server::pingTime( void ) {
+	double tmp;
+	// std::string msg;
+	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
+
+	for (; it != ite; it++) {
+		tmp = difftime(time(NULL), it->second.getTimeActivity());
+		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
+			cmdPing(it->second, it->second.getHostname());
+			// msg = PING(it->second.getHostname());
+			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+			// 	perror("Error send msg ping to client");
+			// }
+			it->second.setPingStatus(true);
+			it->second.setTimeActivity();
+		}
+		else if (it->second.getPingStatus() == true) {
+			// msg.clear();
+			// msg = "Erreur ping TimeOut";
+			tmp = difftime(time(NULL), it->second.getTimeActivity());
+			if (tmp > PING_TIME) {
+				cmdPing(it->second, "Erreur ping timeOut\n");
+				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+				// 	perror("Error send msg ping to client");
+				// }
+				//kill client !
+				killUserClient(it->second);
 			}
 		}
 	}
-#if Debug
-	std::cout << "Print number users : " << _GREEN << _client.size() << _NC << std::endl;
-	typedef std::map<const int, Client>::iterator it;
-	for (it e = _client.begin() ; e != _client.end(); e++) {
-		std::cout << "FD : " << _YELLOW << e->first << _NC;
-		if (e != --_client.end())
-			std::cout << ", ";
-		else
-			std::cout << ".\n";
 	}
-	
-#endif
-}
