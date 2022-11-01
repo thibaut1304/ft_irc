@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:40:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 23:30:43 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:59:46 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	nick(Server *serv, User user) {
 		&& serv->_users[user.getFd()].getValidUser() == true	\
 		&& user.getNickname().compare(print_allBuff(serv->_allBuff)) != 0) {
 		std::string msg = ":" + serv->_users[user.getFd()].getNickname() + "!" \
-		+ serv->_users[user.getFd()].getUsername() + "@" + serv->_users[user.getFd()].getUsername() \
+		+ serv->_users[user.getFd()].getUsername() + "@" + serv->_users[user.getFd()].getIp() \
 		+ " " + print_cmd(serv->_allBuff) + " :" + print_allBuff(serv->_allBuff) + "\r\n";
 		serv->_users[user.getFd()].setNickname(print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);

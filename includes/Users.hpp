@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:48 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 22:42:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:58:14 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class User {
 		bool        _statusPing;
 		bool        _validUser;
 		
+		std::string _ip;
 		std::string _hostname;
 		std::string _nickname;
 		std::string _username;
@@ -35,6 +36,7 @@ class User {
 		User &operator=(const User &);
 		~User( void );
 
+		std::string getIp()			  const;
 		int         getFd()           const;
 		std::string getNickname()     const;
 		void		setNickname(std::string);
