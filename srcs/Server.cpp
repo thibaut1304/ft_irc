@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 16:06:01 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 14:24:47 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void	Server::initCmd() {
 }
 
 void	Server::exploreCmd(int fd, std::string buff) {
+	if (buff.size() == 0)
+		return ;
 	std::vector<std::string> allBuff;
 	splitCmd(allBuff, buff);
 	std::vector<std::string>::iterator cmdName = allBuff.begin();
@@ -155,7 +157,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	}
 	else {
 		std::cout << _RED << "USER NOK" << _NC << std::endl;
-		std::cout << _GREEN << *cmdName << _NC << std::endl;
+		std::cout << _RED << *cmdName << _NC << std::endl;
 		//suite de toute les autres commande sauf user et dire que deja register !
 	}
 }

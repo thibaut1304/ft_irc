@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 05:42:56 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/01 05:46:34 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/01 14:30:11 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void __debug_newConnection(std::string ip)
 {
+	(void)ip;
 #if Debug
 	std::cout << "Your IP is : " << _BLUE << ip << _NC << std::endl;
 #endif
@@ -21,6 +22,7 @@ void __debug_newConnection(std::string ip)
 
 void	__debug_requestClient(char *buff)
 {
+	(void)buff;
 #if Debug
 	std::cout << _BLUE << buff << _NC;
 #endif
