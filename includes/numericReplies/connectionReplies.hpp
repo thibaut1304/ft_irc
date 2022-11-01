@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 16:45:15 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:24:38 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,12 @@
 /* ...................................................... */
 
 // 432
-# define ERR_ERRONEUSNICKNAME(nick) (nick + " :Erroneous nickname" + "\r\n")
+# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname" + "\r\n")
 // 431
-# define ERR_NONICKNAMEGIVEN " :No nickname given" + "\r\n"
+# define ERR_NONICKNAMEGIVEN(cmd) (" 431 * " + cmd + " :No nickname given" + "\r\n")
 // 433
-# define ERR_NICKNAMEINUSE(nick) (nick + " :Nickname is already in use" + "\r\n")
+# define ERR_NICKNAMEINUSE(nick) (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
+// je sais pas ou l'assigner
 # define ERR_NICKCOLLISION(nick, user, host) (" " + nick + " :Nickname collision KILL from " + user + "@" + host + "\r\n")
-# define ERR_UNAVAILRESOURCE(nock, channel) (" " + nick + "/" + channel + " :Nick/channel is temporarily unavailable" + "\r\n")
-# define ERR_RESTRICTED ":Your connection is restricted!" + "\r\n"
 
-                        
-                          
                         

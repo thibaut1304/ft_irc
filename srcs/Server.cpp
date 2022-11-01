@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 16:55:53 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:36:01 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	std::vector<std::string>::iterator cmdName = _allBuff.begin();
 	myToupper(*cmdName);
 	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-	const bool isValidUser= _users[fd].getValidUser();
+	const bool isValidUser = _users[fd].getValidUser();
 
 	// check cmd exist
 	// check cmd params error
@@ -165,44 +165,44 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	_allBuff.clear();
 }
 
-void	Server::cmdPing(User user, std::string hello) {
-	std::string msg = PING(hello);
-	__debug_exploreCmd();
-	// if (user.getFd() == user.end())
-	// return ;
-	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-		perror("Error send msg ping to client");
-	}
-}
+// void	Server::cmdPing(User user, std::string hello) {
+// 	std::string msg = PING(hello);
+// 	__debug_exploreCmd();
+// 	// if (user.getFd() == user.end())
+// 	// return ;
+// 	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+// 		perror("Error send msg ping to client");
+// 	}
+// }
 
-void	Server::pingTime( void ) {
-	double tmp;
-	// std::string msg;
-	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
+// void	Server::pingTime( void ) {
+// 	double tmp;
+// 	// std::string msg;
+// 	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
 
-	for (; it != ite; it++) {
-		tmp = difftime(time(NULL), it->second.getTimeActivity());
-		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
-			cmdPing(it->second, it->second.getHostname());
-			// msg = PING(it->second.getHostname());
-			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-			// 	perror("Error send msg ping to client");
-			// }
-			it->second.setPingStatus(true);
-			it->second.setTimeActivity();
-		}
-		else if (it->second.getPingStatus() == true) {
-			// msg.clear();
-			// msg = "Erreur ping TimeOut";
-			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			if (tmp > PING_TIME) {
-				cmdPing(it->second, "Erreur ping timeOut\n");
-				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-				// 	perror("Error send msg ping to client");
-				// }
-				//kill client !
-				killUserClient(it->second);
-			}
-		}
-	}
-}
+// 	for (; it != ite; it++) {
+// 		tmp = difftime(time(NULL), it->second.getTimeActivity());
+// 		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
+// 			cmdPing(it->second, it->second.getHostname());
+// 			// msg = PING(it->second.getHostname());
+// 			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+// 			// 	perror("Error send msg ping to client");
+// 			// }
+// 			it->second.setPingStatus(true);
+// 			it->second.setTimeActivity();
+// 		}
+// 		else if (it->second.getPingStatus() == true) {
+// 			// msg.clear();
+// 			// msg = "Erreur ping TimeOut";
+// 			tmp = difftime(time(NULL), it->second.getTimeActivity());
+// 			if (tmp > PING_TIME) {
+// 				cmdPing(it->second, "Erreur ping timeOut\n");
+// 				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+// 				// 	perror("Error send msg ping to client");
+// 				// }
+// 				//kill client !
+// 				killUserClient(it->second);
+// 			}
+// 		}
+// 	}
+// }
