@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 22:43:50 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 00:32:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	Server::requestClient(struct epoll_event user) {
 	}
 	buff[ret] = 0;
 	_buffUsers[user.data.fd].append(buff);
+	std::cout << _YELLOW << _buffUsers[user.data.fd] << _NC << std::endl;
 	exploreCmd(user.data.fd, buff);
 	__debug_requestClient(buff);
 }
@@ -172,15 +173,11 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	// execution
 	if (isValidUser) {
 		std::cout << _GREEN << "USER OK" << _NC << std::endl;
-		std::cout << _GREEN << *cmdName << _NC << std::endl;
-		std::cout << _GREEN << isValidUser << _NC << std::endl;
-		// enregistrement user et error si il y a
 	}
 	else {
 		std::cout << _RED << "USER NOK" << _NC << std::endl;
-		std::cout << _RED << *cmdName << _NC << std::endl;
-		//suite de toute les autres commande sauf user et dire que deja register !
 	}
+	_buffUsers[fd].clear();
 	_allBuff.clear();
 }
 
