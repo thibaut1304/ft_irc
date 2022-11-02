@@ -69,6 +69,9 @@ class Server {
 
 		void 		acceptUser(User);
 		void		exploreCmd(int, std::string);
+void parse_buff						 (int fd, std::vector<std::string> cmd);
+bool check_nick(std::string nick);
+
 
 };
 

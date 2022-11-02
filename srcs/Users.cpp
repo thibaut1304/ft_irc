@@ -63,6 +63,8 @@ std::string User::getUsername     (void) const { return (_username);   }
 std::string User::getFullName     (void) const { return (_fullname);   }
 std::string User::getHostname     (void) const { return (_hostname);   }
 
+void	User::setNickname     (std::string nick)  { _nickname = nick;  }
 void	User::setTimeActivity (void)     { _time = time(NULL); }
+void	User::setValidPasswd  (bool ret)     { _passwd = true; }
 void	User::setPingStatus   (bool ret) { _statusPing = ret;  }
 void	User::setValidUser    (bool ret) { _validUser  = ret;  }

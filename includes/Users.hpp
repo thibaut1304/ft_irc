@@ -21,6 +21,7 @@ class User {
 		time_t      _time;
 		bool        _statusPing;
 		bool        _validUser;
+		bool		_passwd;
 		std::string _hostname;
 		std::string _nickname;			// max 9 characters
 		std::string _username;
@@ -46,6 +47,12 @@ class User {
 		bool        getValidUser()    const;
 		void        setValidUser(bool);
 
+		void        setValidPasswd(bool);
+		void        getValidPasswd() const;
+
 		bool        getPingStatus()   const;
 		void        setPingStatus(bool);
+
+		void		setNickname(std::string nick);
+
 };

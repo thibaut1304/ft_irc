@@ -18,8 +18,9 @@
 /* ========================================================================== */
 
 // NOTE TODO @thibault added _fdServer(-1) to default constructor, please check if ok
-Server::Server(void)                                 : _fdServer(-1), _passwd(),       _port()     {}
-Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(passwd), _port(port) {
+Server::Server(void) : _fdServer(-1), _passwd(), _port() {}
+Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(passwd), _port(port)
+{
 	FD_ZERO(&(_set));
 
 	memset(&_serverAddress, 0, sizeof(_serverAddress));
@@ -27,21 +28,21 @@ Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(pa
 }
 Server::~Server(void) {}
 
-std::string Server::getPasswd (void) const       { return (_passwd); }
-std::string Server::getPort   (void) const       { return (_port);   }
-void        Server::setPasswd (std::string pass) { _passwd = pass;   }
-void        Server::setPort   (std::string port) { _port   = port;   }
+std::string Server::getPasswd(void) const { return (_passwd); }
+std::string Server::getPort(void) const { return (_port); }
+void Server::setPasswd(std::string pass) { _passwd = pass; }
+void Server::setPort(std::string port) { _port = port; }
 
 /* ========================================================================== */
 /* ------------------------------ SERVER INIT ------------------------------- */
 /* ========================================================================== */
 
-
-void	Server::init(void) {
-	server_init_socket_fd         (&_fdServer);
-	server_init_socket_struct     (_fdServer, _serverAddress, _port);
-	server_init_bind_fd_to_socket (_fdServer, _serverAddress);
-	server_init_check             (_fdServer);
+void Server::init(void)
+{
+	server_init_socket_fd(&_fdServer);
+	server_init_socket_struct(_fdServer, _serverAddress, _port);
+	server_init_bind_fd_to_socket(_fdServer, _serverAddress);
+	server_init_check(_fdServer);
 	initCmd(); // NOTE this is a Server::method
 }
 
@@ -49,7 +50,8 @@ void	Server::init(void) {
 /* ----------------------------- SERVER LAUNCH ------------------------------ */
 /* ========================================================================== */
 
-void	Server::launch(void) {
+void Server::launch(void)
+{
 	// const int 			MAX_FD = sysconf(_SC_OPEN_MAX); //necessaire pour un usage avec select
 
 	// NOTE: The  epoll  API  performs  a similar task to poll(2):
@@ -60,21 +62,22 @@ void	Server::launch(void) {
 	//     uint32_t     events - interest list (== epoll set), is a list of fd that the process "wants" to monitor
 	//     epoll_data_t data   - ready    list , list of fds which are ready for IO
 
-	server_launch_epoll_init        (_fdPoll);
-	server_launch_epoll_struct_init (_fdServer, _fdPoll);
-	server_launch_start             (_fdServer, _fdPoll, *this);
+	server_launch_epoll_init(_fdPoll);
+	server_launch_epoll_struct_init(_fdServer, _fdPoll);
+	server_launch_start(_fdServer, _fdPoll, *this);
 }
 
 /* ========================================================================== */
 /* ----------------------------- NEW CONNECTION ----------------------------- */
 /* ========================================================================== */
 
-int Server::newConnection() {
-	int         fdNew;
+int Server::newConnection()
+{
+	int fdNew;
 	std::string ip;
 
 	fdNew = server_new_connection_accept(_fdServer, _clientAddress, _users.size());
-	ip    = inet_ntoa(_clientAddress.sin_addr);
+	ip = inet_ntoa(_clientAddress.sin_addr);
 	__debug_newConnection(ip);
 	server_new_connection_epoll_ctl(fdNew, _fdPoll);
 	_users[fdNew] = User(fdNew, ip);
@@ -85,13 +88,15 @@ int Server::newConnection() {
 /* ----------------------------- REQUEST CLIENT ----------------------------- */
 /* ========================================================================== */
 
-void	Server::requestClient(struct epoll_event user) {
-	char			buff[BUFF_SIZE];
-	int 			ret;
-	std::string		msg;
+void Server::requestClient(struct epoll_event user)
+{
+	char buff[BUFF_SIZE];
+	int ret;
+	std::string msg;
 
 	memset(buff, 0, BUFF_SIZE);
-	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
+	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0)
+	{
 		perror("Fail recv user");
 		exit(errno);
 	}
@@ -105,15 +110,18 @@ void	Server::requestClient(struct epoll_event user) {
 /* ---------------------------- KILL USER CLIENT ---------------------------- */
 /* ========================================================================== */
 
-void	Server::killUserClient( User user ) {
+void Server::killUserClient(User user)
+{
 	std::cout << "CMD killUserClient\n";
 	int fd = user.getFd();
 
-	if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
+	if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0)
+	{
 		perror("Error epoll ctl del client");
 		exit(EXIT_FAILURE);
 	}
-	if (close(fd) < 0) {
+	if (close(fd) < 0)
+	{
 		perror("Error close fd client");
 		exit(EXIT_FAILURE);
 	}
@@ -124,24 +132,70 @@ void	Server::killUserClient( User user ) {
 /* ------------------------- TODO WORK IN PROGRESS -------------------------- */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-int		parsing      (User user) { (void)user; return (0); }
-void	generateError(User user) { (void)user; }
+int parsing(User user)
+{
+	(void)user;
+	return (0);
+}
+void generateError(User user) { (void)user; }
 
-void	Server::initCmd() {
+void Server::initCmd()
+{
 	_listCmd["PING"] = &ping;
 	_listCmd["KILL"] = &kill;
 	// _listCmd["NICK"] = &nick;
 }
+bool Server::check_nick(std::string nick)
+{
+	for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); it++)
+		if (nick == it->second.getNickname())
+			return (1); // ERR_NICKCOLLISION
+	if ()
 
-void	Server::exploreCmd(int fd, std::string buff) {
+}
+void Server::parse_buff(int fd, std::vector<std::string> cmd)
+{
+
+	for (std::vector<std::string>::iterator it = cmd.begin(); it != cmd.end(); it++)
+		myToupper(*it);
+	for (std::vector<std::string>::iterator it = cmd.begin(); it != cmd.end(); it++)
+	{
+		if (*it == "PASS")
+		{
+			if (*(it + 1) == getPasswd())
+				_users[fd].setValidPasswd(true);
+			else
+			{
+				perror("Nickname not ok");
+				exit(EXIT_FAILURE);
+			}
+		}
+		else if (*it == "NICK")
+		{
+			if (check_nick(*(it + 1)))
+			{
+				perror("Nickname not ok");
+				exit(EXIT_FAILURE);
+			}
+			else
+				_users[fd].setNickname(*(it + 1));
+		}
+		else
+			std::cout << "nothing to parse\n";
+	}
+};
+
+void Server::exploreCmd(int fd, std::string buff)
+{
 	if (buff.size() == 0)
-		return ;
+		return;
 	std::vector<std::string> allBuff;
 	splitCmd(allBuff, buff);
+	parse_buff(fd, allBuff);
 	std::vector<std::string>::iterator cmdName = allBuff.begin();
 	myToupper(*cmdName);
 	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-	const bool isValidUser= _users[fd].getValidUser();
+	const bool isValidUser = _users[fd].getValidUser();
 
 	// check cmd exist
 	// check cmd params error
@@ -149,37 +203,44 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	if (itCmdList != _listCmd.end())
 		itCmdList->second(this, _users[fd]);
 	// execution
-	if (isValidUser) {
+	if (isValidUser)
+	{
 		std::cout << _GREEN << "USER OK" << _NC << std::endl;
 		std::cout << _GREEN << *cmdName << _NC << std::endl;
 		std::cout << _GREEN << isValidUser << _NC << std::endl;
-		//enregistrement user et error si il y a
+		// enregistrement user et error si il y a
 	}
-	else {
+	else
+	{
 		std::cout << _RED << "USER NOK" << _NC << std::endl;
 		std::cout << _RED << *cmdName << _NC << std::endl;
-		//suite de toute les autres commande sauf user et dire que deja register !
+		// suite de toute les autres commande sauf user et dire que deja register !
 	}
 }
 
-void	Server::cmdPing(User user, std::string hello) {
+void Server::cmdPing(User user, std::string hello)
+{
 	std::string msg = PING(hello);
 	__debug_exploreCmd();
 	// if (user.getFd() == user.end())
 	// return ;
-	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1)
+	{
 		perror("Error send msg ping to client");
 	}
 }
 
-void	Server::pingTime( void ) {
+void Server::pingTime(void)
+{
 	double tmp;
 	// std::string msg;
 	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
 
-	for (; it != ite; it++) {
+	for (; it != ite; it++)
+	{
 		tmp = difftime(time(NULL), it->second.getTimeActivity());
-		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
+		if (tmp > PING_TIME && it->second.getPingStatus() == false)
+		{
 			cmdPing(it->second, it->second.getHostname());
 			// msg = PING(it->second.getHostname());
 			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
@@ -188,18 +249,20 @@ void	Server::pingTime( void ) {
 			it->second.setPingStatus(true);
 			it->second.setTimeActivity();
 		}
-		else if (it->second.getPingStatus() == true) {
+		else if (it->second.getPingStatus() == true)
+		{
 			// msg.clear();
 			// msg = "Erreur ping TimeOut";
 			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			if (tmp > PING_TIME) {
+			if (tmp > PING_TIME)
+			{
 				cmdPing(it->second, "Erreur ping timeOut\n");
 				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
 				// 	perror("Error send msg ping to client");
 				// }
-				//kill client !
+				// kill client !
 				killUserClient(it->second);
 			}
 		}
 	}
-	}
+}
