@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 18:26:09 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:57:44 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,12 @@ void	Server::requestClient(struct epoll_event user) {
 		exit(errno);
 	}
 	buff[ret] = 0;
-	_buffUsers[user.data.fd].append(buff);
-	exploreCmd(user.data.fd, buff);
+	// _buffUsers[user.data.fd].append(buff);
+	// std::cout << _YELLOW << _buffUsers[user.data.fd] << _NC << std::endl;
+	int i = 0;
+	while (buff[i] && isspace(buff[i])) i++;
+	if (buff[i])
+		exploreCmd(user.data.fd, buff);
 	__debug_requestClient(buff);
 }
 
@@ -132,39 +136,48 @@ void	generateError(User user) { (void)user; }
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
-	splitCmd(_allBuff, buff);
-	std::vector<std::string>::iterator cmdName = _allBuff.begin();
-	myToupper(*cmdName);
-	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-	const bool isValidUser = _users[fd].getValidUser();
+		
+	_buff = buff;
+	
+	std::vector<std::string> tmp;
+	splitCmdIrssi(tmp, buff);
+	std::vector<std::string>::iterator it_tmp = tmp.begin();
+	
+	for (;it_tmp != tmp.end(); it_tmp++) {
+		_allBuff.clear();
+		splitCmd(_allBuff, *it_tmp);
+		
+		std::vector<std::string>::iterator cmdName = _allBuff.begin();
+		myToupper(*cmdName);
+		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
+		std::cout << _YELLOW << "|-|" << *cmdName << "|-|" << _NC << std::endl;
+		if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
+			return ;
+		}
+		else if (itCmdList == _listCmd.end()) {
+			std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
+			send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
+		}
+		else {
+			itCmdList->second(this, _users[fd]);
+		}
 
-	// check cmd exist
-	// check cmd params error
-	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
-	if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
-		return ;
-	}
-	else if (itCmdList == _listCmd.end()) {
-		std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
-		send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
-	}
-	else
-		itCmdList->second(this, _users[fd]);
+		if (!_users[fd].getValidUser()				
+			&& !_users[fd].getNickname().empty() 	
+			&& !_users[fd].getUsername().empty()	
+			&& !_users[fd].getFullName().empty()	
+			&& !_users[fd].getHostname().empty())	{
+			_users[fd].setValidUser(true);
+			acceptUser(_users[fd]);
+		}
+		const bool isValidUser = _users[fd].getValidUser();
 
-	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
-	// execution
-	if (isValidUser) {
-		std::cout << _GREEN << "USER OK" << _NC << std::endl;
-		std::cout << _GREEN << *cmdName << _NC << std::endl;
-		std::cout << _GREEN << isValidUser << _NC << std::endl;
-		// enregistrement user et error si il y a
+		if (isValidUser)
+			std::cout << _GREEN << "USER OK" << _NC << std::endl;
+		else
+			std::cout << _RED << "USER NOK" << _NC << std::endl;
 	}
-	else {
-		std::cout << _RED << "USER NOK" << _NC << std::endl;
-		std::cout << _RED << *cmdName << _NC << std::endl;
-		//suite de toute les autres commande sauf user et dire que deja register !
-	}
-	_allBuff.clear();
+	buff.clear();
 }
 
 // void	Server::cmdPing(User user, std::string hello) {

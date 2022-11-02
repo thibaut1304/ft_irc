@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/01 15:01:47 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/02 17:58:44 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,10 @@ SRCS		:=  \
 				commands/nick.cpp               \
 				commands/kill.cpp               \
 				commands/ping.cpp               \
+				commands/pass.cpp;     			\
+				commands/user.cpp;			    \
+				commands/cap.cpp;			    \
 
-				# commands/pass.cpp;     \
-				# commands/user.cpp;     \
 				# commands/server.cpp;   \
 				# commands/oper.cpp;     \
 				# commands/quit.cpp;     \

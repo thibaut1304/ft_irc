@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   init_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/02 16:27:34 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:57:19 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 void	Server::initCmd() {
+	_listCmd["CAP"]          = &cap;
+
 
 	// # REGISTRATION
-	//_listCmd["PASS"]          = &pass;
+	_listCmd["PASS"]          = &pass;
 	_listCmd["NICK"]          = &nick;
-	//_listCmd["USER"]          = &user;
+	_listCmd["USER"]          = &user;
 	//_listCmd["SERVER"]        = &server;
 	//_listCmd["OPER"]          = &oper;
 	//_listCmd["QUIT"]          = &quit;
