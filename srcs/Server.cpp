@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 15:21:36 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:47:08 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,58 +144,62 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
 	_buff = buff;
+	(void)fd;
 	std::vector<std::string> tmp;
 	splitCmdIrssi(tmp, buff);
-	// print_buff(tmp);
+	print_buff(tmp);
+		std::cout << std::endl;
 	std::vector<std::string>::iterator it_tmp = tmp.begin();
 	for (;it_tmp != tmp.end(); it_tmp++) {
 		splitCmd(_allBuff, *it_tmp);
-
 		print_buff(_allBuff);
-		
-		std::vector<std::string>::iterator cmdName = _allBuff.begin();
-		// myToupper(*cmdName);
-		// std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
-		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-		// check cmd exist
-		// check cmd params error
-		// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
-		std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
-		if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
-			return ;
-		}
-		else if (itCmdList == _listCmd.end()) {
-			std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
-			send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
-		}
-		else {
-	#if DEBUG
-		std::cout << _CYAN << "CMD FIND" << _NC << std::endl;
-	#endif
-			itCmdList->second(this, _users[fd]);
-		}
-
-		if (!_users[fd].getValidUser()				\
-			&& !_users[fd].getNickname().empty() 	\
-			&& !_users[fd].getUsername().empty()	\
-			&& !_users[fd].getFullName().empty()	\
-			&& !_users[fd].getHostname().empty())	{
-			_users[fd].setValidUser(true);
-			acceptUser(_users[fd]);
-		}
-		const bool isValidUser = _users[fd].getValidUser();
-
-		// std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
-		// execution
-		if (isValidUser) {
-			std::cout << _GREEN << "USER OK" << _NC << std::endl;
-		}
-		else {
-			std::cout << _RED << "USER NOK" << _NC << std::endl;
-		}
-		_buffUsers[fd].clear();
-		_allBuff.clear();
+		std::cout << std::endl;
+		std::cout << std::endl;
 	}
+		
+	// 	std::vector<std::string>::iterator cmdName = _allBuff.begin();
+	// 	// myToupper(*cmdName);
+	// 	// std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
+	// 	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
+	// 	// check cmd exist
+	// 	// check cmd params error
+	// 	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
+	// 	std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
+	// 	if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
+	// 		return ;
+	// 	}
+	// 	else if (itCmdList == _listCmd.end()) {
+	// 		std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
+	// 		send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
+	// 	}
+	// 	else {
+	// #if DEBUG
+	// 	std::cout << _CYAN << "CMD FIND" << _NC << std::endl;
+	// #endif
+	// 		itCmdList->second(this, _users[fd]);
+	// 	}
+
+	// 	if (!_users[fd].getValidUser()				
+	// 		&& !_users[fd].getNickname().empty() 	
+	// 		&& !_users[fd].getUsername().empty()	
+	// 		&& !_users[fd].getFullName().empty()	
+	// 		&& !_users[fd].getHostname().empty())	{
+	// 		_users[fd].setValidUser(true);
+	// 		acceptUser(_users[fd]);
+	// 	}
+	// 	const bool isValidUser = _users[fd].getValidUser();
+
+	// 	// std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
+	// 	// execution
+	// 	if (isValidUser) {
+	// 		std::cout << _GREEN << "USER OK" << _NC << std::endl;
+	// 	}
+	// 	else {
+	// 		std::cout << _RED << "USER NOK" << _NC << std::endl;
+	// 	}
+	// 	_buffUsers[fd].clear();
+	// 	_allBuff.clear();
+	// }
 }
 
 // void	Server::cmdPing(User user, std::string hello) {
