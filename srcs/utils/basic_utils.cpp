@@ -75,3 +75,19 @@ void		myToupper(std::string & emma) {
 	for (; it != emma.end();it++)
 		*it = std::toupper(*it);
 }
+
+#include <ctime>
+#define TIME std::time_t t = std::time(0); std::tm* now = std::localtime(&t);
+
+int get_year   (void) { TIME; return (now->tm_year + 1900); }
+int get_month  (void) { TIME; return (now->tm_mon  + 1   ); }
+int get_day    (void) { TIME; return (now->tm_mday       ); }
+int get_hour   (void) { TIME; return (now->tm_hour       ); }
+int get_minute (void) { TIME; return (now->tm_min        ); }
+
+
+void send_to_client(User u, std::string msg, size_t delay)
+{
+	send(u.getFd(), msg.c_str(), msg.length(), delay);
+}
+

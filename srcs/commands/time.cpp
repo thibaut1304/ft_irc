@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   version.cpp                                        :+:      :+:    :+:   */
+/*   time.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 18:40:55 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/02 19:46:55 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/02 19:44:25 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/02 19:55:52 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-void version(Server * server, User user)
+
+void time(Server * server, User user)
 {
-	(void)server;
-	send_to_client(user, VERSION);
+(void)server;
+	std::stringstream ss;
+	std::string msg;
+
+	ss << get_hour() << ":" << get_minute();
+
+	msg = ss.str();
+
+	send_to_client(user, msg );
+
 }

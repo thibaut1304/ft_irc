@@ -20,7 +20,7 @@ void	Server::initCmd() {
 	_listCmd["PASS"]          = &pass;
 	_listCmd["NICK"]          = &nick;
 	_listCmd["USER"]          = &user;
-	//_listCmd["SERVER"]        = &server;
+	//_listCmd["SERVER"]        = &server; // TODO ?  The server message is used to tell a server that the other end of a new connection is a server.
 	//_listCmd["OPER"]          = &oper;
 	//_listCmd["QUIT"]          = &quit;
 	//_listCmd["SQUIT"]         = &squit;
@@ -41,7 +41,7 @@ void	Server::initCmd() {
 	_listCmd["VERSION"]       = &version;
 	//_listCmd["STATS"]         = &stats;
 	//_listCmd["LINKS"]         = &links;
-	//_listCmd["TIME"]          = &time;
+	_listCmd["TIME"]          = &time;
 	//_listCmd["CONNECT"]       = &connect;
 	//_listCmd["TRACE"]         = &trace;
 	//_listCmd["ADMIN"]         = &admin;

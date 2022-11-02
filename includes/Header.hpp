@@ -37,7 +37,7 @@
 # define _WHITE  "\033[0;37m"
 
 # include <algorithm>    // std::transform
-# include <cctype> 
+# include <cctype>
 
 # include <iostream>
 # include <cstdio>				// perror

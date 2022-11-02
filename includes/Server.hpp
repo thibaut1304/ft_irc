@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 14:57:23 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 19:56:01 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <Header.hpp>
 # include <Users.hpp>
 # include <commands.hpp>
+# include <sstream>
 
 
 # include <connectionReplies.hpp>
@@ -95,6 +96,14 @@ void splitCmdUser                    (std::vector<std::string> & sCmd, std::stri
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);
+
+int get_year   (void);
+int get_month  (void);
+int get_day    (void);
+int get_hour   (void);
+int get_minute (void);
+
+void send_to_client(User u, std::string msg, size_t delay = 0);
 
 void __debug_newConnection(std::string ip);
 void __debug_requestClient(char *buff);
