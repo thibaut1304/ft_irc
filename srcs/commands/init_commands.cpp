@@ -38,7 +38,7 @@ void	Server::initCmd() {
 	//_listCmd["KICK"]          = &kick;
 
 	// # SERVER QUERIES AND COMMANDS
-	//_listCmd["VERSION"]       = &version;
+	_listCmd["VERSION"]       = &version;
 	//_listCmd["STATS"]         = &stats;
 	//_listCmd["LINKS"]         = &links;
 	//_listCmd["TIME"]          = &time;

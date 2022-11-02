@@ -47,6 +47,7 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
+				commands/version.cpp   \
 
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
@@ -60,7 +61,6 @@ SRCS		:=  \
 				# commands/list.cpp      \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
-				# commands/version.cpp   \
 				# commands/stats.cpp     \
 				# commands/links.cpp     \
 				# commands/time.cpp      \

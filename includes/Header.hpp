@@ -24,7 +24,7 @@
 
 
 # define NAME    std::string(":ft_irc.local")
-# define VERSION std::string("V1.2")
+# define VERSION std::string("0.2")
 # define DATE    std::string("30/10/2022")
 
 # define _NC     "\033[0;0m"
