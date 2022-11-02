@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:29:55 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 17:55:20 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:59:35 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ class User;
 
 std::string	print_allBuff(std::vector<std::string>);
 std::string print_cmd(std::vector<std::string> buff);
+
+void cap          (Server *, User);
+
 
 // # REGISTRATION
 void pass          (Server *, User);

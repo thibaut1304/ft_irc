@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/02 17:58:44 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/02 18:01:22 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,45 +44,45 @@ SRCS		:=  \
 				commands/nick.cpp               \
 				commands/kill.cpp               \
 				commands/ping.cpp               \
-				commands/pass.cpp;     			\
-				commands/user.cpp;			    \
-				commands/cap.cpp;			    \
+				commands/pass.cpp     			\
+				commands/user.cpp			    \
+				commands/cap.cpp			    \
 
-				# commands/server.cpp;   \
-				# commands/oper.cpp;     \
-				# commands/quit.cpp;     \
-				# commands/squit.cpp;    \
-				# commands/join.cpp;     \
-				# commands/part.cpp;     \
-				# commands/mode.cpp;     \
-				# commands/topic.cpp;    \
-				# commands/names.cpp;    \
-				# commands/list.cpp;     \
-				# commands/invites.cpp;  \
-				# commands/kick.cpp;     \
-				# commands/version.cpp;  \
-				# commands/stats.cpp;    \
-				# commands/links.cpp;    \
-				# commands/time.cpp;     \
-				# commands/connect.cpp;  \
-				# commands/trace.cpp;    \
-				# commands/admin.cpp;    \
-				# commands/info.cpp;     \
-				# commands/privmsg.cpp;  \
-				# commands/notice.cpp;   \
-				# commands/who.cpp;      \
-				# commands/whois.cpp;    \
-				# commands/whowas.cpp;   \
-				# commands/pong.cpp;     \
-				# commands/error.cpp;    \
-				# commands/away.cpp;     \
-				# commands/rehash.cpp;   \
-				# commands/restart.cpp;  \
-				# commands/summon.cpp;   \
-				# commands/users.cpp;    \
-				# commands/wallops.cpp;  \
-				# commands/userhost.cpp; \
-				# commands/ison.cpp;     \
+				# commands/server.cpp    \
+				# commands/oper.cpp      \
+				# commands/quit.cpp      \
+				# commands/squit.cpp     \
+				# commands/join.cpp      \
+				# commands/part.cpp      \
+				# commands/mode.cpp      \
+				# commands/topic.cpp     \
+				# commands/names.cpp     \
+				# commands/list.cpp      \
+				# commands/invites.cpp   \
+				# commands/kick.cpp      \
+				# commands/version.cpp   \
+				# commands/stats.cpp     \
+				# commands/links.cpp     \
+				# commands/time.cpp      \
+				# commands/connect.cpp   \
+				# commands/trace.cpp     \
+				# commands/admin.cpp     \
+				# commands/info.cpp      \
+				# commands/privmsg.cpp   \
+				# commands/notice.cpp    \
+				# commands/who.cpp       \
+				# commands/whois.cpp     \
+				# commands/whowas.cpp    \
+				# commands/pong.cpp      \
+				# commands/error.cpp     \
+				# commands/away.cpp      \
+				# commands/rehash.cpp    \
+				# commands/restart.cpp   \
+				# commands/summon.cpp    \
+				# commands/users.cpp     \
+				# commands/wallops.cpp   \
+				# commands/userhost.cpp  \
+				# commands/ison.cpp      \
 
 # SRCS		+= SRCS_CMD
 SRCS_CLIENT := client.cpp
@@ -93,7 +93,7 @@ DEPS        =  $(OBJS:.o=.d)
 	# OBJS_CLIENT	:= $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 
 all: $(NAME)
-	# $(CLIENT)
+# $(CLIENT)
 
 -include $(DEPS)
 
