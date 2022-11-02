@@ -33,16 +33,16 @@ https://www.rfc-editor.org/rfc/rfc1459
 - [ ] SQUIT
 
 ## Channel Operations
-- [ ] JOIN
-- [ ] PART
-- [ ] MODE
-	- [ ] CHANNEL MODES
-	- [ ] USER MODES
-- [ ] TOPIC
-- [ ] NAMES
-- [ ] LIST
-- [ ] INVITES
-- [ ] KICK
+- [A] JOIN
+- [A] PART
+- [A] MODE
+	- [A] CHANNEL MODES
+	- [A] USER MODES
+- [A] TOPIC
+- [A] NAMES
+- [A] LIST
+- [A] INVITES
+- [A] KICK
 
 ## Server queries and commands
 - [ ] VERSION
@@ -64,8 +64,8 @@ https://www.rfc-editor.org/rfc/rfc1459
 - [ ] WHOWAS
 
 ## Misc messages
-- [ ] KILL
-- [ ] PING
+- [T] KILL
+- [T] PING
 - [ ] PONG
 - [ ] ERROR
 
