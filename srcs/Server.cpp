@@ -129,12 +129,6 @@ void	Server::killUserClient( User user ) {
 int		parsing      (User user) { (void)user; return (0); }
 void	generateError(User user) { (void)user; }
 
-void	Server::initCmd() {
-	_listCmd["PING"] = &ping;
-	_listCmd["KILL"] = &kill;
-	_listCmd["NICK"] = &nick;
-}
-
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
@@ -156,7 +150,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	}
 	else
 		itCmdList->second(this, _users[fd]);
-		
+
 	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
 	// execution
 	if (isValidUser) {

@@ -29,19 +29,59 @@ FLAGS   = -Wall -Wextra -Werror -std=c++98 -g
 DIR_INC = -I ./includes/
 DIR_INC += -I ./includes/numericReplies/
 
-SRCS		:= 	main.cpp \
-				Server.cpp \
-				User.cpp \
-				commands/ping.cpp \
-				commands/connection.cpp \
-				commands/nick.cpp \
-				commands/kill.cpp \
-				utils/print_input_allBuff.cpp \
-				utils/server_init.cpp \
-				utils/server_launch.cpp \
+SRCS		:=  \
+				main.cpp                        \
+				Server.cpp                      \
+				User.cpp                        \
+				utils/print_input_allBuff.cpp   \
+				utils/server_init.cpp           \
+				utils/server_launch.cpp         \
 				utils/server_new_connection.cpp \
-				utils/basic_utils.cpp \
-				utils/debug.cpp \
+				utils/basic_utils.cpp           \
+				utils/debug.cpp                 \
+				commands/connection.cpp         \
+				commands/init_commands.cpp      \
+				commands/nick.cpp               \
+				commands/kill.cpp               \
+				commands/ping.cpp               \
+
+				# commands/pass.cpp;     \
+				# commands/user.cpp;     \
+				# commands/server.cpp;   \
+				# commands/oper.cpp;     \
+				# commands/quit.cpp;     \
+				# commands/squit.cpp;    \
+				# commands/join.cpp;     \
+				# commands/part.cpp;     \
+				# commands/mode.cpp;     \
+				# commands/topic.cpp;    \
+				# commands/names.cpp;    \
+				# commands/list.cpp;     \
+				# commands/invites.cpp;  \
+				# commands/kick.cpp;     \
+				# commands/version.cpp;  \
+				# commands/stats.cpp;    \
+				# commands/links.cpp;    \
+				# commands/time.cpp;     \
+				# commands/connect.cpp;  \
+				# commands/trace.cpp;    \
+				# commands/admin.cpp;    \
+				# commands/info.cpp;     \
+				# commands/privmsg.cpp;  \
+				# commands/notice.cpp;   \
+				# commands/who.cpp;      \
+				# commands/whois.cpp;    \
+				# commands/whowas.cpp;   \
+				# commands/pong.cpp;     \
+				# commands/error.cpp;    \
+				# commands/away.cpp;     \
+				# commands/rehash.cpp;   \
+				# commands/restart.cpp;  \
+				# commands/summon.cpp;   \
+				# commands/users.cpp;    \
+				# commands/wallops.cpp;  \
+				# commands/userhost.cpp; \
+				# commands/ison.cpp;     \
 
 # SRCS		+= SRCS_CMD
 SRCS_CLIENT := client.cpp
@@ -49,10 +89,10 @@ DIR_SRCS    := ./srcs
 DIR_OBJ     := obj
 OBJS        := $(addprefix ${DIR_OBJ}/, ${SRCS:.cpp=.o})
 DEPS        =  $(OBJS:.o=.d)
-# OBJS_CLIENT	:= $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
+	# OBJS_CLIENT	:= $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 
 all: $(NAME)
-# $(CLIENT)
+	# $(CLIENT)
 
 -include $(DEPS)
 
