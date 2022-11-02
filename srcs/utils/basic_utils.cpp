@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 19:23:13 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/02 16:39:48 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:33:54 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void	splitCmd(std::vector<std::string> & sCmd, std::string cmd) {
 			pos++;
 		cmd.erase(0, pos);
 	}
+	int i = 0;
+	while (std::isspace(cmd.c_str()[i])) i++;
+	cmd.erase(0, i);
+	if (!cmd.empty())
+		sCmd.push_back(cmd.substr(0, pos));
 }
 
 void	print_buff(std::vector<std::string> buff) {

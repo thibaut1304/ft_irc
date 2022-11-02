@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 16:37:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:50:45 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,12 @@ void	Server::requestClient(struct epoll_event user) {
 		exit(errno);
 	}
 	buff[ret] = 0;
-	_buffUsers[user.data.fd].append(buff);
+	// _buffUsers[user.data.fd].append(buff);
 	// std::cout << _YELLOW << _buffUsers[user.data.fd] << _NC << std::endl;
-	exploreCmd(user.data.fd, buff);
+	int i = 0;
+	while (buff[i] && isspace(buff[i])) i++;
+	if (buff[i])
+		exploreCmd(user.data.fd, buff);
 	__debug_requestClient(buff);
 }
 
@@ -141,38 +144,22 @@ void	Server::initCmd() {
 }
 
 void	Server::exploreCmd(int fd, std::string buff) {
-	// int i = 0;
-	// while (buff.c_str()[i]) {
-		// if (std::isspace(buff.c_str()[i]))
-			// i++;
-	// }
-	// if (!buff.c_str()[i]) {
-		// std::cout << "RETURN" << std::endl;
-		// exit(1) ;
-	// }
 	if (buff.size() == 0)
 		return ;
+		
 	_buff = buff;
-	(void)fd;
+	
 	std::vector<std::string> tmp;
 	splitCmdIrssi(tmp, buff);
-	// print_buff(tmp);
 	std::vector<std::string>::iterator it_tmp = tmp.begin();
-		std::cout << *it_tmp <<  std::endl;
+	
 	for (;it_tmp != tmp.end(); it_tmp++) {
 		_allBuff.clear();
 		splitCmd(_allBuff, *it_tmp);
-		print_buff(_allBuff);
-		// std::cout << std::endl;
-		// std::cout << std::endl;
 		
 		std::vector<std::string>::iterator cmdName = _allBuff.begin();
 		myToupper(*cmdName);
-		// std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
 		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-		// check cmd exist
-		// check cmd params error
-		// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
 		std::cout << _YELLOW << "|-|" << *cmdName << "|-|" << _NC << std::endl;
 		if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
 			return ;
@@ -182,9 +169,6 @@ void	Server::exploreCmd(int fd, std::string buff) {
 			send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
 		}
 		else {
-	#if DEBUG
-		std::cout << _CYAN << "CMD FIND" << _NC << std::endl;
-	#endif
 			itCmdList->second(this, _users[fd]);
 		}
 
@@ -198,17 +182,12 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		}
 		const bool isValidUser = _users[fd].getValidUser();
 
-		// std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
-		// execution
-		if (isValidUser) {
+		if (isValidUser)
 			std::cout << _GREEN << "USER OK" << _NC << std::endl;
-		}
-		else {
+		else
 			std::cout << _RED << "USER NOK" << _NC << std::endl;
-		}
-	// 	_buffUsers[fd].clear();
-		_allBuff.clear();
 	}
+	buff.clear();
 }
 
 // void	Server::cmdPing(User user, std::string hello) {
