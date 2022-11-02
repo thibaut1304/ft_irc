@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:40:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 15:04:56 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:37:49 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool	search_all_user(Server *serv, User user) {
 }
 
 void	nick(Server *serv, User user) {
-#if DEBUG
+	
 	std::cout << _CYAN << "CMD NICK" << _NC << std::endl;
-#endif
+	
 	if (serv->_allBuff.size() == 2 && search_all_user(serv, user)) {
 		std::string msg = NAME + ERR_NICKNAMEINUSE(print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);

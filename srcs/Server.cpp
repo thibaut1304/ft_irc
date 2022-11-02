@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 16:25:25 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:37:14 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,17 @@ void	Server::initCmd() {
 }
 
 void	Server::exploreCmd(int fd, std::string buff) {
-	int i = 0;
-	while (buff.c_str()[i]) {
-		if (std::isspace(buff.c_str()[i]))
-			i++;
-	}
-	if (buff.c_str()[i] == 0) {
-		std::cout << "RETURN" << std::endl;
+	// int i = 0;
+	// while (buff.c_str()[i]) {
+		// if (std::isspace(buff.c_str()[i]))
+			// i++;
+	// }
+	// if (!buff.c_str()[i]) {
+		// std::cout << "RETURN" << std::endl;
+		// exit(1) ;
+	// }
+	if (buff.size() == 0)
 		return ;
-	}
-	std::cout << "|" << buff << "|" << std::endl;
 	_buff = buff;
 	(void)fd;
 	std::vector<std::string> tmp;
@@ -166,14 +167,13 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		// std::cout << std::endl;
 		
 		std::vector<std::string>::iterator cmdName = _allBuff.begin();
-		// myToupper(*cmdName);
+		myToupper(*cmdName);
 		// std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
 		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-		std::cout << "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" << std::endl;
 		// check cmd exist
 		// check cmd params error
 		// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
-		std::cout << _YELLOW << "|" << *cmdName << "|" << _NC << std::endl;
+		std::cout << _YELLOW << "|-|" << *cmdName << "|-|" << _NC << std::endl;
 		if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
 			return ;
 		}

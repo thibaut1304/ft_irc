@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 19:23:13 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/02 15:22:13 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:39:48 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	splitCmdIrssi(std::vector<std::string> & sCmd, std::string cmd) {
 
 	size_t					pos = 0;
-	std::string				delimiter = "\n";
+	std::string				delimiter = "\r\n";
 	std::string::iterator	it;
 
 	while ((pos = cmd.find_first_of(delimiter)) != std::string::npos)
