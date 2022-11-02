@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 14:24:47 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 18:26:09 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ int Server::newConnection()
 	std::string ip;
 
 	fdNew = server_new_connection_accept(_fdServer, _clientAddress, _users.size());
-	ip = inet_ntoa(_clientAddress.sin_addr);
+	if (fdNew == -1)
+		return (1);
+	ip    = inet_ntoa(_clientAddress.sin_addr);
 	__debug_newConnection(ip);
 	server_new_connection_epoll_ctl(fdNew, _fdPoll);
 	_users[fdNew] = User(fdNew, ip);
@@ -143,7 +145,7 @@ void Server::initCmd()
 {
 	_listCmd["PING"] = &ping;
 	_listCmd["KILL"] = &kill;
-	// _listCmd["NICK"] = &nick;
+	_listCmd["NICK"] = &nick;
 }
 bool Server::check_nick(std::string nick)
 {
@@ -188,11 +190,9 @@ void Server::parse_buff(int fd, std::vector<std::string> cmd)
 void Server::exploreCmd(int fd, std::string buff)
 {
 	if (buff.size() == 0)
-		return;
-	std::vector<std::string> allBuff;
-	splitCmd(allBuff, buff);
-	parse_buff(fd, allBuff);
-	std::vector<std::string>::iterator cmdName = allBuff.begin();
+		return ;
+	splitCmd(_allBuff, buff);
+	std::vector<std::string>::iterator cmdName = _allBuff.begin();
 	myToupper(*cmdName);
 	std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
 	const bool isValidUser = _users[fd].getValidUser();
@@ -200,8 +200,17 @@ void Server::exploreCmd(int fd, std::string buff)
 	// check cmd exist
 	// check cmd params error
 	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
-	if (itCmdList != _listCmd.end())
+	if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
+		return ;
+	}
+	else if (itCmdList == _listCmd.end()) {
+		std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
+		send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
+	}
+	else
 		itCmdList->second(this, _users[fd]);
+		
+	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
 	// execution
 	if (isValidUser)
 	{
@@ -216,6 +225,7 @@ void Server::exploreCmd(int fd, std::string buff)
 		std::cout << _RED << *cmdName << _NC << std::endl;
 		// suite de toute les autres commande sauf user et dire que deja register !
 	}
+	_allBuff.clear();
 }
 
 void Server::cmdPing(User user, std::string hello)
@@ -230,39 +240,44 @@ void Server::cmdPing(User user, std::string hello)
 	}
 }
 
-void Server::pingTime(void)
-{
-	double tmp;
-	// std::string msg;
-	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
+// void	Server::cmdPing(User user, std::string hello) {
+// 	std::string msg = PING(hello);
+// 	__debug_exploreCmd();
+// 	// if (user.getFd() == user.end())
+// 	// return ;
+// 	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+// 		perror("Error send msg ping to client");
+// 	}
+// }
 
-	for (; it != ite; it++)
-	{
-		tmp = difftime(time(NULL), it->second.getTimeActivity());
-		if (tmp > PING_TIME && it->second.getPingStatus() == false)
-		{
-			cmdPing(it->second, it->second.getHostname());
-			// msg = PING(it->second.getHostname());
-			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-			// 	perror("Error send msg ping to client");
-			// }
-			it->second.setPingStatus(true);
-			it->second.setTimeActivity();
-		}
-		else if (it->second.getPingStatus() == true)
-		{
-			// msg.clear();
-			// msg = "Erreur ping TimeOut";
-			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			if (tmp > PING_TIME)
-			{
-				cmdPing(it->second, "Erreur ping timeOut\n");
-				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-				// 	perror("Error send msg ping to client");
-				// }
-				// kill client !
-				killUserClient(it->second);
-			}
-		}
-	}
-}
+// void	Server::pingTime( void ) {
+// 	double tmp;
+// 	// std::string msg;
+// 	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
+
+// 	for (; it != ite; it++) {
+// 		tmp = difftime(time(NULL), it->second.getTimeActivity());
+// 		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
+// 			cmdPing(it->second, it->second.getHostname());
+// 			// msg = PING(it->second.getHostname());
+// 			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+// 			// 	perror("Error send msg ping to client");
+// 			// }
+// 			it->second.setPingStatus(true);
+// 			it->second.setTimeActivity();
+// 		}
+// 		else if (it->second.getPingStatus() == true) {
+// 			// msg.clear();
+// 			// msg = "Erreur ping TimeOut";
+// 			tmp = difftime(time(NULL), it->second.getTimeActivity());
+// 			if (tmp > PING_TIME) {
+// 				cmdPing(it->second, "Erreur ping timeOut\n");
+// 				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
+// 				// 	perror("Error send msg ping to client");
+// 				// }
+// 				//kill client !
+// 				killUserClient(it->second);
+// 			}
+// 		}
+// 	}
+// }

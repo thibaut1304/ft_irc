@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_launch.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:23:04 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/10/31 18:23:42 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:59:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void server_launch_start(int fdServer, int fdPoll, Server & server)
 			}
 		}
 	}
+	__debug_unknown(server);
 }
 

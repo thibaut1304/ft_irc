@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:48 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 13:57:21 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/01 14:47:02 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class User {
 
 		int         getFd()           const;
 		std::string getNickname()     const;
+		void		setNickname(std::string);
 		std::string getUsername()     const;
 		std::string getFullName()     const;
 		std::string getHostname()     const;
