@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/01 19:30:16 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/02 14:58:33 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ SRCS		:= 	main.cpp \
 				commands/nick.cpp \
 				commands/kill.cpp \
 				commands/user.cpp \
+				commands/cap.cpp \
+				commands/pass.cpp \
 				utils/print_input_allBuff.cpp \
 				utils/server_init.cpp \
 				utils/server_launch.cpp \

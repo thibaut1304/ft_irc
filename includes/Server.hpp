@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 22:33:10 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:57:23 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void server_launch_start             (int fdServer, int fdPoll, Server      & se
 int server_new_connection_accept     (int fdServer, sockaddr_in & clientAddress, int size);
 void server_new_connection_epoll_ctl (int fdNew, int fdPoll);
 
-void splitCmdUser                        (std::vector<std::string> & sCmd, std::string cmd);
+void splitCmdIrssi                   (std::vector<std::string> & sCmd, std::string cmd);
+void splitCmdUser                    (std::vector<std::string> & sCmd, std::string cmd);
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);

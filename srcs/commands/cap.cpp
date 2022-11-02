@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.hpp                                       :+:      :+:    :+:   */
+/*   cap.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 17:29:55 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 14:58:25 by thhusser         ###   ########.fr       */
+/*   Created: 2022/11/02 14:51:27 by thhusser          #+#    #+#             */
+/*   Updated: 2022/11/02 15:15:01 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include <Server.hpp>
 
-class Server;
-class User;
-
-std::string	print_allBuff(std::vector<std::string>);
-std::string print_cmd(std::vector<std::string> buff);
-
-void	ping(Server *, User);
-void	kill(Server *, User);
-void	nick(Server *, User);
-void	user(Server *, User);
-void	cap(Server *, User);
-void	pass(Server *, User);
+void	cap(Server *serv, User user) {
+#if DEBUG == 1
+	std::cout << _CYAN << "CMD CAP" << _NC << std::endl;
+#endif
+	(void)serv;
+	(void)user;
+	return ;
+}

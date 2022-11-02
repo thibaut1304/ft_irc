@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 19:11:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 00:13:09 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:05:13 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static std::string	findPoint(std::vector<std::string> & all) {
 
 void	user(Server *serv, User user) {
 	std::vector<std::string> all;
-	
+#if DEBUG
+	std::cout << _CYAN << "CMD USER" << _NC << std::endl;
+#endif
 	std::string bis = findPoint(serv->_allBuff);
 	if (bis.empty() || serv->_allBuff.size() != 4) {
 		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff));
