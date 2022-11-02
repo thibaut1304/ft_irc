@@ -16,4 +16,66 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 
 - Connection avec netcat
 
-- :NickName!UserName@ip JOIN servername :efjeji 
+- :NickName!UserName@ip JOIN servername :efjeji
+
+
+# REFERENCE
+https://www.rfc-editor.org/rfc/rfc1459
+
+# COMMANDS
+## Connection Registration
+- [ ] PASS
+- [x] NICK
+- [x] USER
+- [ ] SERVER
+- [ ] OPER
+- [ ] QUIT
+- [ ] SQUIT
+
+## Channel Operations
+- [ ] JOIN
+- [ ] PART
+- [ ] MODE
+	- [ ] CHANNEL MODES
+	- [ ] USER MODES
+- [ ] TOPIC
+- [ ] NAMES
+- [ ] LIST
+- [ ] INVITES
+- [ ] KICK
+
+## Server queries and commands
+- [ ] VERSION
+- [ ] STATS
+- [ ] LINKS
+- [ ] TIME
+- [ ] CONNECT
+- [ ] TRACE
+- [ ] ADMIN
+- [ ] INFO
+
+## Sending messages
+- [ ] PRIVMSG
+- [ ] NOTICE
+
+## User based queries
+- [ ] WHO
+- [ ] WHOIS
+- [ ] WHOWAS
+
+## Misc messages
+- [ ] KILL
+- [ ] PING
+- [ ] PONG
+- [ ] ERROR
+
+## Optional messages
+- [ ] AWAY
+- [ ] REHASH
+- [ ] RESTART
+- [ ] SUMMON
+- [ ] USERS
+- [ ] WALLOPS
+- [ ] USERHOST
+- [ ] ISON
+
