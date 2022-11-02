@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 22:49:21 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/02 19:28:39 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,15 @@
 /* .................. Error User ........................ */
 /* ...................................................... */
 
-# define ERR_NEEDMOREPARAMS(cmd) (" 461 * " + cmd + " :Not enough parameters" + "\r\n")
+# define ERR_NEEDMOREPARAMS(cmd, nick) (" 461 " + nick + " " + cmd + " :Not enough parameters" + "\r\n")
 # define ERR_ALREADYREGISTRED(nick) (" 462 " + nick + " :You may not reregister" + "\r\n")
+
+/* ...................................................... */
+/* .................. Error Ping ........................ */
+/* ...................................................... */
+
+# define ERR_NOORIGIN "409 :No origin specified" + "\r\n"
+
+# define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
+
+# define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
