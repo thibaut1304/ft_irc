@@ -141,54 +141,7 @@ int parsing(User user)
 }
 void generateError(User user) { (void)user; }
 
-void Server::initCmd()
-{
-	_listCmd["PING"] = &ping;
-	_listCmd["KILL"] = &kill;
-	_listCmd["NICK"] = &nick;
-}
-bool Server::check_nick(std::string nick)
-{
-	for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); it++)
-		if (nick == it->second.getNickname())
-			return (1); // ERR_NICKCOLLISION
-	if ()
-
-}
-void Server::parse_buff(int fd, std::vector<std::string> cmd)
-{
-
-	for (std::vector<std::string>::iterator it = cmd.begin(); it != cmd.end(); it++)
-		myToupper(*it);
-	for (std::vector<std::string>::iterator it = cmd.begin(); it != cmd.end(); it++)
-	{
-		if (*it == "PASS")
-		{
-			if (*(it + 1) == getPasswd())
-				_users[fd].setValidPasswd(true);
-			else
-			{
-				perror("Nickname not ok");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else if (*it == "NICK")
-		{
-			if (check_nick(*(it + 1)))
-			{
-				perror("Nickname not ok");
-				exit(EXIT_FAILURE);
-			}
-			else
-				_users[fd].setNickname(*(it + 1));
-		}
-		else
-			std::cout << "nothing to parse\n";
-	}
-};
-
-void Server::exploreCmd(int fd, std::string buff)
-{
+void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
 	splitCmd(_allBuff, buff);
@@ -209,7 +162,7 @@ void Server::exploreCmd(int fd, std::string buff)
 	}
 	else
 		itCmdList->second(this, _users[fd]);
-		
+
 	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
 	// execution
 	if (isValidUser)
