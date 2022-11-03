@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 17:18:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:47:22 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # define NAME    std::string(":ft_irc.local")
 # define VERSION std::string("0.2")
+# define NAME_V  std::string("ft_irc.local")
 # define DATE    std::string("30/10/2022")
 
 # define _NC     "\033[0;0m"
