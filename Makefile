@@ -48,7 +48,7 @@ SRCS		:=  \
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
 				commands/version.cpp            \
-				 commands/time.cpp      \
+				commands/time.cpp               \
 
 				# commands/server.cpp    \
 				# commands/oper.cpp      \

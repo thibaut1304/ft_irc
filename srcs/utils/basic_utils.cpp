@@ -85,9 +85,15 @@ int get_day    (void) { TIME; return (now->tm_mday       ); }
 int get_hour   (void) { TIME; return (now->tm_hour       ); }
 int get_minute (void) { TIME; return (now->tm_min        ); }
 
-
-void send_to_client(User u, std::string msg, size_t delay)
+void send_to_client(int fd, std::string code, std::string msg)
 {
-	send(u.getFd(), msg.c_str(), msg.length(), delay);
+	int delay = 0;
+	std::string buffer;
+
+	if (Debug)
+		buffer += code + " ";
+	buffer += msg;
+
+	send(fd, buffer.c_str(), buffer.length(), delay);
 }
 

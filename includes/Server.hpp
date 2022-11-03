@@ -103,7 +103,7 @@ int get_day    (void);
 int get_hour   (void);
 int get_minute (void);
 
-void send_to_client(User u, std::string msg, size_t delay = 0);
+void send_to_client(int fd, std::string code, std::string msg);
 
 void __debug_newConnection(std::string ip);
 void __debug_requestClient(char *buff);
