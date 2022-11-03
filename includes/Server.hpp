@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 19:56:01 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:17:51 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ class Server {
 		int			newConnection(void);
 		void		requestClient(struct epoll_event);
 		void		pingTime();
+		void 		server_launch_start (int fdServer, int fdPoll, Server      & server);
 		void		cmdPing(User, std::string);
 		void		parse(int);
-		void		killUserClient(User);
+		void		killUserClient(int);
 
 		void		initCmd();
 

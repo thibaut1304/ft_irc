@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:40:17 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 14:40:18 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:18:35 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	kill(Server *serv, User user) {
 	std::cout << "CMD KILL " << user.getFd() << " port number " << serv->getPort() << std::endl;
 		send(user.getFd(), "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
-	serv->killUserClient(user);
+	serv->killUserClient(user.getFd());
 }

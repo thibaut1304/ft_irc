@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 19:53:32 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:35:30 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,18 @@
 // # define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
 
 # define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
+
+/* ...................................................... */
+/* ......... Reply for quit and timeout ................. */
+/* ...................................................... */
+
+
+# define REGISTRATION_TIMEOUT(name, ip) ("ERROR :Closink link: (" + name + "@" + ip + ") [Registration timeout]\r\n")
+// ERROR :Closing link: (811AAAAAC@172.17.0.1) [Registration timeout]  -> 60s
+
+# define PING_TIMEOUT(username, ip) ("ERROR :Closink link: (" + username + "@" + ip + ") [Ping timeout: 120 seconds]\r\n")
+// ERROR :Closing link: (1@172.17.0.1) [Ping timeout: 120 seconds]  -> une fois connecte
+
+# define CLIENT_EXIT(user, ip) ("ERROR :Closing link: (" + user + "@" + ip + ") [Client exited]\r\n")
+// quit
+// ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir
