@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 21:34:46 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:37:16 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void	Server::requestClient(struct epoll_event user) {
 
 void	Server::killUserClient( int fd ) {
 	if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
-		std::cout << fd << std::endl;
 		perror("Error epoll ctl del client");
 		exit(EXIT_FAILURE);
 	}
@@ -177,18 +176,6 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	_users[fd].setTimeActivity();
 	buff.clear();
 }
-
-void	Server::cmdPing(User user, std::string msg) {
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
-}
-
-// quit
-// ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir
-
-// ERROR :Closing link: (811AAAAAC@172.17.0.1) [Registration timeout]  -> 60s
-// ERROR :Closing link: (1@172.17.0.1) [Ping timeout: 120 seconds]  -> une fois connecte
-
-
 
 void	Server::pingTime( void ) {
 	double tmp;
