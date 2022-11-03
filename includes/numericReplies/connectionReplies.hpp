@@ -32,15 +32,20 @@
 # define RPL_MYINFO(servername, version, userMode, channelMode) (" " + servername + " " + version + " " + userMode + " " + channelMode + "\r\n"); 
 
 /* ...................................................... */
+/* ................... Server queries ................... */
+/* ...................................................... */
+
+/* ...................................................... */
 /* .................. Error Nick ........................ */
 /* ...................................................... */
 
-# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname"         + "\r\n")
+# define ERR_NOSUCHSERVER           (" 402 "   + NAME + " :No such server"             + "\r\n");
 # define ERR_NONICKNAMEGIVEN(cmd)   (" 431 * " + cmd  + " :No nickname given"          + "\r\n")
+# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname"         + "\r\n")
 # define ERR_NICKNAMEINUSE(nick)    (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
+
 // Uniquement pour une interface inter serveur
 # define ERR_NICKCOLLISION(nick, user, host) (" " + nick + " :Nickname collision KILL from " + user + "@" + host + "\r\n")
-
 
 /* ...................................................... */
 /* ................ Unknown command ..................... */

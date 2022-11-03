@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "connectionReplies.hpp"
 
 
 //    Command: VERSION
@@ -50,8 +51,7 @@ void version(Server * server, User user)
 
 	if (NAME != NAME) // TODO makes no sense - how do we check server name
 	{
-		msg =  NAME;
-		msg += " :No such server";
+		msg =  ERR_NOSUCHSERVER;
 		send_to_client(destination, "402",  msg);
 		return ;
 	}

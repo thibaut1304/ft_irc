@@ -31,14 +31,25 @@ DIR_INC += -I ./includes/numericReplies/
 
 SRCS		:=  \
 				main.cpp                        \
-				Server.cpp                      \
-				User.cpp                        \
-				utils/print_input_allBuff.cpp   \
-				utils/server_init.cpp           \
-				utils/server_launch.cpp         \
-				utils/server_new_connection.cpp \
-				utils/basic_utils.cpp           \
-				utils/debug.cpp                 \
+				core/Server.cpp                 \
+				core/User.cpp                   \
+				core/server/server_init.cpp           \
+				core/server/server_launch.cpp         \
+				core/server/server_new_connection.cpp \
+				\
+				utils/basic/myToupper.cpp       \
+				utils/basic/get_local_time.cpp  \
+				utils/basic/send_to_client.cpp  \
+				\
+				utils/print/print_buff.cpp      \
+				utils/print/print_cmd.cpp       \
+				utils/print/print_allBuff.cpp   \
+				\
+				utils/split/splitCmdIrssi.cpp   \
+				utils/split/splitCmdUser.cpp    \
+				utils/split/splitCmd.cpp        \
+				\
+				utils/debug/debug.cpp                 \
 				\
 				commands/connection.cpp         \
 				commands/init_commands.cpp      \
