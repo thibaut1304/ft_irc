@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/02 17:57:19 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:04:56 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	Server::initCmd() {
 	_listCmd["USER"]          = &user;
 	//_listCmd["SERVER"]        = &server; // TODO ?  The server message is used to tell a server that the other end of a new connection is a server.
 	//_listCmd["OPER"]          = &oper;
-	//_listCmd["QUIT"]          = &quit;
+	_listCmd["QUIT"]          = &quit;
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS

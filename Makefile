@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/03 19:50:35 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/03 22:00:02 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,13 +65,13 @@ SRCS		:=  \
 				commands/trace.cpp              \
 				commands/admin.cpp              \
 				commands/stats.cpp              \
+				commands/quit.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 
 				# TODO
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
-				# commands/quit.cpp      \
 				# commands/squit.cpp     \
 				# # adlancel
 				# commands/join.cpp      \

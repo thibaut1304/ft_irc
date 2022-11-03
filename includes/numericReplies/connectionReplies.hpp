@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 21:35:30 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:02:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@
 # define PING_TIMEOUT(username, ip) ("ERROR :Closink link: (" + username + "@" + ip + ") [Ping timeout: 120 seconds]\r\n")
 // ERROR :Closing link: (1@172.17.0.1) [Ping timeout: 120 seconds]  -> une fois connecte
 
-# define CLIENT_EXIT(user, ip) ("ERROR :Closing link: (" + user + "@" + ip + ") [Client exited]\r\n")
+# define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
 // quit
 // ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir

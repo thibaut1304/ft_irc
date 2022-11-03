@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 21:40:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:49:30 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 # include <string>
 
-# define REGIS_TIME 10
-# define PING_TIME 120
+# define REGIS_TIME 60  // 60
+# define PING_TIME 120  // 120
 
 
 # define NAME    std::string(":ft_irc.local")

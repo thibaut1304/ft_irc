@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 21:37:16 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:44:59 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,8 @@ void	Server::pingTime( void ) {
 		if (tmp > REGIS_TIME && it->second.getValidUser() == false && it->second.getPingStatus() == false) {
 			std::string msg = REGISTRATION_TIMEOUT(NAME_V, it->second.getIp());
 			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
-			killUserClient(it->second.getFd());
+			if (it->second.getIsKill() == false)
+				killUserClient(it->second.getFd());
 			vecFd.push_back(it->second.getFd());
 			it->second.setPingStatus(true);
 		}
@@ -197,7 +198,11 @@ void	Server::pingTime( void ) {
 			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
 			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
 			vecFd.push_back(it->second.getFd());
-			killUserClient(it->second.getFd());
+			if (it->second.getIsKill() == false)
+				killUserClient(it->second.getFd());
+		}
+		else if (it->second.getIsKill() == true) {
+			vecFd.push_back(it->second.getFd());
 		}
 	}
 	std::vector<int>::iterator itFd = vecFd.begin();
