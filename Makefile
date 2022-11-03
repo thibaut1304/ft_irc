@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/02 18:01:22 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/03 19:50:35 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ _CYAN   = \033[0;36m
 _WHITE  = \033[0;37m
 
 DEBUG   = 1
-OS      = $(shell echo -n ${GDMSESSION})
 NAME    = ft_irc
 CLIENT  = client
 RM      = rm      -rf

@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 19:46:57 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:53:32 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@
 
 # define ERR_NOORIGIN "409 :No origin specified" + "\r\n"
 
-# define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
+// # define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
 
 # define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
