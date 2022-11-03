@@ -39,7 +39,7 @@ SRCS		:=  \
 				utils/server_new_connection.cpp \
 				utils/basic_utils.cpp           \
 				utils/debug.cpp                 \
-				\ # thhusser
+				\
 				commands/connection.cpp         \
 				commands/init_commands.cpp      \
 				commands/nick.cpp               \
@@ -48,7 +48,7 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
-				\ # wszurkow
+				\
 				commands/version.cpp            \
 				commands/time.cpp               \
 				commands/info.cpp               \
