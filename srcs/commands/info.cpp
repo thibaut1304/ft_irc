@@ -37,3 +37,9 @@
 //                      send all its 'info' in a series of RPL_INFO messages
 //                      with a RPL_ENDOFINFO reply to indicate the end of the
 //                      replies.
+
+void info (Server * server, User user)
+{
+	(void)server;
+	(void)user;
+}

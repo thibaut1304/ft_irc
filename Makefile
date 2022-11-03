@@ -39,6 +39,7 @@ SRCS		:=  \
 				utils/server_new_connection.cpp \
 				utils/basic_utils.cpp           \
 				utils/debug.cpp                 \
+				\ # thhusser
 				commands/connection.cpp         \
 				commands/init_commands.cpp      \
 				commands/nick.cpp               \
@@ -47,13 +48,17 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
+				\ # wszurkow
 				commands/version.cpp            \
 				commands/time.cpp               \
+				commands/info.cpp               \
 
+				# TODO
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/quit.cpp      \
 				# commands/squit.cpp     \
+				# # adlancel
 				# commands/join.cpp      \
 				# commands/part.cpp      \
 				# commands/mode.cpp      \
@@ -62,12 +67,12 @@ SRCS		:=  \
 				# commands/list.cpp      \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
+				#
 				# commands/stats.cpp     \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
 				# commands/trace.cpp     \
 				# commands/admin.cpp     \
-				# commands/info.cpp      \
 				# commands/privmsg.cpp   \
 				# commands/notice.cpp    \
 				# commands/who.cpp       \
