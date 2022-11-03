@@ -12,8 +12,6 @@
 
 #include "Server.hpp"
 
-#define STR std::string
-
 // 391     RPL_TIME "<server> :<string showing server's local time>"
 //
 // When replying to the TIME message, a server must send
@@ -29,29 +27,25 @@
 
 void time(Server * server, User user)
 {
-	(void)server;
 
-	int destination = user.getFd();
-	std::stringstream server_time;
-	std::string msg;
+	int                  destination = user.getFd();
+	std::string          msg;
+	std::stringstream    server_time;
+
+	if (check_ERR_NOSUCHSERVER(server, user) == NOT_OK_)
+		return ;
 
 	server_time         \
-		<< " "          \
 		<< get_hour()   \
 		<< ":"          \
+		<< ((get_minute() < 10) ? "0" : "") \
 		<< get_minute() \
+		<< " CET"
 		<< std::endl;
 
-
-	if (NAME != NAME) // TODO makes no sense - how do we check server name
-	{
-		msg =  NAME;
-		msg += " :No such server";
-		send_to_client(destination, "402",  msg);
-		return ;
-	}
-
 	msg =  NAME;
+	msg += " ";
+	msg += ":";
 	msg += server_time.str();
-	send_to_client(destination, "391",  msg);
+	send_to_client(destination, msg, "391");
 }

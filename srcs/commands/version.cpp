@@ -12,7 +12,6 @@
 
 #include "Server.hpp"
 
-
 //    Command: VERSION
 //    Parameters: [<server>]
 //
@@ -41,22 +40,15 @@
 //    Used to indicate the server name given currently
 //    doesn't exist.
 
-
 void version(Server * server, User user)
 {
-	(void)server;
-	int destination = user.getFd();
-	std::string msg;
+	int                  destination = user.getFd();
+	std::string          msg;
 
-	if (0) // TODO makes no sense - how do we check server name
-	{
-		msg =  ERR_NOSUCHSERVER("test");
-		send_to_client(destination, msg);
+	if (check_ERR_NOSUCHSERVER(server, user) == NOT_OK_)
 		return ;
-	}
 
 	std::string debuglevel = Debug ? "1" : "0";
-
 	msg += VERSION;
 	msg += ".debuglevel0" + debuglevel + " ";
 	msg += ":This is a comment describing our irc server\n";

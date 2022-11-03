@@ -63,6 +63,8 @@ SRCS		:=  \
 				commands/version.cpp            \
 				commands/time.cpp               \
 				commands/info.cpp               \
+				\
+				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 
 				# TODO
 				# commands/server.cpp    \

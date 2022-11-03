@@ -21,6 +21,7 @@
 
 # include <connectionReplies.hpp>
 # include <serverQueries.hpp>
+# include "Header_wsz.hpp"
 
 # include <cerrno>
 

@@ -45,7 +45,7 @@ void	Server::initCmd() {
 	//_listCmd["CONNECT"]       = &connect;
 	//_listCmd["TRACE"]         = &trace;
 	//_listCmd["ADMIN"]         = &admin;
-	//_listCmd["INFO"]          = &info;
+	_listCmd["INFO"]          = &info;
 
 	// # SENDING MESSAGES
 	//_listCmd["PRIVMSG"]       = &privmsg;
