@@ -53,7 +53,4 @@ class User {
 
 		bool        getPingStatus()   const;
 		void        setPingStatus(bool);
-
-		void		setNickname(std::string nick);
-
 };

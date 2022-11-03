@@ -79,7 +79,7 @@ int Server::newConnection()
 	fdNew = server_new_connection_accept(_fdServer, _clientAddress, _users.size());
 	if (fdNew == -1)
 		return (1);
-	ip    = inet_ntoa(_clientAddress.sin_addr);
+	ip = inet_ntoa(_clientAddress.sin_addr);
 	__debug_newConnection(ip);
 	server_new_connection_epoll_ctl(fdNew, _fdPoll);
 	_users[fdNew] = User(fdNew, ip);
@@ -141,9 +141,10 @@ int parsing(User user)
 }
 void generateError(User user) { (void)user; }
 
-void	Server::exploreCmd(int fd, std::string buff) {
+void Server::exploreCmd(int fd, std::string buff)
+{
 	if (buff.size() == 0)
-		return ;
+		return;
 	splitCmd(_allBuff, buff);
 	std::vector<std::string>::iterator cmdName = _allBuff.begin();
 	myToupper(*cmdName);
@@ -153,17 +154,19 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	// check cmd exist
 	// check cmd params error
 	// Si user pas enregistrer et commande non existant air ! si enregistre command unknown
-	if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
-		return ;
+	if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false)
+	{
+		return;
 	}
-	else if (itCmdList == _listCmd.end()) {
+	else if (itCmdList == _listCmd.end())
+	{
 		std::string msg = NAME + ERR_UNKNOWNCOMMAND(_users[fd].getNickname(), print_cmd(_allBuff));
 		send(_users[fd].getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else
 		itCmdList->second(this, _users[fd]);
 
-	std::cout << _YELLOW << _users[fd].getNickname() << _NC <<std::endl;
+	std::cout << _YELLOW << _users[fd].getNickname() << _NC << std::endl;
 	// execution
 	if (isValidUser)
 	{
@@ -191,6 +194,23 @@ void Server::cmdPing(User user, std::string hello)
 	{
 		perror("Error send msg ping to client");
 	}
+}
+
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ------------------------- CHANNEL CREATION/FIND -------------------------- */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+Channel	*Server::channelExists(std::string name)
+{
+	for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		if (name.compare(it->first) == 0)
+			return (it->second);
+	return(NULL);
+}
+void Server::createChannel(std::string name, User *adminUser)
+{
+	(void) adminUser, 
+	(void) name;
 }
 
 // void	Server::cmdPing(User user, std::string hello) {

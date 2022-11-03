@@ -54,5 +54,6 @@
 # include <memory>
 # include <map>
 # include <vector>
+# include <set>
 
 #endif

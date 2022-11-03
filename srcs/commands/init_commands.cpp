@@ -24,7 +24,7 @@ void	Server::initCmd() {
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS
-	//_listCmd["JOIN"]          = &join;
+	_listCmd["JOIN"]          = &join;
 	//_listCmd["PART"]          = &part;
 	//_listCmd["MODE"]          = &mode;
 	//_listCmd["CHANNEL MODES"] = &; // TODO ?

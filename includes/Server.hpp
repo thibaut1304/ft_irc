@@ -14,6 +14,7 @@
 # define _SERVER_HPP_
 
 # include <Header.hpp>
+# include <Channel.hpp>
 # include <Users.hpp>
 # include <commands.hpp>
 
@@ -46,12 +47,8 @@ class Server {
 
         typedef void (*cmdFunc)(Server *,User);
 		std::map<std::string, cmdFunc>	_listCmd;
-<<<<<<< HEAD
-=======
-	
-
->>>>>>> master
 	public:
+		std::map<std::string, Channel*> _channels;
 		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
 		std::vector<std::string> _allBuff;
 
@@ -75,10 +72,9 @@ class Server {
 
 		void 		acceptUser(User);
 		void		exploreCmd(int, std::string);
-void parse_buff						 (int fd, std::vector<std::string> cmd);
-bool check_nick(std::string nick);
 
-
+		Channel		*channelExists(std::string name);
+		void		createChannel(std::string, User *adminUser);
 };
 
 void server_init_socket_fd           (int *fd);
@@ -94,6 +90,7 @@ int server_new_connection_accept     (int fdServer, sockaddr_in & clientAddress,
 void server_new_connection_epoll_ctl (int fdNew, int fdPoll);
 
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
+void split                        	 (std::vector<std::string> & sCmd, std::string cmd, std::string delimiter);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);
 

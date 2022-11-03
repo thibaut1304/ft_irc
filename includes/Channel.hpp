@@ -18,14 +18,21 @@
 class Channel
 {
 private:
-std::string _name;
-User *channelAdmin;
+    std::string _name;
+    std::string _passwd;
+    User *_channelAdmin;
+    std::set<User *> _invited_users;
+    std::set<User *> _users;
+    // std::vector<User*> _banned_users;
+    bool _invite_only;
+    bool _passwd_required;
+
 public:
     Channel(std::string ChannelName, User *ChannelAdmin);
+    Channel(std::string ChannelName, User *ChannelAdmin, std::string passwd);
     Channel(Channel const &other);
-    Channel &operator=(Channel const &other);
     ~Channel();
 
     int addUser(User *user);
-
+    int isInChannel(User *user);
 };

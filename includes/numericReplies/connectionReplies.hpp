@@ -42,3 +42,13 @@
 # define ERR_NICKCOLLISION(nick, user, host) (" " + nick + " :Nickname collision KILL from " + user + "@" + host + "\r\n")
 
 # define ERR_UNKNOWNCOMMAND(nick, cmd) (" 421 " + nick + " " + cmd + " :Unknown command" + "\r\n")
+
+
+/* ...................................................... */
+/* .................. Error join ........................ */
+/* ...................................................... */
+
+#define ERR_NEEDMOREPARAMS(nick, cmd) (" 461 " + nick + " " + cmd + " : Not enough parameters" + "\r\n")
+#define ERR_NOSUCHCHANNEL(channel, cmd) (" 403 " + channel + " " + cmd + " : No such Channel" + "\r\n")
+
+

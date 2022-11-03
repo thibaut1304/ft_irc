@@ -32,7 +32,8 @@ DIR_INC += -I ./includes/numericReplies/
 SRCS		:=  \
 				main.cpp                        \
 				Server.cpp                      \
-				User.cpp                        \
+				Users.cpp                       \
+				Channel.cpp						\
 				utils/print_input_allBuff.cpp   \
 				utils/server_init.cpp           \
 				utils/server_launch.cpp         \
@@ -44,6 +45,7 @@ SRCS		:=  \
 				commands/nick.cpp               \
 				commands/kill.cpp               \
 				commands/ping.cpp               \
+				commands/join.cpp     			\
 
 				# commands/pass.cpp;     \
 				# commands/user.cpp;     \
@@ -51,7 +53,6 @@ SRCS		:=  \
 				# commands/oper.cpp;     \
 				# commands/quit.cpp;     \
 				# commands/squit.cpp;    \
-				# commands/join.cpp;     \
 				# commands/part.cpp;     \
 				# commands/mode.cpp;     \
 				# commands/topic.cpp;    \
