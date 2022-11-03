@@ -49,7 +49,7 @@ SRCS		:=  \
 				utils/split/splitCmdUser.cpp    \
 				utils/split/splitCmd.cpp        \
 				\
-				utils/debug/debug.cpp                 \
+				utils/debug/debug.cpp           \
 				\
 				commands/connection.cpp         \
 				commands/init_commands.cpp      \

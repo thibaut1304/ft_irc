@@ -15,11 +15,12 @@
 
 # include <Header.hpp>
 # include <Users.hpp>
-# include <commands.hpp>
+# include <Commands.hpp>
 # include <sstream>
 
 
 # include <connectionReplies.hpp>
+# include <serverQueries.hpp>
 
 # include <cerrno>
 
@@ -103,7 +104,7 @@ int get_day    (void);
 int get_hour   (void);
 int get_minute (void);
 
-void send_to_client(int fd, std::string code, std::string msg);
+void send_to_client(int fd, std::string msg, std::string err_code = "");
 
 void __debug_newConnection(std::string ip);
 void __debug_requestClient(char *buff);

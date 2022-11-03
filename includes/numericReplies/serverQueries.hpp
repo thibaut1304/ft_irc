@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   send_to_client.cpp                                 :+:      :+:    :+:   */
+/*   serverQueries.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 14:52:31 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 14:52:37 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/03 15:03:48 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/03 15:04:06 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#pragma once
 
-void send_to_client(int fd, std::string msg, std::string err_code)
-{
-	int delay = 0;
-	std::string buffer = NAME + " ";
+#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + ERR_CODE + " " + MSG + "\r\n")
 
-	if (err_code != "" && Debug == 1)
-		buffer += err_code + " ";
-	buffer += msg;
+# define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " :No such server")
 
-	send(fd, buffer.c_str(), buffer.length(), delay);
-}

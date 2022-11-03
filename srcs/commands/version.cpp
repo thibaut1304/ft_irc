@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "connectionReplies.hpp"
 
 
 //    Command: VERSION
@@ -49,16 +48,17 @@ void version(Server * server, User user)
 	int destination = user.getFd();
 	std::string msg;
 
-	if (NAME != NAME) // TODO makes no sense - how do we check server name
+	if (0) // TODO makes no sense - how do we check server name
 	{
-		msg =  ERR_NOSUCHSERVER;
-		send_to_client(destination, "402",  msg);
+		msg =  ERR_NOSUCHSERVER("test");
+		send_to_client(destination, msg);
 		return ;
 	}
 
+	std::string debuglevel = Debug ? "1" : "0";
+
 	msg += VERSION;
-	msg += ".debuglevel00 ";
-	msg += NAME;
-	msg += " :Hello, this is a comment\n";
-	send_to_client(destination,"351", msg);
+	msg += ".debuglevel0" + debuglevel + " ";
+	msg += ":This is a comment describing our irc server\n";
+	send_to_client(destination, msg, "351");
 }

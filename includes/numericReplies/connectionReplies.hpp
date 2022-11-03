@@ -15,7 +15,6 @@
 // NAME == HOST
 // Replies : HOST + CODE + NICK + MSG
 
-
 # define PING(msg)   ("PING " + msg + "\r\n")
 
 /* ...................................................... */
@@ -32,14 +31,9 @@
 # define RPL_MYINFO(servername, version, userMode, channelMode) (" " + servername + " " + version + " " + userMode + " " + channelMode + "\r\n"); 
 
 /* ...................................................... */
-/* ................... Server queries ................... */
-/* ...................................................... */
-
-/* ...................................................... */
 /* .................. Error Nick ........................ */
 /* ...................................................... */
 
-# define ERR_NOSUCHSERVER           (" 402 "   + NAME + " :No such server"             + "\r\n");
 # define ERR_NONICKNAMEGIVEN(cmd)   (" 431 * " + cmd  + " :No nickname given"          + "\r\n")
 # define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname"         + "\r\n")
 # define ERR_NICKNAMEINUSE(nick)    (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
@@ -57,5 +51,5 @@
 /* .................. Error User ........................ */
 /* ...................................................... */
 
-# define ERR_NEEDMOREPARAMS(cmd) (" 461 * " + cmd + " :Not enough parameters" + "\r\n")
-# define ERR_ALREADYREGISTRED(nick) (" 462 " + nick + " :You may not reregister" + "\r\n")
+# define ERR_NEEDMOREPARAMS(cmd)    (" 461 * " + cmd  + " :Not enough parameters"  + "\r\n")
+# define ERR_ALREADYREGISTRED(nick) (" 462 "   + nick + " :You may not reregister" + "\r\n")
