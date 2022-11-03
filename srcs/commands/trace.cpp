@@ -6,7 +6,7 @@
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:27:36 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 17:34:48 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:38:34 by wsz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void trace(Server *server, User user)
 //RPL_TRACEUSER                   RPL_TRACESERVER
 //RPL_TRACESERVICE                RPL_TRACENEWTYPE
 //RPL_TRACECLASS
+
 //200     RPL_TRACELINK
-//
-//"Link <version & debug level> <destination> \
+//"Link <version & debug level> <destination>
 //<next server>"
 
 //201     RPL_TRACECONNECTING
@@ -82,7 +82,7 @@ void trace(Server *server, User user)
 //"User <class> <nick>"
 
 //206     RPL_TRACESERVER
-//"Serv <class> <int>S <int>C <server> \
+//"Serv <class> <int>S <int>C <server>
 //<nick!user|*!*>@<host|server>"
 
 //208     RPL_TRACENEWTYPE

@@ -39,12 +39,12 @@ void	Server::initCmd() {
 
 	// # SERVER QUERIES AND COMMANDS
 	_listCmd["VERSION"]       = &version;
-	//_listCmd["STATS"]         = &stats;
+	_listCmd["STATS"]         = &stats;
 	//_listCmd["LINKS"]         = &links;
 	_listCmd["TIME"]          = &time;
 	//_listCmd["CONNECT"]       = &connect;
-	//_listCmd["TRACE"]         = &trace;
-	//_listCmd["ADMIN"]         = &admin;
+	_listCmd["TRACE"]         = &trace;
+	_listCmd["ADMIN"]         = &admin;
 	_listCmd["INFO"]          = &info;
 
 	// # SENDING MESSAGES

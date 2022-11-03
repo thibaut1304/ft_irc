@@ -6,13 +6,19 @@
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:24:21 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 17:26:47 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:39:32 by wsz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Header_wsz.hpp"
 #include "Server.hpp"
 
+void admin(Server * server, User user)
+{
+	if (check_ERR_NOSUCHSERVER(server, user))
+		return ;
+
+}
 
 //   Command: ADMIN
 //   Parameters: [<server>]
@@ -55,9 +61,3 @@
 //                          contact for the server (an email address here
 //                          is required) in RPL_ADMINEMAIL.
 
-void admin(Server * server, User user)
-{
-	if (check_ERR_NOSUCHSERVER(server, user))
-		return ;
-
-}

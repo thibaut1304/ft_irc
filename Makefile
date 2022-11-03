@@ -63,6 +63,9 @@ SRCS		:=  \
 				commands/version.cpp            \
 				commands/time.cpp               \
 				commands/info.cpp               \
+				commands/trace.cpp              \
+				commands/admin.cpp              \
+				commands/stats.cpp              \
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 
@@ -81,11 +84,8 @@ SRCS		:=  \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
 				#
-				# commands/stats.cpp     \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
-				# commands/trace.cpp     \
-				# commands/admin.cpp     \
 				# commands/privmsg.cpp   \
 				# commands/notice.cpp    \
 				# commands/who.cpp       \

@@ -6,7 +6,7 @@
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:29:19 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 17:33:23 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:39:12 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void stats(Server *server, User user)
 
 
 //211     RPL_STATSLINKINFO
-//"<linkname> <sendq> <sent messages> \
-//<sent bytes> <received messages> \
+//"<linkname> <sendq> <sent messages>
+//<sent bytes> <received messages>
 //<received bytes> <time open>"
 //
 //212     RPL_STATSCOMMANDS
@@ -103,7 +103,7 @@ void stats(Server *server, User user)
 //"K <host> * <username> <port> <class>"
 
 //218     RPL_STATSYLINE
-//"Y <class> <ping frequency> <connect \
+//"Y <class> <ping frequency> <connect
 //frequency> <max sendq>"
 
 //219     RPL_ENDOFSTATS
