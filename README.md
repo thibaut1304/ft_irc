@@ -10,13 +10,12 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 
 # A faire
 
-- Parser les commandes recus ! Enregistrer un user correctement !
+- Parser le nickname et generer l'erreur 432 si commence par un chiffres ou caractere interdit
+	- Trouver tous les caractere interdit
 
-- Comprendre les modes, les ping/pong
+- Precedent point a verifier sur toute les commande !
 
-- Connection avec netcat
-
-- :NickName!UserName@ip JOIN servername :efjeji
+- Sur la commande QUIT informer les autres utilisateur si l'user est dans un channel que une personne a quitter le serveur dans le channel
 
 
 # REFERENCE
@@ -29,7 +28,7 @@ https://www.rfc-editor.org/rfc/rfc1459
 - [x] USER
 - [ ] SERVER
 - [ ] OPER
-- [ ] QUIT
+- [x] QUIT
 - [ ] SQUIT
 
 ## Channel Operations
