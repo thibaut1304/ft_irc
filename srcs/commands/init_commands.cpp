@@ -41,7 +41,7 @@ void	Server::initCmd() {
 	_listCmd["STATS"]         = &stats;
 	//_listCmd["LINKS"]         = &links;
 	_listCmd["TIME"]          = &time;
-	//_listCmd["CONNECT"]       = &connect;
+	//_listCmd["CONNECT"]       = &connect; // NOTE IRSSI command not to do
 	_listCmd["TRACE"]         = &trace;
 	_listCmd["ADMIN"]         = &admin;
 	_listCmd["INFO"]          = &info;
