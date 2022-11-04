@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
+#    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/03 22:00:02 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/04 15:51:34 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ DIR_INC += -I ./includes/numericReplies/
 SRCS		:=  \
 				main.cpp                        \
 				core/Server.cpp                 \
+				core/Channel.cpp                 \
 				core/User.cpp                   \
 				core/server/server_init.cpp           \
 				core/server/server_launch.cpp         \
@@ -47,6 +48,7 @@ SRCS		:=  \
 				utils/split/splitCmdIrssi.cpp   \
 				utils/split/splitCmdUser.cpp    \
 				utils/split/splitCmd.cpp        \
+				utils/split/split_classic.cpp        \
 				\
 				utils/debug/debug.cpp           \
 				\
@@ -66,6 +68,7 @@ SRCS		:=  \
 				commands/admin.cpp              \
 				commands/stats.cpp              \
 				commands/quit.cpp      			\
+				commands/join.cpp     			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 

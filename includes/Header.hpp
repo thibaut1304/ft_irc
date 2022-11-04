@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Header.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:49:30 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:43:01 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@
 # include <memory>
 # include <map>
 # include <vector>
+# include <set>
 
 #endif
