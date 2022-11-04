@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/03 19:50:35 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/04 15:53:16 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS		:=  \
 				core/server/server_new_connection.cpp \
 				\
 				utils/basic/myToupper.cpp       \
+				utils/basic/find_char_string.cpp\
 				utils/basic/get_local_time.cpp  \
 				utils/basic/send_to_client.cpp  \
 				\
@@ -65,6 +66,7 @@ SRCS		:=  \
 				commands/trace.cpp              \
 				commands/admin.cpp              \
 				commands/stats.cpp              \
+				commands/quit.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -72,7 +74,6 @@ SRCS		:=  \
 				# TODO
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
-				# commands/quit.cpp      \
 				# commands/squit.cpp     \
 				# # adlancel
 				# commands/join.cpp      \

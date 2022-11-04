@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 17:57:44 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:28:45 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ void	Server::requestClient(struct epoll_event user) {
 /* ---------------------------- KILL USER CLIENT ---------------------------- */
 /* ========================================================================== */
 
-void	Server::killUserClient( User user ) {
-	std::cout << "CMD killUserClient\n";
-	int fd = user.getFd();
-
+void	Server::killUserClient( int fd ) {
 	if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
 		perror("Error epoll ctl del client");
 		exit(EXIT_FAILURE);
@@ -123,7 +120,6 @@ void	Server::killUserClient( User user ) {
 		perror("Error close fd client");
 		exit(EXIT_FAILURE);
 	}
-	_users.erase(fd);
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
@@ -177,47 +173,40 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		else
 			std::cout << _RED << "USER NOK" << _NC << std::endl;
 	}
+	if (_users[fd].getValidUser() == true)
+		_users[fd].setTimeActivity();
 	buff.clear();
 }
 
-// void	Server::cmdPing(User user, std::string hello) {
-// 	std::string msg = PING(hello);
-// 	__debug_exploreCmd();
-// 	// if (user.getFd() == user.end())
-// 	// return ;
-// 	if (send(user.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-// 		perror("Error send msg ping to client");
-// 	}
-// }
+void	Server::pingTime( void ) {
+	double tmp;
+	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
+	std::vector<int> vecFd;
 
-// void	Server::pingTime( void ) {
-// 	double tmp;
-// 	// std::string msg;
-// 	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
-
-// 	for (; it != ite; it++) {
-// 		tmp = difftime(time(NULL), it->second.getTimeActivity());
-// 		if (tmp > PING_TIME && it->second.getPingStatus() == false) {
-// 			cmdPing(it->second, it->second.getHostname());
-// 			// msg = PING(it->second.getHostname());
-// 			// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-// 			// 	perror("Error send msg ping to client");
-// 			// }
-// 			it->second.setPingStatus(true);
-// 			it->second.setTimeActivity();
-// 		}
-// 		else if (it->second.getPingStatus() == true) {
-// 			// msg.clear();
-// 			// msg = "Erreur ping TimeOut";
-// 			tmp = difftime(time(NULL), it->second.getTimeActivity());
-// 			if (tmp > PING_TIME) {
-// 				cmdPing(it->second, "Erreur ping timeOut\n");
-// 				// if (send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1) {
-// 				// 	perror("Error send msg ping to client");
-// 				// }
-// 				//kill client !
-// 				killUserClient(it->second);
-// 			}
-// 		}
-// 	}
-// }
+	for (; it != ite; it++) {
+		usleep(1);
+		tmp = difftime(time(NULL), it->second.getTimeActivity());
+		if (tmp > REGIS_TIME && it->second.getValidUser() == false && it->second.getPingStatus() == false) {
+			std::string msg = REGISTRATION_TIMEOUT(NAME_V, it->second.getIp());
+			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
+			if (it->second.getIsKill() == false)
+				killUserClient(it->second.getFd());
+			vecFd.push_back(it->second.getFd());
+			it->second.setPingStatus(true);
+		}
+		else if (tmp > PING_TIME && it->second.getValidUser() == true) {
+			tmp = difftime(time(NULL), it->second.getTimeActivity());
+			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
+			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
+			vecFd.push_back(it->second.getFd());
+			if (it->second.getIsKill() == false)
+				killUserClient(it->second.getFd());
+		}
+		else if (it->second.getIsKill() == true) {
+			vecFd.push_back(it->second.getFd());
+		}
+	}
+	std::vector<int>::iterator itFd = vecFd.begin();
+	for (; itFd != vecFd.end(); itFd++) { _users.erase(*itFd);}
+	vecFd.clear();
+}

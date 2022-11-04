@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 19:53:32 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:54:12 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 /* ...................................................... */
 
 # define ERR_NONICKNAMEGIVEN(cmd)   (" 431 * " + cmd  + " :No nickname given"          + "\r\n")
-# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname"         + "\r\n")
+# define ERR_ERRONEUSNICKNAME(nick, text) (" 432 " + nick + " " + text + " :Erroneous nickname\r\n")
 # define ERR_NICKNAMEINUSE(nick)    (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
 
 // Uniquement pour une interface inter serveur
@@ -53,6 +53,8 @@
 
 # define ERR_NEEDMOREPARAMS(cmd, nick) (" 461 " + nick + " " + cmd + " :Not enough parameters" + "\r\n")
 # define ERR_ALREADYREGISTRED(nick) (" 462 " + nick + " :You may not reregister" + "\r\n")
+# define ERR_USERNAMENOTVALID(cmd, nick) (" 468 " + nick + " " + cmd + " :Your username is not valid\r\n")
+// :irc.local 468 * USER :Your username is not valid
 
 /* ...................................................... */
 /* .................. Error Ping ........................ */
@@ -64,6 +66,20 @@
 
 # define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
 
+/* ...................................................... */
+/* ......... Reply for quit and timeout ................. */
+/* ...................................................... */
+
+
+# define REGISTRATION_TIMEOUT(name, ip) ("ERROR :Closink link: (" + name + "@" + ip + ") [Registration timeout]\r\n")
+// ERROR :Closing link: (811AAAAAC@172.17.0.1) [Registration timeout]  -> 60s
+
+# define PING_TIMEOUT(username, ip) ("ERROR :Closink link: (" + username + "@" + ip + ") [Ping timeout: 120 seconds]\r\n")
+// ERROR :Closing link: (1@172.17.0.1) [Ping timeout: 120 seconds]  -> une fois connecte
+
+# define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
+// quit
+// ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir
 
 
 

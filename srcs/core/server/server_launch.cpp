@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:23:04 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/01 16:59:06 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 20:53:42 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void server_launch_epoll_struct_init(int fdServer, int fdPoll)
 	}
 }
 
-void server_launch_start(int fdServer, int fdPoll, Server & server)
+void Server::server_launch_start(int fdServer, int fdPoll, Server & server)
 {
 	int	ready;
 	struct epoll_event	user[MAX_USERS];
@@ -77,6 +77,7 @@ void server_launch_start(int fdServer, int fdPoll, Server & server)
 				server.requestClient(user[i]);
 			}
 		}
+		pingTime();
 	}
 	__debug_unknown(server);
 }

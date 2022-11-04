@@ -48,7 +48,8 @@
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
 		"typeinfo": "cpp",
-		"numbers": "cpp"
+		"numbers": "cpp",
+		"ctime": "cpp"
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
 }

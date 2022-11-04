@@ -10,13 +10,9 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 
 # A faire
 
-- Parser les commandes recus ! Enregistrer un user correctement !
+- Verifier les caractere interdit sur toute les commande ! pour nick -> " ,*?!@$:."
 
-- Comprendre les modes, les ping/pong
-
-- Connection avec netcat
-
-- :NickName!UserName@ip JOIN servername :efjeji
+- Sur la commande QUIT informer les autres utilisateur si l'user est dans un channel que une personne a quitter le serveur dans le channel
 
 
 # REFERENCE
@@ -34,7 +30,7 @@ PASS <pass>
 - [x] USER
 - [ ] SERVER
 - [ ] OPER
-- [ ] QUIT
+- [x] QUIT
 - [ ] SQUIT
 
 ## Channel Operations
