@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 14:28:45 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:01:31 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,23 +126,35 @@ void	Server::killUserClient( int fd ) {
 /* ------------------------- TODO WORK IN PROGRESS -------------------------- */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-int		parsing      (User user) { (void)user; return (0); }
-void	generateError(User user) { (void)user; }
+void	parse_prefix(std::string & buff) {
+	std::string::iterator it = buff.begin();
+	if (buff.c_str()[0] == ':')
+		it++;
+	else
+		return ;
+	for (;it != buff.end();it++) {
+		if (*it == ' ') {
+			it++;
+			break;
+		}
+	}
+	buff.erase(buff.begin(), it);
+}
 
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
-		
+	parse_prefix(buff);
 	_buff = buff;
-	
+
 	std::vector<std::string> tmp;
 	splitCmdIrssi(tmp, buff);
 	std::vector<std::string>::iterator it_tmp = tmp.begin();
-	
+
 	for (;it_tmp != tmp.end(); it_tmp++) {
 		_allBuff.clear();
 		splitCmd(_allBuff, *it_tmp);
-		
+
 		std::vector<std::string>::iterator cmdName = _allBuff.begin();
 		myToupper(*cmdName);
 		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
@@ -158,10 +170,10 @@ void	Server::exploreCmd(int fd, std::string buff) {
 			itCmdList->second(this, _users[fd]);
 		}
 
-		if (!_users[fd].getValidUser()				
-			&& !_users[fd].getNickname().empty() 	
-			&& !_users[fd].getUsername().empty()	
-			&& !_users[fd].getFullName().empty()	
+		if (!_users[fd].getValidUser()
+			&& !_users[fd].getNickname().empty()
+			&& !_users[fd].getUsername().empty()
+			&& !_users[fd].getFullName().empty()
 			&& !_users[fd].getHostname().empty())	{
 			_users[fd].setValidUser(true);
 			acceptUser(_users[fd]);
