@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/02 17:06:46 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:33:09 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void join(Server *serv, User user)
 {
   (void)user;
   std::vector<std::string> channels;
+  for (size_t i = 0; i < serv->_allBuff.size(); i++)
+    std::cout << serv->_allBuff[i] << std::endl;
   switch (serv->_allBuff.size())
   {
   case 2:
