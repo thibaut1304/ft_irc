@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 19:11:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 19:35:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:53:22 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	user(Server *serv, User user) {
 	
 	std::cout << _CYAN << "CMD USER" << _NC << std::endl;
 	
+	
 	std::string bis = findPoint(serv->_allBuff);
 	if (bis.empty() || serv->_allBuff.size() != 4) {
 		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), std::string("*"));
@@ -50,6 +51,10 @@ void	user(Server *serv, User user) {
 	}
 	else if (user.getValidUser() == true) {
 		std::string msg = NAME + ERR_ALREADYREGISTRED(user.getNickname());
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+	}
+	else if (findCharParsing(*(++serv->_allBuff.begin()))) {
+		std::string msg = NAME + ERR_USERNAMENOTVALID(print_cmd(serv->_allBuff), std::string("*"));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {

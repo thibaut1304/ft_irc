@@ -6,7 +6,11 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/11/04 15:52:03 by adlancel         ###   ########.fr       */
+=======
+/*   Updated: 2022/11/04 15:52:39 by thhusser         ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +104,15 @@ void splitCmd                        (std::vector<std::string> & sCmd, std::stri
 void split                      	 (std::vector<std::string> & sCmd, std::string cmd, std::string delimiter);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);
+int	 findCharParsing				 (std::string buff);
 
 int get_year   (void);
 int get_month  (void);
 int get_day    (void);
 int get_hour   (void);
 int get_minute (void);
+int get_seconds(void);
+std::string get_charday(void);
 
 void send_to_client(int fd, std::string msg, std::string err_code = "");
 

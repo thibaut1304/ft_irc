@@ -6,7 +6,7 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/04 15:51:34 by adlancel         ###   ########.fr        #
+#    Updated: 2022/11/04 17:42:37 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS		:=  \
 				core/server/server_new_connection.cpp \
 				\
 				utils/basic/myToupper.cpp       \
+				utils/basic/find_char_string.cpp\
 				utils/basic/get_local_time.cpp  \
 				utils/basic/send_to_client.cpp  \
 				\
@@ -71,6 +72,7 @@ SRCS		:=  \
 				commands/join.cpp     			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
+				commands/checks/check_ERR_NOTREGISTERED.cpp \
 
 				# TODO
 				# commands/server.cpp    \

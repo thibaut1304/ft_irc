@@ -12,7 +12,8 @@
 
 #pragma once
 
-#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + ERR_CODE + " " + MSG + "\r\n")
+//#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + ERR_CODE + " " + MSG + "\r\n")
 
-# define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " :No such server")
+//# define ERR_NOSUCHSERVER_(server_name) ERR_TEMPLATE("402", server_name + " :No such server")
+//# define ERR_NOTREGISTERED_(command) ERR_TEMPLATE("451", command + " :You have not registered")
 

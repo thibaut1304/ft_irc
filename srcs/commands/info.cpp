@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "serverQueries.hpp"
 
 
 //    Command: INFO
@@ -39,6 +40,7 @@
 //                      replies.
 
 
+
 static STR_ info_format(STR_ str)
 {
 	STR_ msg;
@@ -53,8 +55,8 @@ void info (Server * server, User user)
 	int  destination = user.getFd();
 	STR_ msg;
 
-	if (check_ERR_NOSUCHSERVER(server, user) == NOT_OK_)
-		return ;
+	if (check_ERR_NOTREGISTERED(user, "INFO") == NOT_OK_) return ;
+	if (check_ERR_NOSUCHSERVER (server, user) == NOT_OK_) return ;
 
 	msg = info_format("Version " + VERSION);
 	send_to_client(destination, msg, "371");
