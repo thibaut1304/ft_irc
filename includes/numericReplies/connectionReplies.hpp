@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 22:14:07 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:17:32 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,15 @@
 /* ......... Reply for quit and timeout ................. */
 /* ...................................................... */
 
+#define REGISTRATION_TIMEOUT(name, ip) ("ERROR :Closink link: (" + name + "@" + ip + ") [Registration timeout]\r\n")
+#define PING_TIMEOUT(username, ip) ("ERROR :Closink link: (" + username + "@" + ip + ") [Ping timeout: 120 seconds]\r\n")
+#define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
+
 /* ...................................................... */
 /* .................. Error join ........................ */
 /* ...................................................... */
 #define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" \
                                                                          "\r\n");
-/* ...................................................... */
-/* ...................................................... */
-/* ...................................................... */
-/* ...................................................... */
-
-#define REGISTRATION_TIMEOUT(name, ip) ("ERROR :Closink link: (" + name + "@" + ip + ") [Registration timeout]\r\n")
-// ERROR :Closing link: (811AAAAAC@172.17.0.1) [Registration timeout]  -> 60s
-
-#define PING_TIMEOUT(username, ip) ("ERROR :Closink link: (" + username + "@" + ip + ") [Ping timeout: 120 seconds]\r\n")
-// ERROR :Closing link: (1@172.17.0.1) [Ping timeout: 120 seconds]  -> une fois connecte
-
-#define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
-// quit
-// ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir
-
 /* ...................................................... */
 /* ........................ wsz ......................... */
 /* ...................................................... */
