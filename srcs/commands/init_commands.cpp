@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/04 15:46:19 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:19:43 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	Server::initCmd() {
 
 	// # SENDING MESSAGES
 	//_listCmd["PRIVMSG"]       = &privmsg;
-	//_listCmd["NOTICE"]        = &notice;
+	_listCmd["NOTICE"]        = &notice;
 
 	// # USER BASED QUERIES
 	//_listCmd["WHO"]           = &who;
@@ -70,5 +70,6 @@ void	Server::initCmd() {
 	//_listCmd["WALLOPS"]       = &wallops;
 	//_listCmd["USERHOST"]      = &userhost;
 	//_listCmd["ISON"]          = &ison;
+	_listCmd["MOTD"]          = &motd;
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
+#    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/04 17:42:37 by adlancel         ###   ########.fr        #
+#    Updated: 2022/11/04 22:21:12 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,8 @@ SRCS		:=  \
 				commands/admin.cpp              \
 				commands/stats.cpp              \
 				commands/quit.cpp      			\
+				commands/motd.cpp      			\
+				commands/notice.cpp    			\
 				commands/join.cpp     			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
@@ -91,7 +93,6 @@ SRCS		:=  \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
 				# commands/privmsg.cpp   \
-				# commands/notice.cpp    \
 				# commands/who.cpp       \
 				# commands/whois.cpp     \
 				# commands/whowas.cpp    \
