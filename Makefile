@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/04 19:31:22 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/04 22:12:59 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ DIR_INC += -I ./includes/numericReplies/
 SRCS		:=  \
 				main.cpp                        \
 				core/Server.cpp                 \
+				core/Channel.cpp                 \
 				core/User.cpp                   \
 				core/server/server_init.cpp           \
 				core/server/server_launch.cpp         \
@@ -48,6 +49,7 @@ SRCS		:=  \
 				utils/split/splitCmdIrssi.cpp   \
 				utils/split/splitCmdUser.cpp    \
 				utils/split/splitCmd.cpp        \
+				utils/split/split_classic.cpp        \
 				\
 				utils/debug/debug.cpp           \
 				\
@@ -69,6 +71,7 @@ SRCS		:=  \
 				commands/quit.cpp      			\
 				commands/motd.cpp      			\
 				commands/notice.cpp    			\
+				commands/join.cpp     			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
