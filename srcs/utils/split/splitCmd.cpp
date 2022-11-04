@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitCmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:48:40 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 14:48:53 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:12:37 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	splitCmd(std::vector<std::string> & sCmd, std::string cmd) {
 			pos++;
 		cmd.erase(0, pos);
 	}
-<<<<<<< HEAD:srcs/utils/basic_utils.cpp
 }
 void split(std::vector<std::string> & sCmd, std::string cmd, std::string delimiter)
 {
@@ -40,25 +39,4 @@ void split(std::vector<std::string> & sCmd, std::string cmd, std::string delimit
 			pos++;
 		cmd.erase(0, pos);
 	}
-}
-
-void	print_buff(std::vector<std::string> buff) {
-	std::vector<std::string>::iterator it = buff.begin();
-	for (;it != buff.end();it++) {
-		std::cout << _RED << *it << _NC << std::endl;
-	}
-}
-
-void		myToupper(std::string & emma) {
-	std::string::iterator	it = emma.begin();
-
-	for (; it != emma.end();it++)
-		*it = std::toupper(*it);
-=======
-	int i = 0;
-	while (std::isspace(cmd.c_str()[i])) i++;
-	cmd.erase(0, i);
-	if (!cmd.empty())
-		sCmd.push_back(cmd.substr(0, pos));
->>>>>>> master:srcs/utils/split/splitCmd.cpp
 }

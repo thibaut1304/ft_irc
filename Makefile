@@ -6,7 +6,7 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/04 15:07:30 by adlancel         ###   ########.fr        #
+#    Updated: 2022/11/04 15:15:04 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,16 +65,16 @@ SRCS		:=  \
 				commands/trace.cpp              \
 				commands/admin.cpp              \
 				commands/stats.cpp              \
+				commands/join.cpp   	 	    \
+				commands/quit.cpp   		    \
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 
 				# TODO
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
-				# commands/quit.cpp      \
 				# commands/squit.cpp     \
 				# # adlancel
-				# commands/join.cpp      \
 				# commands/part.cpp      \
 				# commands/mode.cpp      \
 				# commands/topic.cpp     \
