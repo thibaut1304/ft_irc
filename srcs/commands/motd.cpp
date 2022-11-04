@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:21:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 18:52:43 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:09:53 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	motd(Server *serv, User user) {
 	if (user.getValidUser() == false) {
 		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
-		std::cout << print_cmd(serv->_allBuff);
 	}
 	else if (user.getValidUser() == true && serv->_allBuff.size() > 1) {
-		return ; 
+		return ;
 	}
 	else {
 		std::string msg = RPL_MOTDSTART(user.getNickname());
