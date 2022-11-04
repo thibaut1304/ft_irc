@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/04 17:38:47 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:57:15 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void join(Server *serv, User user)
         }
       }
       else
-      {
-        std::cout << "channel creation" << std::endl;
-      }
+        serv->_channels.insert(make_pair(channels[i], Channel(channels[i], &user)));
     }
   }
   }
