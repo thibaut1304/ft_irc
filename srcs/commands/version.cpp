@@ -45,8 +45,8 @@ void version(Server * server, User user)
 	int                  destination = user.getFd();
 	std::string          msg;
 
-	if (check_ERR_NOSUCHSERVER(server, user) == NOT_OK_)
-		return ;
+	if (check_ERR_NOTREGISTERED(user, "VERSION") == NOT_OK_) return ;
+	if (check_ERR_NOSUCHSERVER (server, user) == NOT_OK_) return ;
 
 	std::string debuglevel = Debug ? "1" : "0";
 	msg += VERSION;

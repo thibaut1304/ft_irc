@@ -32,8 +32,8 @@ void time(Server * server, User user)
 	std::string          msg;
 	std::stringstream    server_time;
 
-	if (check_ERR_NOSUCHSERVER(server, user) == NOT_OK_)
-		return ;
+	if (check_ERR_NOTREGISTERED(user, "TIME")         == NOT_OK_) return ;
+	if (check_ERR_NOSUCHSERVER (server, user) == NOT_OK_) return ;
 
 	server_time         \
 		<< get_hour()   \
