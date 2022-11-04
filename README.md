@@ -44,6 +44,7 @@ https://www.rfc-editor.org/rfc/rfc1459
 - [A] INVITES
 - [A] KICK
 
+
 ## Server queries and commands
 - [ ] VERSION
 - [ ] STATS
