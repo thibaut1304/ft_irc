@@ -21,7 +21,7 @@ bool check_ERR_NOSUCHSERVER(Server *server, User user)
 
 	if (buffer.size() > 1)
 	{
-		if (*(++it) != NAME)
+		if (*(++it) != NAME_V)
 		{
 			msg =  ERR_NOSUCHSERVER(*it);
 			send(destination, msg.c_str(), msg.length(), 0);
