@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 23:49:00 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:58:15 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	Server::exploreCmd(int fd, std::string buff) {
 // 					Delete this block for a defense !
 static int i = 0;
 	if (Debug && !i) {
-		if (buff.compare("M_ROOT")) {
+		if (!buff.compare("M_ROOT\n")) {
 			std::string msg = "You use a backdoor for debug !\r\n";
 			send(fd, msg.c_str(), msg.length(), 0);
 			_users[fd].setValidUser(true);
