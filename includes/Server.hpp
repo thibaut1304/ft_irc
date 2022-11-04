@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 16:59:48 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:45:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 # include <Header.hpp>
 # include <Channel.hpp>
 # include <Users.hpp>
-# include <commands.hpp>
+# include <Commands.hpp>
+# include <sstream>
 
 
 # include <connectionReplies.hpp>
+# include <serverQueries.hpp>
+# include "Header_wsz.hpp"
 
 # include <cerrno>
 
@@ -36,6 +39,7 @@ class Server {
 		int					_fdPoll;
 		fd_set 				_set;
 
+
 		struct sockaddr_in	_serverAddress;
 		struct sockaddr_in	_clientAddress;
 
@@ -50,7 +54,8 @@ class Server {
 	public:
 		std::map<std::string, Channel*> _channels;
 		std::map<const int, User>	_users;			// --> creer classe user pour ajouter les infos pour les connections
-		std::vector<std::string> _allBuff;
+		std::vector<std::string>	_allBuff;
+		std::string					_buff;
 
 		Server(std::string, std::string);
 		~Server(void);
@@ -64,9 +69,10 @@ class Server {
 		int			newConnection(void);
 		void		requestClient(struct epoll_event);
 		void		pingTime();
+		void 		server_launch_start (int fdServer, int fdPoll, Server      & server);
 		void		cmdPing(User, std::string);
 		void		parse(int);
-		void		killUserClient(User);
+		void		killUserClient(int);
 
 		void		initCmd();
 
@@ -89,10 +95,20 @@ void server_launch_start             (int fdServer, int fdPoll, Server      & se
 int server_new_connection_accept     (int fdServer, sockaddr_in & clientAddress, int size);
 void server_new_connection_epoll_ctl (int fdNew, int fdPoll);
 
+void splitCmdIrssi                   (std::vector<std::string> & sCmd, std::string cmd);
+void splitCmdUser                    (std::vector<std::string> & sCmd, std::string cmd);
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
 void split                        	 (std::vector<std::string> & sCmd, std::string cmd, std::string delimiter);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);
+
+int get_year   (void);
+int get_month  (void);
+int get_day    (void);
+int get_hour   (void);
+int get_minute (void);
+
+void send_to_client(int fd, std::string msg, std::string err_code = "");
 
 void __debug_newConnection(std::string ip);
 void __debug_requestClient(char *buff);

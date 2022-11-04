@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic_utils.cpp                                    :+:      :+:    :+:   */
+/*   splitCmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 19:23:13 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/10/31 19:23:50 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/03 14:48:40 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/03 14:48:53 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	splitCmd(std::vector<std::string> & sCmd, std::string cmd) {
 			pos++;
 		cmd.erase(0, pos);
 	}
+<<<<<<< HEAD:srcs/utils/basic_utils.cpp
 }
 void split(std::vector<std::string> & sCmd, std::string cmd, std::string delimiter)
 {
@@ -53,4 +54,11 @@ void		myToupper(std::string & emma) {
 
 	for (; it != emma.end();it++)
 		*it = std::toupper(*it);
+=======
+	int i = 0;
+	while (std::isspace(cmd.c_str()[i])) i++;
+	cmd.erase(0, i);
+	if (!cmd.empty())
+		sCmd.push_back(cmd.substr(0, pos));
+>>>>>>> master:srcs/utils/split/splitCmd.cpp
 }

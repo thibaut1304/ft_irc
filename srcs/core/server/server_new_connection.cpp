@@ -6,11 +6,14 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 05:40:21 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/01 16:55:16 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 20:18:50 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 int server_new_connection_accept(int fdServer, sockaddr_in & clientAddress, int size)
 {

@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/01 18:21:35 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:02:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 // NAME == HOST
 // Replies : HOST + CODE + NICK + MSG
-
 
 # define PING(msg)   ("PING " + msg + "\r\n")
 
@@ -35,12 +34,14 @@
 /* .................. Error Nick ........................ */
 /* ...................................................... */
 
-# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname" + "\r\n")
-# define ERR_NONICKNAMEGIVEN(cmd) (" 431 * " + cmd + " :No nickname given" + "\r\n")
-# define ERR_NICKNAMEINUSE(nick) (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
-// je sais pas ou l'assigner
+# define ERR_NONICKNAMEGIVEN(cmd)   (" 431 * " + cmd  + " :No nickname given"          + "\r\n")
+# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname"         + "\r\n")
+# define ERR_NICKNAMEINUSE(nick)    (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
+
+// Uniquement pour une interface inter serveur
 # define ERR_NICKCOLLISION(nick, user, host) (" " + nick + " :Nickname collision KILL from " + user + "@" + host + "\r\n")
 
+<<<<<<< HEAD
 # define ERR_UNKNOWNCOMMAND(nick, cmd) (" 421 " + nick + " " + cmd + " :Unknown command" + "\r\n")
 
 
@@ -52,3 +53,42 @@
 #define ERR_NOSUCHCHANNEL(channel, cmd) (" 403 " + channel + " " + cmd + " : No such Channel" + "\r\n")
 
 
+=======
+/* ...................................................... */
+/* ................ Unknown command ..................... */
+/* ...................................................... */
+
+# define ERR_UNKNOWNCOMMAND(nick, cmd) (" 421 " + nick + " " + cmd + " :Unknown command" + "\r\n")
+
+/* ...................................................... */
+/* .................. Error User ........................ */
+/* ...................................................... */
+
+# define ERR_NEEDMOREPARAMS(cmd, nick) (" 461 " + nick + " " + cmd + " :Not enough parameters" + "\r\n")
+# define ERR_ALREADYREGISTRED(nick) (" 462 " + nick + " :You may not reregister" + "\r\n")
+
+/* ...................................................... */
+/* .................. Error Ping ........................ */
+/* ...................................................... */
+
+# define ERR_NOORIGIN "409 :No origin specified" + "\r\n"
+
+// # define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
+
+# define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
+
+/* ...................................................... */
+/* ......... Reply for quit and timeout ................. */
+/* ...................................................... */
+
+
+# define REGISTRATION_TIMEOUT(name, ip) ("ERROR :Closink link: (" + name + "@" + ip + ") [Registration timeout]\r\n")
+// ERROR :Closing link: (811AAAAAC@172.17.0.1) [Registration timeout]  -> 60s
+
+# define PING_TIMEOUT(username, ip) ("ERROR :Closink link: (" + username + "@" + ip + ") [Ping timeout: 120 seconds]\r\n")
+// ERROR :Closing link: (1@172.17.0.1) [Ping timeout: 120 seconds]  -> une fois connecte
+
+# define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
+// quit
+// ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir
+>>>>>>> master

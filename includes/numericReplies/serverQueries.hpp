@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kill.cpp                                           :+:      :+:    :+:   */
+/*   serverQueries.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/01 14:40:17 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:44:50 by thhusser         ###   ########.fr       */
+/*   Created: 2022/11/03 15:03:48 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/03 19:53:37 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Server.hpp>
+#pragma once
 
-void	kill(Server *serv, User user) {
-	std::cout << "Reserved for admin! Check modes" << std::endl;
-	std::cout << "CMD KILL " << user.getFd() << " port number " << serv->getPort() << std::endl;
-	send(user.getFd(), "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
-	serv->_users[user.getFd()].setIsKill(true);
-	serv->killUserClient(user.getFd());
-	
-}
+#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + ERR_CODE + " " + MSG + "\r\n")
+
+# define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " :No such server")
+

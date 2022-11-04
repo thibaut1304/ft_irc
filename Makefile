@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/01 15:01:47 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/03 22:00:02 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ _CYAN   = \033[0;36m
 _WHITE  = \033[0;37m
 
 DEBUG   = 1
-OS      = $(shell echo -n ${GDMSESSION})
 NAME    = ft_irc
 CLIENT  = client
 RM      = rm      -rf
@@ -31,6 +30,7 @@ DIR_INC += -I ./includes/numericReplies/
 
 SRCS		:=  \
 				main.cpp                        \
+<<<<<<< HEAD
 				Server.cpp                      \
 				Users.cpp                       \
 				Channel.cpp						\
@@ -40,11 +40,34 @@ SRCS		:=  \
 				utils/server_new_connection.cpp \
 				utils/basic_utils.cpp           \
 				utils/debug.cpp                 \
+=======
+				core/Server.cpp                 \
+				core/User.cpp                   \
+				core/server/server_init.cpp           \
+				core/server/server_launch.cpp         \
+				core/server/server_new_connection.cpp \
+				\
+				utils/basic/myToupper.cpp       \
+				utils/basic/get_local_time.cpp  \
+				utils/basic/send_to_client.cpp  \
+				\
+				utils/print/print_buff.cpp      \
+				utils/print/print_cmd.cpp       \
+				utils/print/print_allBuff.cpp   \
+				\
+				utils/split/splitCmdIrssi.cpp   \
+				utils/split/splitCmdUser.cpp    \
+				utils/split/splitCmd.cpp        \
+				\
+				utils/debug/debug.cpp           \
+				\
+>>>>>>> master
 				commands/connection.cpp         \
 				commands/init_commands.cpp      \
 				commands/nick.cpp               \
 				commands/kill.cpp               \
 				commands/ping.cpp               \
+<<<<<<< HEAD
 				commands/join.cpp     			\
 
 				# commands/pass.cpp;     \
@@ -83,6 +106,53 @@ SRCS		:=  \
 				# commands/wallops.cpp;  \
 				# commands/userhost.cpp; \
 				# commands/ison.cpp;     \
+=======
+				commands/pass.cpp     			\
+				commands/user.cpp			    \
+				commands/cap.cpp			    \
+				\
+				commands/version.cpp            \
+				commands/time.cpp               \
+				commands/info.cpp               \
+				commands/trace.cpp              \
+				commands/admin.cpp              \
+				commands/stats.cpp              \
+				commands/quit.cpp      			\
+				\
+				commands/checks/check_ERR_NOSUCHSERVER.cpp \
+
+				# TODO
+				# commands/server.cpp    \
+				# commands/oper.cpp      \
+				# commands/squit.cpp     \
+				# # adlancel
+				# commands/join.cpp      \
+				# commands/part.cpp      \
+				# commands/mode.cpp      \
+				# commands/topic.cpp     \
+				# commands/names.cpp     \
+				# commands/list.cpp      \
+				# commands/invites.cpp   \
+				# commands/kick.cpp      \
+				#
+				# commands/links.cpp     \
+				# commands/connect.cpp   \
+				# commands/privmsg.cpp   \
+				# commands/notice.cpp    \
+				# commands/who.cpp       \
+				# commands/whois.cpp     \
+				# commands/whowas.cpp    \
+				# commands/pong.cpp      \
+				# commands/error.cpp     \
+				# commands/away.cpp      \
+				# commands/rehash.cpp    \
+				# commands/restart.cpp   \
+				# commands/summon.cpp    \
+				# commands/users.cpp     \
+				# commands/wallops.cpp   \
+				# commands/userhost.cpp  \
+				# commands/ison.cpp      \
+>>>>>>> master
 
 # SRCS		+= SRCS_CMD
 SRCS_CLIENT := client.cpp
@@ -93,7 +163,7 @@ DEPS        =  $(OBJS:.o=.d)
 	# OBJS_CLIENT	:= $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 
 all: $(NAME)
-	# $(CLIENT)
+# $(CLIENT)
 
 -include $(DEPS)
 

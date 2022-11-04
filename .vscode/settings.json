@@ -10,6 +10,10 @@
 		"ranges": "cpp",
 		"ostream": "cpp",
 		"utility": "cpp",
+<<<<<<< HEAD
+=======
+		"atomic": "cpp",
+>>>>>>> master
 		"bit": "cpp",
 		"*.tcc": "cpp",
 		"cctype": "cpp",
@@ -17,6 +21,11 @@
 		"cmath": "cpp",
 		"compare": "cpp",
 		"concepts": "cpp",
+<<<<<<< HEAD
+=======
+		"cstdarg": "cpp",
+		"cstddef": "cpp",
+>>>>>>> master
 		"cstdint": "cpp",
 		"cstdio": "cpp",
 		"cstdlib": "cpp",
@@ -24,11 +33,27 @@
 		"cwctype": "cpp",
 		"map": "cpp",
 		"exception": "cpp",
+<<<<<<< HEAD
 		"functional": "cpp",
+=======
+		"algorithm": "cpp",
+		"functional": "cpp",
+		"iterator": "cpp",
+		"memory": "cpp",
+		"memory_resource": "cpp",
+		"numeric": "cpp",
+		"optional": "cpp",
+		"random": "cpp",
+		"system_error": "cpp",
+		"tuple": "cpp",
+		"type_traits": "cpp",
+		"fstream": "cpp",
+>>>>>>> master
 		"iosfwd": "cpp",
 		"iostream": "cpp",
 		"istream": "cpp",
 		"limits": "cpp",
+<<<<<<< HEAD
 		"memory": "cpp",
 		"new": "cpp",
 		"numbers": "cpp",
@@ -38,6 +63,15 @@
 		"type_traits": "cpp",
 		"tuple": "cpp",
 		"typeinfo": "cpp"
+=======
+		"new": "cpp",
+		"sstream": "cpp",
+		"stdexcept": "cpp",
+		"streambuf": "cpp",
+		"typeinfo": "cpp",
+		"numbers": "cpp",
+		"ctime": "cpp"
+>>>>>>> master
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
 }

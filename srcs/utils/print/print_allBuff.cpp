@@ -12,11 +12,6 @@
 
 #include <Server.hpp>
 
-std::string print_cmd(std::vector<std::string> buff) {
-	std::vector<std::string>::iterator it = buff.begin();
-	return (*it);
-}
-
 std::string	print_allBuff(std::vector<std::string> buff) {
 	std::vector<std::string>::iterator it = ++buff.begin();
 	std::string msg;
