@@ -6,13 +6,39 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/04 17:57:15 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:24:42 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
 #include <Server.hpp>
-
+int charset(std::string charset, std::string str)
+{
+  int i = 0;
+  while (charset[i])
+  {
+    if (str[0] == charset[i])
+      return (1);
+    i++;
+  }
+  return (0);
+}
+static int check_rights(Channel channel)
+{
+  int i = 0;
+  std::string msg = NAME;
+  if (channel.is_invite_only())
+  {
+    ERR_INVITEONLYCHAN()
+    i += 1;
+  }
+  else if (channel.is_pass_required())
+  {
+    i += 1;
+    `
+  }
+  return i;
+}
 void join(Server *serv, User user)
 {
 
@@ -35,7 +61,8 @@ void join(Server *serv, User user)
   {
     for (size_t i = 0; i < channels.size(); i++)
     {
-      if (channels[i][0] != '#' && channels[i][0] != '&')
+
+      if (!charset("&#!+", channels[0]) || channels[0].size() > 50)
       {
         std::string msg = NAME + ERR_BADCHANMASK(user.getNickname(), channels[i]);
         if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
@@ -44,10 +71,22 @@ void join(Server *serv, User user)
           exit(errno);
         }
       }
+      else if (serv->_channels.contains(channels[i]))
+      {
+        if (!check_rights(serv->_channels[channels[i]]))
+          serv->_channels[channels[i]].addUser(user);
+        else
+
+        // send
+      }
       else
         serv->_channels.insert(make_pair(channels[i], Channel(channels[i], &user)));
     }
   }
+  case 3:
+  {
+  }
+  default:
   }
 
   // std::cout << "le buff contient [" << i << "]" << channels[i] << std::endl;

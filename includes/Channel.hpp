@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 15:00:08 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/04 20:45:08 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ public:
     Channel(std::string ChannelName, User *ChannelAdmin, std::string passwd);
     Channel(Channel const &other);
     ~Channel();
+    bool is_invite_only();
+    bool is_pass_required();
 
-    int addUser(User *user);
+    void addUser(User *user);
     int isInChannel(User *user);
 };
