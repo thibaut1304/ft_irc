@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 22:01:31 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:40:30 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ void	Server::exploreCmd(int fd, std::string buff) {
 			&& !_users[fd].getNickname().empty()
 			&& !_users[fd].getUsername().empty()
 			&& !_users[fd].getFullName().empty()
-			&& !_users[fd].getHostname().empty())	{
+			&& !_users[fd].getHostname().empty()
+			&& _users[fd].getPASS().compare(_passwd) == 0) {
 			_users[fd].setValidUser(true);
 			acceptUser(_users[fd]);
 		}
