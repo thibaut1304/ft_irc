@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 15:52:39 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:44:41 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void server_new_connection_epoll_ctl (int fdNew, int fdPoll);
 void splitCmdIrssi                   (std::vector<std::string> & sCmd, std::string cmd);
 void splitCmdUser                    (std::vector<std::string> & sCmd, std::string cmd);
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
+void split                      	 (std::vector<std::string> & sCmd, std::string cmd, std::string delimiter);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);
 int	 findCharParsing				 (std::string buff);

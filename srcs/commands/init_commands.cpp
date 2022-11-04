@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 22:04:56 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:46:19 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	Server::initCmd() {
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS
-	//_listCmd["JOIN"]          = &join;
+	_listCmd["JOIN"]          = &join;
 	//_listCmd["PART"]          = &part;
 	//_listCmd["MODE"]          = &mode;
 	//_listCmd["CHANNEL MODES"] = &; // TODO ?
