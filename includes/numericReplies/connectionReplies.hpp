@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 15:20:33 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:54:12 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@
 
 # define ERR_NEEDMOREPARAMS(cmd, nick) (" 461 " + nick + " " + cmd + " :Not enough parameters" + "\r\n")
 # define ERR_ALREADYREGISTRED(nick) (" 462 " + nick + " :You may not reregister" + "\r\n")
+# define ERR_USERNAMENOTVALID(cmd, nick) (" 468 " + nick + " " + cmd + " :Your username is not valid\r\n")
+// :irc.local 468 * USER :Your username is not valid
 
 /* ...................................................... */
 /* .................. Error Ping ........................ */

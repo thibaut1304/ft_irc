@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:40:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 15:44:04 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:56:02 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,6 @@ bool	search_all_user(Server *serv, User user) {
 	
 	for (; it_user != serv->_users.end();it_user++) {
 		if (it_user->second.getNickname() == *it_buff && it_user->second.getFd() != user.getFd())
-			return (true);
-	}
-	return (false);
-}
-
-static int findCharParsing(std::string buff) {
-	std::vector<char> vec;
-	// " ,*?!@$:."
-	
-	vec.push_back(' '); vec.push_back(','); vec.push_back('*'); vec.push_back('?');
-	vec.push_back('!'); vec.push_back('@'); vec.push_back('$'); vec.push_back(':'); vec.push_back('.');
-	std::vector<char>::iterator it = vec.begin();
-	for (; it != vec.end(); it++) {
-		if (buff.find(*it) != size_t(-1))
 			return (true);
 	}
 	return (false);
@@ -50,11 +36,11 @@ void	nick(Server *serv, User user) {
 		std::string msg = NAME + ERR_ERRONEUSNICKNAME(std::string("*"), print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (findCharParsing(print_allBuff(serv->_allBuff)) && user.getValidUser() == false) {
+	else if (isdigit(print_allBuff(serv->_allBuff).c_str()[0]) || (findCharParsing(print_allBuff(serv->_allBuff)) && user.getValidUser() == false)) {
 		std::string msg = NAME + ERR_ERRONEUSNICKNAME(std::string("*"), print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (findCharParsing(print_allBuff(serv->_allBuff)) && user.getValidUser() == true) {
+	else if (isdigit(print_allBuff(serv->_allBuff).c_str()[0]) || (findCharParsing(print_allBuff(serv->_allBuff)) && user.getValidUser() == true)) {
 		std::string msg = NAME + ERR_ERRONEUSNICKNAME(user.getNickname(), print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}

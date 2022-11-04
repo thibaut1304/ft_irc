@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:45:06 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:52:39 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void splitCmdUser                    (std::vector<std::string> & sCmd, std::stri
 void splitCmd                        (std::vector<std::string> & sCmd, std::string cmd);
 void print_buff                      (std::vector<std::string> buff);
 void myToupper                       (std::string & emma);
+int	 findCharParsing				 (std::string buff);
 
 int get_year   (void);
 int get_month  (void);
