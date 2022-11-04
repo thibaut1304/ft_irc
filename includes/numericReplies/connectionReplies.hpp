@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:02:04 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:20:33 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 /* ...................................................... */
 
 # define ERR_NONICKNAMEGIVEN(cmd)   (" 431 * " + cmd  + " :No nickname given"          + "\r\n")
-# define ERR_ERRONEUSNICKNAME(nick) (" 432 * " + nick + " :Erroneous nickname"         + "\r\n")
+# define ERR_ERRONEUSNICKNAME(nick, text) (" 432 " + nick + " " + text + " :Erroneous nickname\r\n")
 # define ERR_NICKNAMEINUSE(nick)    (" 433 * " + nick + " :Nickname is already in use" + "\r\n")
 
 // Uniquement pour une interface inter serveur

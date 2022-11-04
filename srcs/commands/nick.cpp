@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:40:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 16:37:49 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:44:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,21 @@ bool	search_all_user(Server *serv, User user) {
 	return (false);
 }
 
+static int findCharParsing(std::string buff) {
+	std::vector<char> vec;
+	// " ,*?!@$:."
+	
+	vec.push_back(' '); vec.push_back(','); vec.push_back('*'); vec.push_back('?');
+	vec.push_back('!'); vec.push_back('@'); vec.push_back('$'); vec.push_back(':'); vec.push_back('.');
+	std::vector<char>::iterator it = vec.begin();
+	for (; it != vec.end(); it++) {
+		if (buff.find(*it) != size_t(-1))
+			return (true);
+	}
+	return (false);
+}
+
 void	nick(Server *serv, User user) {
-	
-	std::cout << _CYAN << "CMD NICK" << _NC << std::endl;
-	
 	if (serv->_allBuff.size() == 2 && search_all_user(serv, user)) {
 		std::string msg = NAME + ERR_NICKNAMEINUSE(print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
@@ -36,12 +47,20 @@ void	nick(Server *serv, User user) {
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (serv->_allBuff.size() > 2) {
-		std::string msg = NAME + ERR_ERRONEUSNICKNAME(print_allBuff(serv->_allBuff));
+		std::string msg = NAME + ERR_ERRONEUSNICKNAME(std::string("*"), print_allBuff(serv->_allBuff));
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+	}
+	else if (findCharParsing(print_allBuff(serv->_allBuff)) && user.getValidUser() == false) {
+		std::string msg = NAME + ERR_ERRONEUSNICKNAME(std::string("*"), print_allBuff(serv->_allBuff));
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+	}
+	else if (findCharParsing(print_allBuff(serv->_allBuff)) && user.getValidUser() == true) {
+		std::string msg = NAME + ERR_ERRONEUSNICKNAME(user.getNickname(), print_allBuff(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (!serv->_users[user.getFd()].getNickname().empty() \
 		&& serv->_users[user.getFd()].getValidUser() == true	\
-		&& user.getNickname().compare(print_allBuff(serv->_allBuff)) != 0) {
+		&& user.getNickname().compare(print_allBuff(serv->_allBuff)) != 0 ) {
 		std::string msg = ":" + serv->_users[user.getFd()].getNickname() + "!" \
 		+ serv->_users[user.getFd()].getUsername() + "@" + serv->_users[user.getFd()].getIp() \
 		+ " " + print_cmd(serv->_allBuff) + " :" + print_allBuff(serv->_allBuff) + "\r\n";
