@@ -23,8 +23,8 @@ bool check_ERR_NOSUCHSERVER(Server *server, User user)
 	{
 		if (*(++it) != NAME)
 		{
-			msg =  ERR_NOSUCHSERVER_(*it);
-			send_to_client(destination, msg);
+			msg =  ERR_NOSUCHSERVER(*it);
+			send(destination, msg.c_str(), msg.length(), 0);
 			return NOT_OK_;
 		}
 	}

@@ -22,6 +22,11 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 # REFERENCE
 https://www.rfc-editor.org/rfc/rfc1459
 
+# REGISTER A USER
+NICK <nickname> // NO SPECIAL CHARACTERS " ,*!?@$:;" (same as username below)
+USER <username> <hostname> <servername> :<realname>
+PASS <pass>
+
 # COMMANDS
 ## Connection Registration
 - [ ] PASS

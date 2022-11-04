@@ -19,8 +19,8 @@ bool check_ERR_NOTREGISTERED(User user, std::string command)
 
 	if (user.getValidUser() == false)
 	{
-		msg = ERR_NOTREGISTERED_(command);
-		send_to_client(destination, msg);
+		msg = ERR_NOTREGISTERED(command);
+		send(destination, msg.c_str(), msg.length(), 0);
 		return NOT_OK_;
 	}
 	return OK_;

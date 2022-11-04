@@ -35,15 +35,28 @@ void time(Server * server, User user)
 	if (check_ERR_NOTREGISTERED(user, "TIME")         == NOT_OK_) return ;
 	if (check_ERR_NOSUCHSERVER (server, user) == NOT_OK_) return ;
 
-	server_time         \
-		<< get_hour()   \
-		<< ":"          \
+	server_time        \
+		<< get_charday() \
+		<< " " \
+		<< ((get_day() < 10) ? "0" : "") \
+		<< get_day()   \
+		<< "/"         \
+		<< ((get_month() < 10) ? "0" : "") \
+		<< get_month() \
+		<< "/"         \
+		<< get_year()  \
+		<< " "         \
+		<< get_hour()  \
+		<< ":"         \
 		<< ((get_minute() < 10) ? "0" : "") \
 		<< get_minute() \
+		<< ":"         \
+		<< ((get_seconds() < 10) ? "0" : "") \
+		<< get_seconds() \
 		<< " CET"
 		<< std::endl;
 
-	msg =  NAME;
+	msg =  NAME_V;
 	msg += " ";
 	msg += ":";
 	msg += server_time.str();

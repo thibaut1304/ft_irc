@@ -63,3 +63,14 @@
 // # define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
 
 # define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
+
+
+
+
+/* ...................................................... */
+/* ........................ wsz ......................... */
+/* ...................................................... */
+
+#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
+#define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " " + ":No such server")
+

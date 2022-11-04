@@ -104,6 +104,8 @@ int get_month  (void);
 int get_day    (void);
 int get_hour   (void);
 int get_minute (void);
+int get_seconds(void);
+std::string get_charday(void);
 
 void send_to_client(int fd, std::string msg, std::string err_code = "");
 
