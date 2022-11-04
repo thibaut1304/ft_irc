@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:38:13 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:38:41 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 19:48:29 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ User::User( const int fd, const std::string hostname ) :
 	, _nickname   ("")
 	, _username   ("")
 	, _fullname   ("")
+	, _PASS       ("")
 	, _isKill	  (false)
 {
 	std::cout << "creation USER fd : " << fd << std::endl;
@@ -39,6 +40,7 @@ User::User(const User &rhs) :
 	, _nickname		(rhs._nickname)
 	, _username		(rhs._username)
 	, _fullname		(rhs._fullname)
+	, _PASS			(rhs._PASS)
 	, _isKill		(rhs._isKill)
 {}
 
@@ -51,6 +53,7 @@ User &User::operator=(const User &rhs) {
 		_nickname   = rhs._nickname;
 		_username   = rhs._username;
 		_fullname   = rhs._fullname;
+		_PASS   	= rhs._PASS;
 		_statusPing = rhs._statusPing;
 		_validUser  = rhs._validUser;
 		_isKill		= rhs._isKill;
@@ -69,6 +72,7 @@ std::string User::getUsername     (void) const { return (_username);   }
 std::string User::getFullName     (void) const { return (_fullname);   }
 std::string User::getHostname     (void) const { return (_hostname);   }
 std::string User::getIp			  (void) const { return (_ip);		   }
+std::string User::getPASS 	      (void) const { return (_PASS);  	   }
 bool		User::getIsKill		  (void) const { return (_isKill);	   }
 
 void	User::setTimeActivity	(void)					{ _time 		= time(NULL);	}
