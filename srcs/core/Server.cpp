@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:44:59 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:28:45 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		else
 			std::cout << _RED << "USER NOK" << _NC << std::endl;
 	}
-	_users[fd].setTimeActivity();
+	if (_users[fd].getValidUser() == true)
+		_users[fd].setTimeActivity();
 	buff.clear();
 }
 
