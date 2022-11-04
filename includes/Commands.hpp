@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:29:55 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 19:51:06 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:23:17 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,5 @@ void users         (Server *, User);
 void wallops       (Server *, User);
 void userhost      (Server *, User);
 void ison          (Server *, User);
+void motd          (Server *, User);
 

@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 22:04:56 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:52:13 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	Server::initCmd() {
 	//_listCmd["WALLOPS"]       = &wallops;
 	//_listCmd["USERHOST"]      = &userhost;
 	//_listCmd["ISON"]          = &ison;
+	_listCmd["MOTD"]          = &motd;
 }
 

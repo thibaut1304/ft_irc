@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 16:54:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:37:28 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,3 +90,10 @@
 #define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
 #define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " " + ":No such server")
 
+/* ...................................................... */
+/* ....................... MOTD ......................... */
+/* ...................................................... */
+
+#define RPL_MOTDSTART(nick) (NAME + " 375 " + nick + " :" + NAME_V + " Message of the day - \r\n")
+#define RPL_MOTD(nick, msg) (NAME + " 372 " + nick + " :" + msg + "\r\n")
+#define RPL_ENDOFMOTD(nick) (NAME + " 376 " + nick + " :End of /MOTD command\r\n")

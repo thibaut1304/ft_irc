@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/04 15:53:16 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/04 18:23:03 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRCS		:=  \
 				commands/admin.cpp              \
 				commands/stats.cpp              \
 				commands/quit.cpp      			\
+				commands/motd.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
