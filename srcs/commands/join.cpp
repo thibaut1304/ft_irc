@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/04 14:33:09 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:26:25 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ void join(Server *serv, User user)
   std::vector<std::string> channels;
   for (size_t i = 0; i < serv->_allBuff.size(); i++)
     std::cout << serv->_allBuff[i] << std::endl;
-  switch (serv->_allBuff.size())
-  {
-  case 2:
-  {
-    split(channels, serv->_allBuff[1], ",");
-    std::cout << "join called" << std::endl;
-    std::cout << channels.size() << std::endl;
-    for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); it++)
-      std::cout << "channels = " << *it << std::endl;
-    break;
-  }
-  default:
-    break;
-  }
+  // switch (serv->_allBuff.size())
+  // {
+  // case 2:
+  // {
+  //   split(channels, serv->_allBuff[1], ",");
+  //   std::cout << "join called" << std::endl;
+  //   std::cout << channels.size() << std::endl;
+  //   for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); it++)
+  //     std::cout << "channels = " << *it << std::endl;
+  //   break;
+  // }
+  // default:
+  //   break;
+  // }
 
   {
   }
