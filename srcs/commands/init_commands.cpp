@@ -15,7 +15,6 @@
 void	Server::initCmd() {
 	_listCmd["CAP"]          = &cap;
 
-
 	// # REGISTRATION
 	_listCmd["PASS"]          = &pass;
 	_listCmd["NICK"]          = &nick;

@@ -21,3 +21,4 @@
 #define NOT_OK_   0
 
 bool check_ERR_NOSUCHSERVER(Server *server, User user);
+bool check_ERR_NOTREGISTERED(User user, std::string cmd);

@@ -69,6 +69,7 @@ SRCS		:=  \
 				commands/quit.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
+				commands/checks/check_ERR_NOTREGISTERED.cpp \
 
 				# TODO
 				# commands/server.cpp    \

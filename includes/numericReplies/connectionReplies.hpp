@@ -80,3 +80,13 @@
 # define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
 // quit
 // ERROR :Closing link: (1@172.17.0.1) [Client exited]  --> 1 = username sinon a definir
+
+
+
+/* ...................................................... */
+/* ........................ wsz ......................... */
+/* ...................................................... */
+
+#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string () + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
+#define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " " + ":No such server")
+

@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_ERR_NOSUCH_SERVER.cpp                        :+:      :+:    :+:   */
+/*   check_ERR_NOTREGISTERED.cpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 16:33:59 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 16:35:50 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/04 15:44:55 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/04 15:45:12 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-bool check_ERR_NOSUCHSERVER(Server *server, User user)
+bool check_ERR_NOTREGISTERED(User user, std::string command)
 {
-	int                  destination = user.getFd();
-	VEC_<STR_>           buffer      = server->_allBuff;
-	VEC_<STR_>::iterator it          = buffer.begin();
-	std::string          msg;
+	int  destination = user.getFd();
+	STR_ msg;
 
-	if (buffer.size() > 1)
+	if (user.getValidUser() == false)
 	{
-		if (*(++it) != NAME)
-		{
-			msg =  ERR_NOSUCHSERVER(*it);
-			send(destination, msg.c_str(), msg.length(), 0);
-			return NOT_OK_;
-		}
+		msg = ERR_NOTREGISTERED(command);
+		send(destination, msg.c_str(), msg.length(), 0);
+		return NOT_OK_;
 	}
 	return OK_;
 }
