@@ -75,7 +75,8 @@
 		"mutex": "cpp",
 		"ratio": "cpp",
 		"variant": "cpp",
-		"__bits": "cpp"
+		"__bits": "cpp",
+		"iomanip": "cpp"
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
 }
