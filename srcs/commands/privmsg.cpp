@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 03:33:50 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 03:37:26 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ static void		search_client(std::map<const int, std::string> & fdClient, std::vec
 		for (std::map<const int, User>::iterator it_user = user.begin(); it_user != user.end() ; it_user++) {
 			if (it_user->second.getNickname().compare(*it_client) == 0)
 				fdClient[it_user->first] = it_user->second.getNickname();
+			else
+				fdClient[it_user->first] = "@";  //--> bullshit a changer
+
 		}
 	}
 }
