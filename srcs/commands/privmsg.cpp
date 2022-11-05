@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 03:37:26 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 14:08:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,26 @@ static void		search_client(std::map<const int, std::string> & fdClient, std::vec
 	std::vector<std::string> client;
 
 	splitCmdClient(client, *it);
-
+	int i = -1;
 	for (std::vector<std::string>::iterator it_client = client.begin() ; it_client != client.end() ; it_client++) {
 		for (std::map<const int, User>::iterator it_user = user.begin(); it_user != user.end() ; it_user++) {
-			if (it_user->second.getNickname().compare(*it_client) == 0)
+			if (it_user->second.getNickname().compare(*it_client) == 0) {
 				fdClient[it_user->first] = it_user->second.getNickname();
-			else
-				fdClient[it_user->first] = "@";  //--> bullshit a changer
-
+				break ;
+			}
+			else if (it_user == --(user.end()))
+				fdClient[i--] = *it_client;
 		}
 	}
 }
 
 static void 	sendErrorNick(std::map<const int, std::string> client, User user, Server *serv) {
 	for (std::map<const int, std::string>::iterator it = client.begin() ; it != client.end() ; it++) {
-		if (it->second.compare("@") == 0) {
-			std::string msg = ERR_NOSUCHNICK(user.getNickname(), serv->_users[it->first].getNickname());
+		if (it->first < 0) {
+			std::string msg = ERR_NOSUCHNICK(user.getNickname(), it->second);
 			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			client.erase(it);
+			sendErrorNick(client, user, serv);
 		}
 	}
 }

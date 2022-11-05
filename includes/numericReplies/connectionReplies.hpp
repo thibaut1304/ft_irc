@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 03:36:02 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:25:05 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
-# define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick/channel\r\n")
+# define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"

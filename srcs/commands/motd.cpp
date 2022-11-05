@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:21:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 23:20:39 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:21:00 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ std::string 	citation() {
 	srand(time(NULL));
 
 	int val = rand() % 14 + 0;
-	std::cout << val << std::endl;
 	vec.push_back("Charity begins at home.");
 	// (Charité bien ordonnée commence par soi-même.)
 	vec.push_back("Might makes right.");
