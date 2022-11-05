@@ -23,7 +23,6 @@ class Channel
 		typedef std::set<UserPtr>    set;
 		typedef std::vector<UserPtr> vector;
 
-
 private:
     string  _name;
     string  _passwd;
@@ -45,6 +44,6 @@ public:
     Channel(Channel const &other);
     ~Channel();
 
-    int addUser     (UserPtr *user);
-    int isInChannel (UserPtr *user);
+    int addUser     (UserPtr user);
+    int isInChannel (UserPtr user);
 };

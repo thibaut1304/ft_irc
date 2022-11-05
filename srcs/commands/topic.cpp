@@ -12,18 +12,12 @@
 
 #include "Header_wsz.hpp"
 #include "Server.hpp"
+#include "connectionReplies.hpp"
 
 void topic(Server * server, User user)
 {
-	CmdStruct_ buff(server, user);
-	if (buff._size < 2)
-	{
-		std::cout << "hello" << std::endl;
-
-
-	}
-
-
+	if (check_ERR_NEEDMOREPARAMS(server, user) == NOT_OK_)
+		return ;
 }
 
 //  Command: TOPIC

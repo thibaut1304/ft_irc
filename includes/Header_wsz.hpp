@@ -22,21 +22,20 @@
 
 bool check_ERR_NOSUCHSERVER(Server *server, User user);
 bool check_ERR_NOTREGISTERED(User user, std::string cmd);
+bool check_ERR_NEEDMOREPARAMS(Server *server, User user);
 
-struct CmdStruct_ {
+//struct CmdStruct_ {
+	//int                  _destination;
+	//VEC_<STR_>           _buffer     ;
+	//VEC_<STR_>::iterator _begin      ;
+	//size_t               _size;
+	//std::string          _msg;
 
-
-	int                  _destination;
-	VEC_<STR_>           _buffer     ;
-	VEC_<STR_>::iterator _begin      ;
-	size_t               _size;
-	std::string          _msg;
-
-	CmdStruct_ (Server *server, User user)
-	{
-		_destination = user.getFd();
-		_buffer      = server->_allBuff;
-		_size        = _buffer.size();
-		_begin       = _buffer.begin();
-	}
-} ;
+	//CmdStruct_ (Server *server, User user)
+	//{
+		//_destination = user.getFd();
+		//_buffer      = server->_allBuff;
+		//_size        = _buffer.size();
+		//_begin       = _buffer.begin();
+	//}
+//} ;

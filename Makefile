@@ -61,6 +61,7 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
+				 commands/topic.cpp     \
 				\
 				commands/version.cpp            \
 				commands/time.cpp               \
@@ -73,6 +74,7 @@ SRCS		:=  \
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
+				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
 
 				# TODO
 				#commands/admin.cpp              \
@@ -84,7 +86,6 @@ SRCS		:=  \
 				# commands/join.cpp      \
 				# commands/part.cpp      \
 				# commands/mode.cpp      \
-				# commands/topic.cpp     \
 				# commands/names.cpp     \
 				# commands/list.cpp      \
 				# commands/invites.cpp   \

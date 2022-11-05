@@ -32,7 +32,7 @@ void	Server::initCmd() {
 	//_listCmd["MODE"]          = &mode;    // TODO
 	//_listCmd["CHANNEL MODES"] = &;        // TODO
 	//_listCmd["USER MODES"]    = &;        // TODO
-	//_listCmd["TOPIC"]         = &topic;   // TODO
+	_listCmd["TOPIC"]         = &topic;   // TODO
 	//_listCmd["INVITES"]       = &invites; // TODO
 	//_listCmd["KICK"]          = &kick;    // TODO
 
