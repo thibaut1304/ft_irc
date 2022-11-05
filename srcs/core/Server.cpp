@@ -97,6 +97,15 @@ static bool is_return_detected(char *buff, int len)
 	return false;
 }
 
+static std::string trim_whitespaces(const std::string& str)
+{
+    size_t first = str.find_first_not_of(' ');
+    if (std::string::npos == first)
+        return str;
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, (last - first + 1));
+}
+
 void	Server::requestClient(struct epoll_event user) {
 	char			buff[BUFF_SIZE];
 	int 			ret;
@@ -115,9 +124,8 @@ void	Server::requestClient(struct epoll_event user) {
 		return ;
 	}
 	static_buff += buff;
-	int i = 0;
-	while (static_buff[i] && isspace(static_buff[i])) i++;
-	if (static_buff[i])
+	static_buff = trim_whitespaces(static_buff);
+	if (static_buff.length() > 0)
 		exploreCmd(user.data.fd, static_buff);
 	//__debug_requestClient(static_buff);
 	static_buff.clear() ;
