@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 02:54:21 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 03:33:50 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,17 @@ static void		search_client(std::map<const int, std::string> & fdClient, std::vec
 
 	for (std::vector<std::string>::iterator it_client = client.begin() ; it_client != client.end() ; it_client++) {
 		for (std::map<const int, User>::iterator it_user = user.begin(); it_user != user.end() ; it_user++) {
-			if (it_user->second.getNickname().compare(*it_client) == 0) {
+			if (it_user->second.getNickname().compare(*it_client) == 0)
 				fdClient[it_user->first] = it_user->second.getNickname();
-				std::cout << "NICK : " << it_user->second.getNickname() << " - FD : " << it_user->first << std::endl;
-				break ;
-			}
+		}
+	}
+}
+
+static void 	sendErrorNick(std::map<const int, std::string> client, User user, Server *serv) {
+	for (std::map<const int, std::string>::iterator it = client.begin() ; it != client.end() ; it++) {
+		if (it->second.compare("@") == 0) {
+			std::string msg = ERR_NOSUCHNICK(user.getNickname(), serv->_users[it->first].getNickname());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
 		}
 	}
 }
@@ -64,13 +70,15 @@ void	privmsg(Server *serv, User user) {
 	else {
 		std::map<const int, std::string> client;
 		search_client(client, serv->_allBuff, serv->_users);
-		std::map<const int, std::string>::iterator it = client.begin();
 		std::string cmd = *(serv->_allBuff.begin());
 		serv->_allBuff.erase(serv->_allBuff.begin());
-		for (;it != client.end();it++) {
-			std::string msg_client = std::string(":") + user.getNickname() + "!" + user.getUsername() \
-			+ "@" + user.getIp() + " " + cmd + " " + it->second + " :" + print_allBuff(serv->_allBuff) + std::string("\r\n");
-			send(it->first, msg_client.c_str(), msg_client.length(), 0);
+		sendErrorNick(client, user, serv);
+		for (std::map<const int, std::string>::iterator it = client.begin() ; it != client.end() ; it++) {
+			if (it->second.compare("@") != 0) {
+				std::string msg_client = std::string(":") + user.getNickname() + "!" + user.getUsername() \
+				+ "@" + user.getIp() + " " + cmd + " " + it->second + " :" + print_allBuff(serv->_allBuff) + std::string("\r\n");
+				send(it->first, msg_client.c_str(), msg_client.length(), 0);
+			}
 		}
 	}
 }
