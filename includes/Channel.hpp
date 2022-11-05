@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 15:00:08 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/05 17:12:59 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,34 @@
 
 class Channel
 {
+	public:
+		typedef User*                UserPtr;
+		typedef std::string          string;
+		typedef std::set<UserPtr>    set;
+		typedef std::vector<UserPtr> vector;
+
+
 private:
-    std::string _name;
-    std::string _passwd;
-    User *_channelAdmin;
-    std::set<User *> _invited_users;
-    std::set<User *> _users;
-    // std::vector<User*> _banned_users;
-    bool _invite_only;
-    bool _passwd_required;
+    string  _name;
+    string  _passwd;
+	string  _topic;
+
+	set     _invited_users;
+    set     _users;
+
+	UserPtr _channelAdmin;
+
+	bool    _invite_only;
+    bool    _passwd_required;
+    vector  _banned_users;
 
 public:
-    Channel(std::string ChannelName, User *ChannelAdmin);
-    Channel(std::string ChannelName, User *ChannelAdmin, std::string passwd);
+
+    Channel(string ChannelName, UserPtr ChannelAdmin);
+    Channel(string ChannelName, UserPtr ChannelAdmin, string passwd);
     Channel(Channel const &other);
     ~Channel();
 
-    int addUser(User *user);
-    int isInChannel(User *user);
+    int addUser     (UserPtr *user);
+    int isInChannel (UserPtr *user);
 };
