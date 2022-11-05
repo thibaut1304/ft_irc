@@ -23,6 +23,7 @@
 bool check_ERR_NOSUCHSERVER(Server *server, User user);
 bool check_ERR_NOTREGISTERED(User user, std::string cmd);
 bool check_ERR_NEEDMOREPARAMS(Server *server, User user);
+bool check_ERR_NOTONCHANNEL(Server *server, User user);
 
 //struct CmdStruct_ {
 	//int                  _destination;

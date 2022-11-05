@@ -75,6 +75,7 @@ SRCS		:=  \
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
 				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
+				commands/checks/check_ERR_NOTONCHANNEL.cpp \
 
 				# TODO
 				#commands/admin.cpp              \
