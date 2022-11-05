@@ -125,7 +125,7 @@ void	Server::requestClient(struct epoll_event user) {
 	}
 	static_buff += buff;
 	static_buff = trim_whitespaces(static_buff);
-	if (static_buff.length() > 0)
+	if (static_buff.length() > 1)
 		exploreCmd(user.data.fd, static_buff);
 	//__debug_requestClient(static_buff);
 	static_buff.clear() ;
