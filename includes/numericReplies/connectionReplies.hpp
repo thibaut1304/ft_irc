@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 02:02:04 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:25:05 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
+# define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"
-// 401     ERR_NOSUCHNICK "<nickname> :No such nick/channel"
 // 414     ERR_WILDTOPLEVEL "<mask> :Wildcard in toplevel domain"
 // 404     ERR_CANNOTSENDTOCHAN "<channel name> :Cannot send to channel"
 // 413     ERR_NOTOPLEVEL "<mask> :No toplevel domain specified"

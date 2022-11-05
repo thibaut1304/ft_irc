@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 23:58:15 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 15:03:22 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,21 +169,25 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
 
-	/* ---------------------------------------------------------------------- */
-	// 					Delete this block for a defense !
-	static int i = 0;
-	if (Debug && !i) {
-		if (!buff.compare("M_ROOT\n")) {
+/* ---------------------------------------------------------------------- */
+// 					Delete this block for a defense !
+	if (Debug) {
+		// std::str
+		if (!buff.compare("M_ROOT\n") && _users[fd].getValidUser() == false) {
+			static int nickname = 1;
+			std::stringstream s;
+			s << nickname;
+			std::string root_nick = "root_" + s.str();
 			std::string msg = "You use a backdoor for debug !\r\n";
 			send(fd, msg.c_str(), msg.length(), 0);
 			_users[fd].setValidUser(true);
-			_users[fd].setNickname("root");
-			_users[fd].setUsername("root");
-			_users[fd].setFullName("root");
-			_users[fd].setHostname("root");
+			_users[fd].setNickname(root_nick);
+			_users[fd].setUsername(root_nick);
+			_users[fd].setFullName(root_nick);
+			_users[fd].setHostname(root_nick);
 			acceptUser(_users[fd]);
 			buff.clear();
-			i = 1;
+			nickname++;
 			return ;
 		}
 	}
