@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/04 22:19:43 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 01:42:14 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	Server::initCmd() {
 	_listCmd["INFO"]          = &info;
 
 	// # SENDING MESSAGES
-	//_listCmd["PRIVMSG"]       = &privmsg;
+	_listCmd["PRIVMSG"]       = &privmsg;
 	_listCmd["NOTICE"]        = &notice;
 
 	// # USER BASED QUERIES

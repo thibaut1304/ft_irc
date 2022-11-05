@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 23:31:25 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:25:05 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,18 @@
 /* ...................................................... */
 
 # define ERR_PASSWDMISMATCH(nick) (NAME + " 464 " + nick + " :Password incorrect\r\n")
+
+/* ...................................................... */
+/* ..................... PRIVMSG ........................ */
+/* ...................................................... */
+
+# define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
+// 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
+// 412     ERR_NOTEXTTOSEND ":No text to send"
+// 301     RPL_AWAY "<nick> :<away message>"
+// 414     ERR_WILDTOPLEVEL "<mask> :Wildcard in toplevel domain"
+// 404     ERR_CANNOTSENDTOCHAN "<channel name> :Cannot send to channel"
+// 413     ERR_NOTOPLEVEL "<mask> :No toplevel domain specified"
+// 411     ERR_NORECIPIENT ":No recipient given (<command>)"
+
+// :<c>!<1>@<172.17.0.1> PRIVMSG <b> :hello
