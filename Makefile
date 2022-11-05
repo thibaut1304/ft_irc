@@ -65,9 +65,6 @@ SRCS		:=  \
 				commands/version.cpp            \
 				commands/time.cpp               \
 				commands/info.cpp               \
-				commands/trace.cpp              \
-				commands/admin.cpp              \
-				commands/stats.cpp              \
 				commands/quit.cpp      			\
 				commands/motd.cpp      			\
 				commands/notice.cpp    			\
@@ -78,10 +75,12 @@ SRCS		:=  \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
 
 				# TODO
+				#commands/admin.cpp              \
+				# commands/stats.cpp     \
+				# commands/trace.cpp     \
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# # adlancel
 				# commands/join.cpp      \
 				# commands/part.cpp      \
 				# commands/mode.cpp      \
@@ -90,7 +89,6 @@ SRCS		:=  \
 				# commands/list.cpp      \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
-				#
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
 				# commands/who.cpp       \
