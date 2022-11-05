@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:38:13 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 19:48:29 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:39:16 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,4 @@ void	User::setUsername		(std::string username)	{ _username   	= username;		}
 void	User::setFullName		(std::string fullName)	{ _fullname   	= fullName;		}
 void	User::setHostname		(std::string hostname)	{ _hostname   	= hostname; 	}
 void	User::setIsKill		  	(bool kill) 			{ _isKill 		= kill;			}
+void 	User::setPASS			(std::string pass)		{ _PASS			= pass;			}

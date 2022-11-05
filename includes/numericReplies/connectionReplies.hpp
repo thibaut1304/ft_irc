@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 22:19:21 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:31:25 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,3 +93,9 @@
 #define RPL_MOTDSTART(nick) (NAME + " 375 " + nick + " :" + NAME_V + " Message of the day - \r\n")
 #define RPL_MOTD(nick, msg) (NAME + " 372 " + nick + " :" + msg + "\r\n")
 #define RPL_ENDOFMOTD(nick) (NAME + " 376 " + nick + " :End of /MOTD command\r\n")
+
+/* ...................................................... */
+/* ..................... PASSWORD ....................... */
+/* ...................................................... */
+
+# define ERR_PASSWDMISMATCH(nick) (NAME + " 464 " + nick + " :Password incorrect\r\n")

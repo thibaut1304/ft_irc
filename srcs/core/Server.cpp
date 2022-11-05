@@ -6,11 +6,12 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 22:01:31 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:58:15 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "Header.hpp"
 #include <netinet/in.h>
 
 /* ========================================================================== */
@@ -87,24 +88,47 @@ int Server::newConnection() {
 /* ----------------------------- REQUEST CLIENT ----------------------------- */
 /* ========================================================================== */
 
+
+static bool is_return_detected(char *buff, int len)
+{
+	for (int i = 0; i < len; i++)
+		if (buff[i] == '\n')
+			return true;
+	return false;
+}
+
+static std::string trim_whitespaces(const std::string& str)
+{
+    size_t first = str.find_first_not_of(' ');
+    if (std::string::npos == first)
+        return str;
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, (last - first + 1));
+}
+
 void	Server::requestClient(struct epoll_event user) {
 	char			buff[BUFF_SIZE];
 	int 			ret;
 	std::string		msg;
+	static std::string static_buff;
 
 	memset(buff, 0, BUFF_SIZE);
 	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
 		perror("Fail recv user");
 		exit(errno);
 	}
-	buff[ret] = 0;
-	// _buffUsers[user.data.fd].append(buff);
-	// std::cout << _YELLOW << _buffUsers[user.data.fd] << _NC << std::endl;
-	int i = 0;
-	while (buff[i] && isspace(buff[i])) i++;
-	if (buff[i])
-		exploreCmd(user.data.fd, buff);
-	__debug_requestClient(buff);
+
+	if (is_return_detected(buff, ret) == false)
+	{
+		static_buff += buff;
+		return ;
+	}
+	static_buff += buff;
+	static_buff = trim_whitespaces(static_buff);
+	if (static_buff.length() > 0)
+		exploreCmd(user.data.fd, static_buff);
+	//__debug_requestClient(static_buff);
+	static_buff.clear() ;
 }
 
 /* ========================================================================== */
@@ -144,6 +168,27 @@ void	parse_prefix(std::string & buff) {
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
+
+	/* ---------------------------------------------------------------------- */
+	// 					Delete this block for a defense !
+	static int i = 0;
+	if (Debug && !i) {
+		if (!buff.compare("M_ROOT\n")) {
+			std::string msg = "You use a backdoor for debug !\r\n";
+			send(fd, msg.c_str(), msg.length(), 0);
+			_users[fd].setValidUser(true);
+			_users[fd].setNickname("root");
+			_users[fd].setUsername("root");
+			_users[fd].setFullName("root");
+			_users[fd].setHostname("root");
+			acceptUser(_users[fd]);
+			buff.clear();
+			i = 1;
+			return ;
+		}
+	}
+	/* ---------------------------------------------------------------------- */
+
 	parse_prefix(buff);
 	_buff = buff;
 
@@ -171,10 +216,11 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		}
 
 		if (!_users[fd].getValidUser()
-			&& !_users[fd].getNickname().empty()
-			&& !_users[fd].getUsername().empty()
-			&& !_users[fd].getFullName().empty()
-			&& !_users[fd].getHostname().empty())	{
+				&& !_users[fd].getNickname().empty()
+				&& !_users[fd].getUsername().empty()
+				&& !_users[fd].getFullName().empty()
+				&& !_users[fd].getHostname().empty()
+				&& _users[fd].getPASS().compare(_passwd) == 0) {
 			_users[fd].setValidUser(true);
 			acceptUser(_users[fd]);
 		}
