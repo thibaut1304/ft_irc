@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 15:01:13 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 15:04:50 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void		search_clientRPL(std::vector<std::string> Client, std::map<const in
 			send(user_send.getFd(), msg.c_str(), msg.length(), 0);
 		}
 		else if (it_tmp != tmp.end()) {
-				std::cout << cmd << std::endl;
 				std::string msg_client = std::string(":") + user_send.getNickname() + "!" + user_send.getUsername() \
 				+ "@" + user_send.getIp() + " " + cmd + " " + *it_find + " :" + print_allBuff(allBuff) + std::string("\r\n");
 				send(it_tmp->second, msg_client.c_str(), msg_client.length(), 0);
