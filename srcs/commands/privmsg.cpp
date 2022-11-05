@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 02:37:01 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 02:54:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	splitCmdClient(std::vector<std::string> & sCmd, std::string cmd) {
 		sCmd.push_back(cmd.substr(0, pos));
 }
 
-static void		search_client(std::vector<int> & fdClient, std::vector<std::string> buff, std::map<const int, User> user) {
+static void		search_client(std::map<const int, std::string> & fdClient, std::vector<std::string> buff, std::map<const int, User> user) {
 	std::vector<std::string>::iterator it = ++buff.begin();
 	std::vector<std::string> client;
 
@@ -41,17 +41,12 @@ static void		search_client(std::vector<int> & fdClient, std::vector<std::string>
 	for (std::vector<std::string>::iterator it_client = client.begin() ; it_client != client.end() ; it_client++) {
 		for (std::map<const int, User>::iterator it_user = user.begin(); it_user != user.end() ; it_user++) {
 			if (it_user->second.getNickname().compare(*it_client) == 0) {
-				fdClient.push_back(it_user->first);
+				fdClient[it_user->first] = it_user->second.getNickname();
 				std::cout << "NICK : " << it_user->second.getNickname() << " - FD : " << it_user->first << std::endl;
 				break ;
 			}
 		}
 	}
-}
-
-static std::string 	recupMsg(std::vector<std::string> buff) {
-	std::vector<std::string>::iterator it = ++buff.begin();
-	return (*it);
 }
 
 void	privmsg(Server *serv, User user) {
@@ -67,13 +62,15 @@ void	privmsg(Server *serv, User user) {
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
-		std::vector<int> client;
+		std::map<const int, std::string> client;
 		search_client(client, serv->_allBuff, serv->_users);
-		std::vector<int>::iterator it = client.begin();
+		std::map<const int, std::string>::iterator it = client.begin();
+		std::string cmd = *(serv->_allBuff.begin());
+		serv->_allBuff.erase(serv->_allBuff.begin());
 		for (;it != client.end();it++) {
 			std::string msg_client = std::string(":") + user.getNickname() + "!" + user.getUsername() \
-			+ "@" + user.getIp() + " " + print_cmd(serv->_allBuff) + " " + *it + " :" + recupMsg(print_allBuff(serv->_allBuff)) + std::string("\r\n");
-			send(*it, msg_client.c_str(), msg_client.length(), 0);
+			+ "@" + user.getIp() + " " + cmd + " " + it->second + " :" + print_allBuff(serv->_allBuff) + std::string("\r\n");
+			send(it->first, msg_client.c_str(), msg_client.length(), 0);
 		}
 	}
 }
