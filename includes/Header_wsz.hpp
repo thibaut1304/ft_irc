@@ -20,10 +20,13 @@
 #define OK_       1
 #define NOT_OK_   0
 
-bool check_ERR_NOSUCHSERVER(Server *server, User user);
-bool check_ERR_NOTREGISTERED(User user, std::string cmd);
-bool check_ERR_NEEDMOREPARAMS(Server *server, User user);
-bool check_ERR_NOTONCHANNEL(Server *server, User user);
+bool check_ERR_NOSUCHSERVER   (Server *server, User        user);
+bool check_ERR_NEEDMOREPARAMS (Server *server, User        user);
+bool check_ERR_NOTONCHANNEL   (Server *server, User        user);
+bool check_ERR_NOTREGISTERED  (User   user,    std::string cmd);
+
+void send_to_client(int fd, std::string msg, std::string err_code = "");
+
 
 //struct CmdStruct_ {
 	//int                  _destination;

@@ -99,11 +99,11 @@ static bool is_return_detected(char *buff, int len)
 
 static std::string trim_whitespaces(const std::string& str)
 {
-    size_t first = str.find_first_not_of(' ');
-    if (std::string::npos == first)
-        return str;
-    size_t last = str.find_last_not_of(' ');
-    return str.substr(first, (last - first + 1));
+	size_t first = str.find_first_not_of(' ');
+	if (std::string::npos == first)
+		return str;
+	size_t last = str.find_last_not_of(' ');
+	return str.substr(first, (last - first + 1));
 }
 
 void	Server::requestClient(struct epoll_event user) {
@@ -146,6 +146,18 @@ void	Server::killUserClient( int fd ) {
 	}
 }
 
+/* ========================================================================== */
+/* ------------------------ SERVER CHANNEL REQUESTS ------------------------- */
+/* ========================================================================== */
+
+bool    Server::does_channel_exist (string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false: true; }
+Channel Server::getChannel         (string ch_name) { return _channels.find(ch_name)->second;	}
+void    Server::removeChannel      (string ch_name) {_channels.erase(ch_name);}
+void    Server::addChannel         (string ch_name, Channel ch) {
+	pair p(ch_name, ch);
+	_channels.insert(p);
+}
+
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ------------------------- TODO WORK IN PROGRESS -------------------------- */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
@@ -169,8 +181,8 @@ void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
 
-/* ---------------------------------------------------------------------- */
-// 					Delete this block for a defense !
+	/* ---------------------------------------------------------------------- */
+	// 					Delete this block for a defense !
 	if (Debug) {
 		// std::str
 		if (!buff.compare("M_ROOT\n") && _users[fd].getValidUser() == false) {
