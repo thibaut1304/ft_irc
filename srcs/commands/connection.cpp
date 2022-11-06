@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:56:39 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/31 15:10:44 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:55:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,6 @@ void 	Server::acceptUser(User user) {
 		perror("Error send msg 001");
 		exit(errno);
 	}
+	_allBuff.clear();
+	motd(this, user);
 }

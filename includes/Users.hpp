@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:48 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/03 22:39:47 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:38:24 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ class User {
 		time_t      _time;
 		bool        _statusPing;
 		bool        _validUser;
-		
+
 		std::string _ip;
 		std::string _hostname;
 		std::string _nickname;
 		std::string _username;
 		std::string _fullname;
+		std::string _PASS;
 		bool		_isKill;
 
 	public:
@@ -47,7 +48,9 @@ class User {
 		void		setFullName(std::string);
 		std::string getHostname()     const;
 		void		setHostname(std::string);
-		
+		std::string getPASS() 	      const;
+		void 		setPASS(std::string);
+
 		time_t      getTimeActivity() const;
 		void        setTimeActivity();
 

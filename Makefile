@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
+#    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/04 17:42:37 by adlancel         ###   ########.fr        #
+#    Updated: 2022/11/05 01:43:11 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRCS		:=  \
 				utils/split/splitCmdIrssi.cpp   \
 				utils/split/splitCmdUser.cpp    \
 				utils/split/splitCmd.cpp        \
-				utils/split/split_classic.cpp        \
+				utils/split/split_classic.cpp   \
 				\
 				utils/debug/debug.cpp           \
 				\
@@ -61,37 +61,38 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
+				 commands/topic.cpp     \
 				\
 				commands/version.cpp            \
 				commands/time.cpp               \
 				commands/info.cpp               \
-				commands/trace.cpp              \
-				commands/admin.cpp              \
-				commands/stats.cpp              \
 				commands/quit.cpp      			\
+				commands/motd.cpp      			\
+				commands/notice.cpp    			\
 				commands/join.cpp     			\
+				commands/privmsg.cpp   			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
+				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
+				commands/checks/check_ERR_NOTONCHANNEL.cpp \
 
 				# TODO
+				#commands/admin.cpp              \
+				# commands/stats.cpp     \
+				# commands/trace.cpp     \
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# # adlancel
 				# commands/join.cpp      \
 				# commands/part.cpp      \
 				# commands/mode.cpp      \
-				# commands/topic.cpp     \
 				# commands/names.cpp     \
 				# commands/list.cpp      \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
-				#
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
-				# commands/privmsg.cpp   \
-				# commands/notice.cpp    \
 				# commands/who.cpp       \
 				# commands/whois.cpp     \
 				# commands/whowas.cpp    \

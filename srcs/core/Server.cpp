@@ -6,11 +6,12 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 14:28:45 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/05 15:03:22 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "Header.hpp"
 #include <netinet/in.h>
 
 /* ========================================================================== */
@@ -87,24 +88,47 @@ int Server::newConnection() {
 /* ----------------------------- REQUEST CLIENT ----------------------------- */
 /* ========================================================================== */
 
+
+static bool is_return_detected(char *buff, int len)
+{
+	for (int i = 0; i < len; i++)
+		if (buff[i] == '\n')
+			return true;
+	return false;
+}
+
+static std::string trim_whitespaces(const std::string& str)
+{
+	size_t first = str.find_first_not_of(' ');
+	if (std::string::npos == first)
+		return str;
+	size_t last = str.find_last_not_of(' ');
+	return str.substr(first, (last - first + 1));
+}
+
 void	Server::requestClient(struct epoll_event user) {
 	char			buff[BUFF_SIZE];
 	int 			ret;
 	std::string		msg;
+	static std::string static_buff;
 
 	memset(buff, 0, BUFF_SIZE);
 	if ((ret = recv(user.data.fd, buff, BUFF_SIZE, 0)) < 0) {
 		perror("Fail recv user");
 		exit(errno);
 	}
-	buff[ret] = 0;
-	// _buffUsers[user.data.fd].append(buff);
-	// std::cout << _YELLOW << _buffUsers[user.data.fd] << _NC << std::endl;
-	int i = 0;
-	while (buff[i] && isspace(buff[i])) i++;
-	if (buff[i])
-		exploreCmd(user.data.fd, buff);
-	__debug_requestClient(buff);
+
+	if (is_return_detected(buff, ret) == false)
+	{
+		static_buff += buff;
+		return ;
+	}
+	static_buff += buff;
+	static_buff = trim_whitespaces(static_buff);
+	if (static_buff.length() > 1)
+		exploreCmd(user.data.fd, static_buff);
+	//__debug_requestClient(static_buff);
+	static_buff.clear() ;
 }
 
 /* ========================================================================== */
@@ -122,27 +146,76 @@ void	Server::killUserClient( int fd ) {
 	}
 }
 
+/* ========================================================================== */
+/* ------------------------ SERVER CHANNEL REQUESTS ------------------------- */
+/* ========================================================================== */
+
+bool    Server::does_channel_exist (string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false: true; }
+Channel Server::getChannel         (string ch_name) { return _channels.find(ch_name)->second;	}
+void    Server::removeChannel      (string ch_name) {_channels.erase(ch_name);}
+void    Server::addChannel         (string ch_name, Channel ch) {
+	pair p(ch_name, ch);
+	_channels.insert(p);
+}
+
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ------------------------- TODO WORK IN PROGRESS -------------------------- */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-int		parsing      (User user) { (void)user; return (0); }
-void	generateError(User user) { (void)user; }
+void	parse_prefix(std::string & buff) {
+	std::string::iterator it = buff.begin();
+	if (buff.c_str()[0] == ':')
+		it++;
+	else
+		return ;
+	for (;it != buff.end();it++) {
+		if (*it == ' ') {
+			it++;
+			break;
+		}
+	}
+	buff.erase(buff.begin(), it);
+}
 
 void	Server::exploreCmd(int fd, std::string buff) {
 	if (buff.size() == 0)
 		return ;
-		
+
+	/* ---------------------------------------------------------------------- */
+	// 					Delete this block for a defense !
+	if (Debug) {
+		// std::str
+		if (!buff.compare("M_ROOT\n") && _users[fd].getValidUser() == false) {
+			static int nickname = 1;
+			std::stringstream s;
+			s << nickname;
+			std::string root_nick = "root_" + s.str();
+			std::string msg = "You use a backdoor for debug !\r\n";
+			send(fd, msg.c_str(), msg.length(), 0);
+			_users[fd].setValidUser(true);
+			_users[fd].setNickname(root_nick);
+			_users[fd].setUsername(root_nick);
+			_users[fd].setFullName(root_nick);
+			_users[fd].setHostname(root_nick);
+			acceptUser(_users[fd]);
+			buff.clear();
+			nickname++;
+			return ;
+		}
+	}
+	/* ---------------------------------------------------------------------- */
+
+	parse_prefix(buff);
 	_buff = buff;
-	
+
 	std::vector<std::string> tmp;
 	splitCmdIrssi(tmp, buff);
 	std::vector<std::string>::iterator it_tmp = tmp.begin();
-	
+
 	for (;it_tmp != tmp.end(); it_tmp++) {
 		_allBuff.clear();
 		splitCmd(_allBuff, *it_tmp);
-		
+
 		std::vector<std::string>::iterator cmdName = _allBuff.begin();
 		myToupper(*cmdName);
 		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
@@ -158,11 +231,12 @@ void	Server::exploreCmd(int fd, std::string buff) {
 			itCmdList->second(this, _users[fd]);
 		}
 
-		if (!_users[fd].getValidUser()				
-			&& !_users[fd].getNickname().empty() 	
-			&& !_users[fd].getUsername().empty()	
-			&& !_users[fd].getFullName().empty()	
-			&& !_users[fd].getHostname().empty())	{
+		if (!_users[fd].getValidUser()
+				&& !_users[fd].getNickname().empty()
+				&& !_users[fd].getUsername().empty()
+				&& !_users[fd].getFullName().empty()
+				&& !_users[fd].getHostname().empty()
+				&& _users[fd].getPASS().compare(_passwd) == 0) {
 			_users[fd].setValidUser(true);
 			acceptUser(_users[fd]);
 		}

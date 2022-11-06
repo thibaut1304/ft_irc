@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 19:11:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 16:53:22 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:54:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,6 @@ static std::string	findPoint(std::vector<std::string> & all) {
 
 void	user(Server *serv, User user) {
 	std::vector<std::string> all;
-	
-	std::cout << _CYAN << "CMD USER" << _NC << std::endl;
-	
 	
 	std::string bis = findPoint(serv->_allBuff);
 	if (bis.empty() || serv->_allBuff.size() != 4) {
