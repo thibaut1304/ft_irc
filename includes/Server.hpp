@@ -60,7 +60,7 @@ class Server
 		typedef std::map<string,Channel> map_channels;
 		typedef std::pair<string,Channel> pair;
 		typedef std::vector<string>      vector_string;
-		typedef std::map<const int,User> map_users;
+		typedef std::map<const int ,User> map_users;
 
 		/* .............................................. */
 		/* ................ MEMBER VARS ................. */
@@ -98,10 +98,15 @@ class Server
 		/* .............................................. */
 		/* .............. CHANNEL REQUESTS .............. */
 		/* .............................................. */
-		bool    does_channel_exist (string ch_name);
-		Channel getChannel         (string ch_name);
-		void    removeChannel      (string ch_name);
-		void    addChannel         (string ch_name, Channel ch);
+		bool    does_channel_exist       (string ch_name);
+		Channel getChannel               (string ch_name);
+		void    removeChannel            (string ch_name);
+		void    addChannel               (string ch_name,   Channel ch);
+
+		//bool    is_user_registered       (string user_name);
+		//void    remove_user_from_channel (string user_name, string  ch_name);
+		//void    add_user_to_channel      (string user_name, string  ch_name);
+		//bool    is_user_in_channel       (string user_name, string  ch_name);
 };
 
 /* ========================================================================== */

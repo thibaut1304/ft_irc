@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_ERR_NOTONCHANNEL.cpp                         :+:      :+:    :+:   */
+/*   check_ERR_NOSUCHCHANNEL.cpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/05 17:53:11 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/05 17:53:40 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/07 16:19:24 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/07 16:23:17 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "Channel.hpp"
 
-
-bool check_ERR_NOTONCHANNEL(Server *server, User user)
+bool check_ERR_NOSUCHCHANNEL(Server * server, User user)
 {
 	(void)user;
+	int                  destination = user.getFd();
 	VEC_<STR_>           buffer      = server->_allBuff;
-	std::map<std::string, Channel>::iterator channel_it ;
 	VEC_<STR_>::iterator it          = buffer.begin();
-	STR_ 				 channel = *it;
+	std::string          msg;
+	std::string channel_name ;
 
-	channel_it = server->_channels.find(channel);
-	if (channel_it == server->_channels.end())
+	if ((buffer.size()) > 1)
 	{
-		std::cout << "notok" << std::endl;
-		return NOT_OK_;
+		channel_name =  *(++it);
+		if (channel_name[0] == '#')
+		{
+			channel_name = &channel_name[1];
+			if (server->does_channel_exist(channel_name) == false)
+			{
+				msg = ERR_NOSUCHCHANNEL(NAME_V);
+				send(destination, msg.c_str(), msg.length(), 0);
+				return NOT_OK_;
+			}
+		}
 	}
-		std::cout << "ok" << std::endl;
 	return OK_;
-
 }

@@ -71,11 +71,13 @@ SRCS		:=  \
 				commands/notice.cpp    			\
 				commands/join.cpp     			\
 				commands/privmsg.cpp   			\
+				 commands/mode.cpp      \
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
 				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
 				commands/checks/check_ERR_NOTONCHANNEL.cpp \
+				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
 
 				# TODO
 				#commands/admin.cpp              \
@@ -86,7 +88,6 @@ SRCS		:=  \
 				# commands/squit.cpp     \
 				# commands/join.cpp      \
 				# commands/part.cpp      \
-				# commands/mode.cpp      \
 				# commands/names.cpp     \
 				# commands/list.cpp      \
 				# commands/invites.cpp   \

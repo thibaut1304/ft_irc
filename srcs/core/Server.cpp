@@ -135,7 +135,7 @@ void	Server::requestClient(struct epoll_event user) {
 /* ---------------------------- KILL USER CLIENT ---------------------------- */
 /* ========================================================================== */
 
-void	Server::killUserClient( int fd ) {
+void	Server::killUserClient(int fd) {
 	if (epoll_ctl(_fdPoll, EPOLL_CTL_DEL, fd, NULL) < 0) {
 		perror("Error epoll ctl del client");
 		exit(EXIT_FAILURE);
@@ -157,6 +157,37 @@ void    Server::addChannel         (string ch_name, Channel ch) {
 	pair p(ch_name, ch);
 	_channels.insert(p);
 }
+
+//bool Server::is_user_registered(string user_name)
+//{
+	//if (_users.find(user_name) == _users.end())
+		//return false;
+	//User user = _users.find(user_name)->second;
+	//return (user.getValidUser());
+//}
+
+//void Server::remove_user_from_channel(string user_name, string ch_name)
+//{
+	//if (does_channel_exist (ch_name) == false) return ;
+	//Channel ch = getChannel(ch_name);
+	//ch.removeUser(user_name);
+//}
+
+//void Server::add_user_to_channel(string user_name, string ch_name)
+//{
+	//if (does_channel_exist (ch_name) == false) return ;
+	//Channel ch = getChannel(ch_name);
+	//ch.addUser(user_name);
+//}
+
+//bool Server::is_user_in_channel(string user_name, string channel_name)
+//{
+	//if (does_channel_exist (channel_name) == false) return false;
+	//Channel ch = getChannel(channel_name);
+	//if (ch.isInChannel (user_name)        == false) return false; // TODO
+	//return (true);
+//}
+
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ------------------------- TODO WORK IN PROGRESS -------------------------- */
