@@ -153,7 +153,8 @@ void	Server::killUserClient(int fd) {
 bool    Server::does_channel_exist (string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false: true; }
 Channel Server::getChannel         (string ch_name) { return _channels.find(ch_name)->second;	}
 void    Server::removeChannel      (string ch_name) {_channels.erase(ch_name);}
-void    Server::addChannel         (string ch_name, Channel ch) {
+void    Server::addChannel         (string ch_name, int  fd) {
+	Channel ch(ch_name, fd);
 	pair p(ch_name, ch);
 	_channels.insert(p);
 }

@@ -21,6 +21,7 @@ class Channel
 		typedef User*                UserPtr;
 		typedef std::string          string;
 		typedef std::set<UserPtr>    set_of_users;
+		typedef std::set<int>        set_of_fds;
 
 
 		//typedef std::vector<UserPtr> vector_of_users;
@@ -31,10 +32,15 @@ class Channel
 		string          _topic;
 
 		set_of_users    _users;
+
+		set_of_fds 		_fds;
+		set_of_fds 		_fds_banned;
+		set_of_fds 		_fds_invited;
+
 		set_of_users    _users_banned;
 		set_of_users    _users_invited;
 
-		UserPtr         _channelAdmin;
+	 int _channelAdmin;
 
 		bool            _invite_only;
 		bool            _passwd_required;
@@ -63,24 +69,24 @@ class Channel
 
 	public:
 
-		Channel(string ChannelName, UserPtr ChannelAdmin);
-		Channel(string ChannelName, UserPtr ChannelAdmin, string passwd);
+		Channel(string ChannelName, int fdAdmin);
+		Channel(string ChannelName, int fdAdmin, string passwd);
 		Channel(Channel const &other);
 		~Channel();
 
-		int addUser    (UserPtr user);
-		int removeUser (UserPtr user);
-		int banUser    (UserPtr user);
-		int unbanUser  (UserPtr user);
+		int addUser    (int fd);
+		int removeUser (int fd);
+		int banUser    (int fd);
+		int unbanUser  (int fd);
 
-		int isInChannel (UserPtr user);
-		int isBanned    (UserPtr user);
-		int isInvited   (UserPtr user);
+		int isInChannel (int fd);
+		int isBanned    (int fd);
+		int isInvited   (int fd);
 
 		void   setTopic (string str);
 		string getTopic (void);
 
-		set_of_users getUsers        (void);
-		set_of_users getUsersBanned  (void);
-		set_of_users getUsersInvited (void);
+		set_of_fds getUsers        (void);
+		set_of_fds getUsersBanned  (void);
+		set_of_fds getUsersInvited (void);
 };

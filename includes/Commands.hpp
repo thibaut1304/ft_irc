@@ -34,6 +34,7 @@ void squit         (Server *, User);
 
 // # CHANNEL OPERATIONS
 void join          (Server *, User);
+void john          (Server *, User);
 void part          (Server *, User);
 void mode          (Server *, User);
 void channel_modes (Server *, User); // TODO wtf?

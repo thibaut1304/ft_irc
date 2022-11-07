@@ -101,7 +101,61 @@ class Server
 		bool    does_channel_exist       (string ch_name);
 		Channel getChannel               (string ch_name);
 		void    removeChannel            (string ch_name);
-		void    addChannel               (string ch_name,   Channel ch);
+		void    addChannel               (string ch_name ,int fd);
+
+
+		void join_channel(string ch_name, int fd)
+		{
+			Channel ch = _channels.find(ch_name)->second;
+			ch.addUser(fd);
+		}
+
+
+
+		void printAllUsers_from_channel(std::string ch_name)
+		{
+			Channel ch = _channels.find(ch_name)->second;
+
+
+			Channel::set_of_fds           fds = ch.getUsers();
+			Channel::set_of_fds::iterator it    = fds.begin();
+			Channel::set_of_fds::iterator ite   = fds.end();
+
+
+			std::cout << "check" << std::endl;
+			if (it == ite)
+			{
+				std::cout << "nothing found" << std::endl;
+
+
+			}
+			while (it != ite)
+			{
+				std::cout << "check" << std::endl;
+
+				std::cout << "User"<<  (*it) << std::endl;
+				it++;
+			}
+			std::cout << "chick" << std::endl;
+
+
+
+
+		}
+		void printAllChannels()
+		{
+			map_channels::iterator it = _channels.begin();
+			map_channels::iterator ite = _channels.end();
+
+			while (it != ite)
+			{
+				std::cout << (*it).first << std::endl;
+				it++;
+			}
+
+
+
+		}
 
 		//bool    is_user_registered       (string user_name);
 		//void    remove_user_from_channel (string user_name, string  ch_name);

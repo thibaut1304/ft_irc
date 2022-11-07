@@ -17,12 +17,12 @@
 /* ------------------------- CONSTRUCTOR DESTRUCTOR ------------------------- */
 /* ========================================================================== */
 
-Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(false)
+Channel::Channel(std::string ChannelName, int fdAdmin) : _name(ChannelName), _passwd(""), _channelAdmin(fdAdmin), _invite_only(false), _passwd_required(false)
 {
-	_users.insert(channelAdmin);
+	_fds.insert(fdAdmin);
 }
 
-Channel::Channel(std::string ChannelName, User *channelAdmin, std::string passwd) : _name(ChannelName), _passwd(passwd), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(true)
+Channel::Channel(std::string ChannelName, int fdAdmin, std::string passwd) : _name(ChannelName), _passwd(passwd), _channelAdmin(fdAdmin), _invite_only(false), _passwd_required(true)
 {
 }
 
@@ -42,22 +42,22 @@ Channel::~Channel()
 /* ---------------------------- CHANNEL METHODS ----------------------------- */
 /* ========================================================================== */
 
-int  Channel::addUser     (UserPtr user) { return (_users.insert(user).second); }
-int  Channel::removeUser  (UserPtr user) { return (_users.erase(user));         }
+int  Channel::addUser     (int fd) { return (_fds.insert(fd).second); }
+int  Channel::removeUser  (int fd) { return (_fds.erase(fd));         }
 
-int  Channel::banUser     (UserPtr user) { return (_users_banned.insert(user).second); }
-int  Channel::unbanUser   (UserPtr user) { return (_users_banned.erase(user));         }
+int  Channel::banUser     (int fd) { return (_fds_banned.insert(fd).second); }
+int  Channel::unbanUser   (int fd) { return (_fds_banned.erase(fd));         }
 
-int  Channel::isInChannel (UserPtr user) { return (_users.find(user)         == _users.end())        ? false : true;  }
-int  Channel::isBanned    (UserPtr user) { return (_users_banned.find(user)  == _users_banned.end()  ? false : true); }
-int  Channel::isInvited   (UserPtr user) { return (_users_invited.find(user) == _users_invited.end() ? false : true); }
+int  Channel::isInChannel (int fd) { return (_fds.find(fd)         == _fds.end())        ? false : true;  }
+int  Channel::isBanned    (int fd) { return (_fds_banned.find(fd)  == _fds_banned.end()  ? false : true); }
+int  Channel::isInvited   (int fd) { return (_fds_invited.find(fd) == _fds_invited.end() ? false : true); }
 
 void Channel::setTopic    (string  str)  { _topic = str; }
 
-Channel::string       Channel::getTopic        (void) { return _topic;         }
-Channel::set_of_users Channel::getUsers        (void) { return _users;         }
-Channel::set_of_users Channel::getUsersBanned  (void) { return _users_banned;  }
-Channel::set_of_users Channel::getUsersInvited (void) { return _users_invited; }
+Channel::string     Channel::getTopic        (void) { return _topic;       }
+Channel::set_of_fds Channel::getUsers        (void) { return _fds;         }
+Channel::set_of_fds Channel::getUsersBanned  (void) { return _fds_banned;  }
+Channel::set_of_fds Channel::getUsersInvited (void) { return _fds_invited; }
 
 //        ERR_NEEDMOREPARAMS              ERR_BANNEDFROMCHAN
 //        ERR_INVITEONLYCHAN              ERR_BADCHANNELKEY

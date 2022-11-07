@@ -69,7 +69,7 @@ SRCS		:=  \
 				commands/quit.cpp      			\
 				commands/motd.cpp      			\
 				commands/notice.cpp    			\
-				commands/join.cpp     			\
+				commands/john.cpp     			\
 				commands/privmsg.cpp   			\
 				 commands/mode.cpp      \
 				\
@@ -80,6 +80,7 @@ SRCS		:=  \
 				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
 
 				# TODO
+				#commands/join.cpp     			\
 				#commands/admin.cpp              \
 				# commands/stats.cpp     \
 				# commands/trace.cpp     \
