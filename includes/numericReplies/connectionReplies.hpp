@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/07 11:53:44 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:00:34 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,20 @@
 #define CLIENT_EXIT(user, ip, msg) ("ERROR :Closing link: (" + user + "@" + ip + ") [" + msg + "]\r\n")
 
 /* ...................................................... */
+/* ................. Replies Channel .................... */
+/* ...................................................... */
+#define RPL_NAMREPLY(nick, channel, nicks) (" 353 " + nick + " = " + channel + " :" + nicks)
+// #define RPL_NAMREPLY(nick, channel, nicks) (" 366 " + nick + " " + channel + " :End of /NAMES list." + "\r\n");
+/* ...................................................... */
+/* .................. Error join ........................ */
+/* ...................................................... */
+
+/* ...................................................... */
 /* .................. Error join ........................ */
 /* ...................................................... */
 #define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel (invite only)" + "\r\n");
-#define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n"); 
-#define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n"); 
+#define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n");
+#define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n");
 
 /* ...................................................... */
 /* ........................ wsz ......................... */
@@ -100,13 +109,13 @@
 /* ..................... PASSWORD ....................... */
 /* ...................................................... */
 
-# define ERR_PASSWDMISMATCH(nick) (NAME + " 464 " + nick + " :Password incorrect\r\n")
+#define ERR_PASSWDMISMATCH(nick) (NAME + " 464 " + nick + " :Password incorrect\r\n")
 
 /* ...................................................... */
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
-# define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
+#define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"

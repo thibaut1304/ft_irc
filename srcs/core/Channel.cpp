@@ -6,11 +6,12 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/07 13:08:52 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/07 21:05:50 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
+#include <Server.hpp>
 #include <Channel.hpp>
 
 /* ========================================================================== */
@@ -19,16 +20,20 @@
 
 Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(false)
 {
-	_users.insert(channelAdmin);
-	std::cout << "Channel created" << std::endl;
+	std::cout << "constructor" << std::endl;
+
+	addUser(channelAdmin);
+	sendToAll(channelAdmin, "JOIN");
 }
 
 Channel::Channel(std::string ChannelName, User *channelAdmin, std::string passwd) : _name(ChannelName), _passwd(passwd), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(true)
 {
+	std::cout << "PASSWD CONSTRUCTOR" << std::endl;
 }
 
 Channel::Channel(Channel const &other)
 {
+	std::cout << "copie constructor" << std::endl;
 	_name = other._name;
 	_passwd = other._passwd;
 	_channelAdmin = other._channelAdmin;
@@ -37,6 +42,7 @@ Channel::Channel(Channel const &other)
 }
 Channel::~Channel()
 {
+	std::cout << "destructor called" << this->_name << std::endl;
 }
 
 /* ========================================================================== */
@@ -47,22 +53,60 @@ bool Channel::is_invite_only_channel() { return _invite_only; }
 bool Channel::is_password_only_channel() { return _passwd_required; }
 bool Channel::checkPassword(std::string password) { return password == this->_passwd; }
 
-int Channel::addUser(UserPtr user) { return (_users.insert(user).second); }
-int Channel::removeUser(UserPtr user) { return (_users.erase(user)); }
+void Channel::sendToAll(UserPtr user, std::string command)
+{
+	int i = 0;
+	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name;
+	for (std::map<std::string, UserPtr>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		std::cout << i++ << std::endl;
+	}
+	// send((it->second)->getFd(), msg.c_str(), msg.length(), 0);
+}
+void Channel::addUser(UserPtr user)
+{
+	std::cout << "we add a user" << std::endl;
+	_users.insert(std::make_pair(user->getNickname(), user));
+	sendToAll(user, "JOIN");
+	std::cout << "_users_size = " << _users.size() << std::endl;
+}
+std::string Channel::getName()
+{
+	return (_name);
+};
+void Channel::removeUser(std::string nickname)
+{
+	(_users.erase(nickname));
+}
 
-int Channel::banUser(UserPtr user) { return (_users_banned.insert(user).second); }
-int Channel::unbanUser(UserPtr user) { return (_users_banned.erase(user)); }
+void Channel::banUser(std::string nickname)
+{
+	(_users_banned.insert(std::make_pair(nickname, _users[nickname])));
+}
+void Channel::unbanUser(std::string nickname)
+{
+	(_users_banned.erase(nickname));
+}
 
-int Channel::isInChannel(UserPtr user) { return (_users.find(user) == _users.end()) ? false : true; }
-int Channel::isBanned(UserPtr user) { return (_users_banned.find(user) == _users_banned.end() ? false : true); }
-int Channel::isInvited(UserPtr user) { return (_users_invited.find(user) == _users_invited.end() ? false : true); }
+int Channel::isInChannel(std::string nickname)
+{
+	return (_users.find(nickname) == _users.end()) ? false : true;
+}
+int Channel::isBanned(std::string nickname)
+{
+	return (_users_banned.find(nickname) == _users_banned.end() ? false : true);
+}
+int Channel::isInvited(std::string nickname)
+{
+	return (_users_invited.find(nickname) == _users_invited.end() ? false : true);
+}
 
 void Channel::setTopic(string str) { _topic = str; }
 
 Channel::string Channel::getTopic(void) { return _topic; }
-Channel::set_of_users Channel::getUsers(void) { return _users; }
-Channel::set_of_users Channel::getUsersBanned(void) { return _users_banned; }
-Channel::set_of_users Channel::getUsersInvited(void) { return _users_invited; }
+std::map<std::string, Channel::UserPtr> Channel::getUsers(void) { return _users; }
+std::map<std::string, Channel::UserPtr> Channel::getUsersBanned(void) { return _users_banned; }
+std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return _users_invited; }
 
 //        ERR_NEEDMOREPARAMS              ERR_BANNEDFROMCHAN
 //        ERR_INVITEONLYCHAN              ERR_BADCHANNELKEY
