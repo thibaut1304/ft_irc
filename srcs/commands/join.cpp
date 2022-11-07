@@ -6,14 +6,14 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/04 22:24:42 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:19:36 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
 #include <Server.hpp>
 
-int charset(std::string charset, std::string str)
+static int charset(std::string charset, std::string str)
 {
   int i = 0;
   while (charset[i])
@@ -24,135 +24,54 @@ int charset(std::string charset, std::string str)
   }
   return (0);
 }
+void perror_and_exit(std::string code)
+{
+  std::string error = "Error send msg ";
+  error.append(code);
+  perror(error.c_str());
+  exit(errno);
+}
 void join(Server *serv, User user)
 {
-  std::vector<std::string> channels;
-  split(channels, serv->_allBuff[1], ",");
-
-  switch (serv->_allBuff.size())
+  if (serv->_allBuff.size() == 1)
   {
-  case 1:
-  {
-std::cout << "join called" << std::endl;
-    
     std::string msg = NAME + ERR_NEEDMOREPARAMS("JOIN", user.getNickname());
     if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-    {
-      perror("Error send msg 461");
-      exit(errno);
-    }
-    break;
+      perror_and_exit("476");
   }
-  case 2:
+  else
   {
+    std::vector<std::string> channels, passwords;
+    split(channels, serv->_allBuff[1], ",");
+    split(passwords, serv->_allBuff[2], ",");
     for (size_t i = 0; i < channels.size(); i++)
     {
-          std::cout << "we are here \n";
-
-      std::map<std::string, Channel>::iterator it = serv->_channels.find(channels[i]);
-      if (!charset("&#!+", channels[i]) || channels[i].size() > 50)
+      if (!charset("&#", channels[i]) || channels[i].size() > 50)
       {
-          std::cout << "we are here 2 \n";
-
         std::string msg = NAME + ERR_BADCHANMASK(user.getNickname(), channels[i]);
         if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-        {
-          perror("Error send msg 476");
-          exit(errno);
-        }
+          perror_and_exit("476");
       }
-      else if (it != serv->_channels.end())
+      else if (serv->does_channel_exist(channels[i]))
       {
-          std::cout << "we are here 3\n";
-
+        std::map<std::string, Channel>::iterator it = serv->_channels.find(channels[i]);
         if (it->second.is_invite_only_channel() && it->second.isInvited(&user))
         {
-          std::cout << "we are here 4\n";
           std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
           if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-          {
-            perror("Error send msg 473");
-            exit(errno);
-          }
+            perror_and_exit("473");
         }
-        else if (it->second.is_password_only_channel())
+        else if (it->second.is_password_only_channel() && it->second.checkPassword(passwords[i]))
         {
-          std::cout << "we are here 5\n";
-
           std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
           if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-          {
-            perror("Error send msg 473");
-            exit(errno);
-          }
+            perror_and_exit("475");
         }
         else
-        {
-          std::cout << "wxe are here 6 \n";
           it->second.addUser(&user);
-        }
       }
-      else 
-      {
-          serv->addChannel(channels[i], Channel(channels[i], &user));
-      }
+      else
+        serv->addChannel(channels[i], Channel(channels[i], &user));
     }
   }
-  }
-
-  // std::cout << "le buff contient [" << i << "]" << channels[i] << std::endl;
-  //  serv.createChannel()
-
-  // switch (serv->_allBuff.size())
-  // {
-  // case 2:
-  // {
-  //   split(channels, serv->_allBuff[1], ",");
-  //   std::cout << "join called" << std::endl;
-  //   std::cout << channels.size() << std::endl;
-  //   for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); it++)
-  //     std::cout << "channels = " << *it << std::endl;
-  //   break;
-  // }
-  // default:
-  //   break;
-  // }
-
-  // {
-  // }
-  // switch (serv->_allBuff.size())
-  // {
-  // case 1:
-  // {
-  //     std::string msg = NAME + ERR_NEEDMOREPARAMS(print_allBuff(serv->_allBuff));
-  //     send(user.getFd(), msg.c_str(), msg.length(), 0);
-  //     break;
-  // }
-
-  // case 2:
-  // {
-  //     std::map<std::string, Channel>::iterator it = _channels.find(_allBuff[2]);
-  //     if (it != _channels.end())
-  //     {
-  //         // check if mdp
-  //         if ()`
-  //         // check if invite only
-  //         // join existing channel;
-  //         break;
-  //     }
-  //     else
-  //     {
-  //     std::string msg = NAME + ERR_NOSUCHCHANNEL(print_allBuff(serv->_allBuff));
-  //     send(user.getFd(), msg.c_str(), msg.length(), 0);
-
-  //     }
-  // }
-
-  // case 3:
-  //     break;
-
-  // default:
-  //     break;
-  // }
-  // ERR_TOOMANYCHANNELS
 }

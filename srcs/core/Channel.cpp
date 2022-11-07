@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/04 20:45:09 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:08:52 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ Channel::~Channel()
 
 bool Channel::is_invite_only_channel() { return _invite_only; }
 bool Channel::is_password_only_channel() { return _passwd_required; }
+bool Channel::checkPassword(std::string password) { return password == this->_passwd; }
 
 int Channel::addUser(UserPtr user) { return (_users.insert(user).second); }
 int Channel::removeUser(UserPtr user) { return (_users.erase(user)); }
