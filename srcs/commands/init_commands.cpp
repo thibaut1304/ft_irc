@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/05 01:42:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/06 14:37:43 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	Server::initCmd() {
 	_listCmd["NOTICE"]        = &notice;
 
 	// # USER BASED QUERIES
-	//_listCmd["WHO"]           = &who;      // TODO
+	_listCmd["WHO"]           = &who;      // TODO
 
 	// # MISC MESSAGES
 	_listCmd["KILL"]          = &kill;

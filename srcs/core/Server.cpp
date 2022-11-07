@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 15:03:22 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/06 15:57:50 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,9 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		std::vector<std::string>::iterator cmdName = _allBuff.begin();
 		myToupper(*cmdName);
 		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
+# if (Debug)
 		std::cout << _YELLOW << "|-|" << *cmdName << "|-|" << _NC << std::endl;
+#endif
 		if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false) {
 			return ;
 		}
@@ -229,6 +231,8 @@ void	Server::exploreCmd(int fd, std::string buff) {
 		}
 		else {
 			itCmdList->second(this, _users[fd]);
+			if (_users[fd].getValidUser() == true)
+			_users[fd].setTimeActivity();
 		}
 
 		if (!_users[fd].getValidUser()
@@ -241,18 +245,18 @@ void	Server::exploreCmd(int fd, std::string buff) {
 			acceptUser(_users[fd]);
 		}
 		const bool isValidUser = _users[fd].getValidUser();
-
+# if (Debug)
 		if (isValidUser)
 			std::cout << _GREEN << "USER OK" << _NC << std::endl;
 		else
 			std::cout << _RED << "USER NOK" << _NC << std::endl;
+#endif
 	}
-	if (_users[fd].getValidUser() == true)
-		_users[fd].setTimeActivity();
 	buff.clear();
 }
 
 void	Server::pingTime( void ) {
+
 	double tmp;
 	std::map<const int, User>::iterator it = _users.begin(), ite = _users.end();
 	std::vector<int> vecFd;
@@ -260,21 +264,28 @@ void	Server::pingTime( void ) {
 	for (; it != ite; it++) {
 		usleep(1);
 		tmp = difftime(time(NULL), it->second.getTimeActivity());
-		if (tmp > REGIS_TIME && it->second.getValidUser() == false && it->second.getPingStatus() == false) {
+		if (tmp > REGIS_TIME && it->second.getValidUser() == false) {
 			std::string msg = REGISTRATION_TIMEOUT(NAME_V, it->second.getIp());
 			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
 			if (it->second.getIsKill() == false)
 				killUserClient(it->second.getFd());
 			vecFd.push_back(it->second.getFd());
-			it->second.setPingStatus(true);
 		}
 		else if (tmp > PING_TIME && it->second.getValidUser() == true) {
-			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
-			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
-			vecFd.push_back(it->second.getFd());
-			if (it->second.getIsKill() == false)
-				killUserClient(it->second.getFd());
+			if (it->second.getPingStatus() == false) {
+				it->second.setPingStatus(true);
+				it->second.setTimeActivity();
+				std::string ping = PING(NAME);
+				send(it->second.getFd(), ping.c_str(), ping.length(), 0);
+			}
+			else {
+				tmp = difftime(time(NULL), it->second.getTimeActivity());
+				std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
+				send(it->second.getFd(), msg.c_str(), msg.length(), 0);
+				vecFd.push_back(it->second.getFd());
+				if (it->second.getIsKill() == false)
+					killUserClient(it->second.getFd());
+			}
 		}
 		else if (it->second.getIsKill() == true) {
 			vecFd.push_back(it->second.getFd());

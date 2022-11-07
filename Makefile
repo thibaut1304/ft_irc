@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/05 01:43:11 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/06 14:38:06 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRCS		:=  \
 				commands/notice.cpp    			\
 				commands/join.cpp     			\
 				commands/privmsg.cpp   			\
+				commands/who.cpp				\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -93,7 +94,6 @@ SRCS		:=  \
 				# commands/kick.cpp      \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
-				# commands/who.cpp       \
 				# commands/whois.cpp     \
 				# commands/whowas.cpp    \
 				# commands/pong.cpp      \

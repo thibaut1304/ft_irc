@@ -6,9 +6,12 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 13:25:05 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/06 20:57:23 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+48° 53' 52.210
+2° 18' 34.410
 
 #pragma once
 
@@ -113,4 +116,12 @@
 // 413     ERR_NOTOPLEVEL "<mask> :No toplevel domain specified"
 // 411     ERR_NORECIPIENT ":No recipient given (<command>)"
 
-// :<c>!<1>@<172.17.0.1> PRIVMSG <b> :hello
+/* ...................................................... */
+/* ..................... PRIVMSG ........................ */
+/* ...................................................... */
+
+# define RPL_ENDOFWHO(user, nick) (NAME + " 315 " + user + " " + nick + " :End of /WHO list\r\n")
+
+// 352     RPL_WHOREPLY
+                        // "<channel> <user> <host> <server> <nick>
+                        //  <H|G>[*][@|+] :<hopcount> <real name>"
