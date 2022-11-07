@@ -13,6 +13,46 @@
 #include "Server.hpp"
 #include "Channel.hpp"
 
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
 
 bool check_ERR_NOTONCHANNEL(Server *server, User user)
 {

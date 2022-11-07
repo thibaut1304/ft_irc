@@ -126,10 +126,10 @@ void   mode(Server               *server, User    user)
 	if (check_ERR_NEEDMOREPARAMS (server, user) == NOT_OK_) return ;
 	if (check_ERR_NOTREGISTERED  (server, user) == NOT_OK_) return ;
 	if (check_ERR_NOSUCHCHANNEL  (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOTONCHANNEL   (server, user) == NOT_OK_) return ;
-	//if (check_ERR_NOSUCHNICK     (server, user)   == NOT_OK_) return ;
-	//if (check_ERR_CHANOPRIVSNEEDED (server, user)   == NOT_OK_) return ;
-	//if (check_ERR_KEYSET (server, user)   == NOT_OK_) return ;
+	if (check_ERR_NOTONCHANNEL   (server, user) == NOT_OK_) return ; // TODO
+	//if (check_ERR_NOSUCHNICK     (server, user)   == NOT_OK_) return ; // TODO
+	//if (check_ERR_CHANOPRIVSNEEDED (server, user)   == NOT_OK_) return ; // TODO
+	//if (check_ERR_KEYSET (server, user)   == NOT_OK_) return ; // TODO
 
 	VEC_<STR_>           buffer          = server->_allBuff;
 	VEC_<STR_>::iterator it              = buffer.begin();
