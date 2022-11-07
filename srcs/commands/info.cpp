@@ -55,7 +55,7 @@ void info (Server * server, User user)
 	int  destination = user.getFd();
 	STR_ msg;
 
-	if (check_ERR_NOTREGISTERED(user, "INFO") == NOT_OK_) return ;
+	if (check_ERR_NOTREGISTERED(server, user) == NOT_OK_) return ;
 	if (check_ERR_NOSUCHSERVER (server, user) == NOT_OK_) return ;
 
 	msg = info_format("Version " + VERSION);
