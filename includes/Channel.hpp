@@ -6,11 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/04 20:45:08 by adlancel         ###   ########.fr       */
-=======
 /*   Updated: 2022/11/05 17:12:59 by wszurkow         ###   ########.fr       */
->>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +22,6 @@ class Channel
 		typedef std::string          string;
 		typedef std::set<UserPtr>    set_of_users;
 
-<<<<<<< HEAD
-public:
-    Channel(std::string ChannelName, User *ChannelAdmin);
-    Channel(std::string ChannelName, User *ChannelAdmin, std::string passwd);
-    Channel(Channel const &other);
-    ~Channel();
-    bool is_invite_only();
-    bool is_pass_required();
-
-    void addUser(User *user);
-    int isInChannel(User *user);
-};
-=======
 
 		//typedef std::vector<UserPtr> vector_of_users;
 
@@ -75,6 +58,9 @@ public:
 		int isBanned    (UserPtr user);
 		int isInvited   (UserPtr user);
 
+		bool	is_invite_only_channel();
+		bool	is_password_only_channel();
+
 		void   setTopic (string str);
 		string getTopic (void);
 
@@ -82,4 +68,3 @@ public:
 		set_of_users getUsersBanned  (void);
 		set_of_users getUsersInvited (void);
 };
->>>>>>> master

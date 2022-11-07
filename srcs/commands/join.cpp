@@ -12,6 +12,7 @@
 
 #include <Header.hpp>
 #include <Server.hpp>
+
 int charset(std::string charset, std::string str)
 {
   int i = 0;
@@ -23,25 +24,8 @@ int charset(std::string charset, std::string str)
   }
   return (0);
 }
-static int check_rights(Channel channel)
-{
-  int i = 0;
-  std::string msg = NAME;
-  if (channel.is_invite_only())
-  {
-    ERR_INVITEONLYCHAN()
-    i += 1;
-  }
-  else if (channel.is_pass_required())
-  {
-    i += 1;
-    `
-  }
-  return i;
-}
 void join(Server *serv, User user)
 {
-
   std::vector<std::string> channels;
   split(channels, serv->_allBuff[1], ",");
 
@@ -49,6 +33,8 @@ void join(Server *serv, User user)
   {
   case 1:
   {
+std::cout << "join called" << std::endl;
+    
     std::string msg = NAME + ERR_NEEDMOREPARAMS("JOIN", user.getNickname());
     if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
     {
@@ -61,9 +47,13 @@ void join(Server *serv, User user)
   {
     for (size_t i = 0; i < channels.size(); i++)
     {
+          std::cout << "we are here \n";
 
-      if (!charset("&#!+", channels[0]) || channels[0].size() > 50)
+      std::map<std::string, Channel>::iterator it = serv->_channels.find(channels[i]);
+      if (!charset("&#!+", channels[i]) || channels[i].size() > 50)
       {
+          std::cout << "we are here 2 \n";
+
         std::string msg = NAME + ERR_BADCHANMASK(user.getNickname(), channels[i]);
         if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
         {
@@ -71,22 +61,43 @@ void join(Server *serv, User user)
           exit(errno);
         }
       }
-      else if (serv->_channels.contains(channels[i]))
+      else if (it != serv->_channels.end())
       {
-        if (!check_rights(serv->_channels[channels[i]]))
-          serv->_channels[channels[i]].addUser(user);
-        else
+          std::cout << "we are here 3\n";
 
-        // send
+        if (it->second.is_invite_only_channel() && it->second.isInvited(&user))
+        {
+          std::cout << "we are here 4\n";
+          std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
+          if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
+          {
+            perror("Error send msg 473");
+            exit(errno);
+          }
+        }
+        else if (it->second.is_password_only_channel())
+        {
+          std::cout << "we are here 5\n";
+
+          std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
+          if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
+          {
+            perror("Error send msg 473");
+            exit(errno);
+          }
+        }
+        else
+        {
+          std::cout << "wxe are here 6 \n";
+          it->second.addUser(&user);
+        }
       }
-      else
-        serv->_channels.insert(make_pair(channels[i], Channel(channels[i], &user)));
+      else 
+      {
+          serv->addChannel(channels[i], Channel(channels[i], &user));
+      }
     }
   }
-  case 3:
-  {
-  }
-  default:
   }
 
   // std::cout << "le buff contient [" << i << "]" << channels[i] << std::endl;

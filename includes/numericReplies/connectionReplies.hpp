@@ -77,8 +77,10 @@
 /* ...................................................... */
 /* .................. Error join ........................ */
 /* ...................................................... */
-#define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" \
-                                                                         "\r\n");
+#define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel" + "\r\n");
+#define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel" + "\r\n"); 
+#define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n"); 
+
 /* ...................................................... */
 /* ........................ wsz ......................... */
 /* ...................................................... */
