@@ -16,12 +16,14 @@
 
 void topic(Server * server, User user)
 {
-	//if (check_ERR_NEEDMOREPARAMS(server, user) == NOT_OK_)
-		//return ;
-	//if (check_ERR_NOTREGISTERED(user, "TOPIC") == NOT_OK_)
-		//return ;
+	if (check_ERR_NEEDMOREPARAMS(server, user) == NOT_OK_)
+		return ;
+	if (check_ERR_NOTREGISTERED(user, "TOPIC") == NOT_OK_)
+		return ;
 	if (check_ERR_NOTONCHANNEL(server, user) == NOT_OK_)
 		return ;
+	//if (check_ERR_CHANOPRIVSNEEDED(server, user) == NOT_OK_) // TODO
+		//return ;
 }
 
 //  Command: TOPIC

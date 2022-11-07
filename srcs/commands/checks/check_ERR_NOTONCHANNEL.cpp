@@ -16,12 +16,10 @@
 bool check_ERR_NOTONCHANNEL(Server *server, User user)
 {
 	(void)user;
-	//int                  destination = user.getFd();
 	VEC_<STR_>           buffer      = server->_allBuff;
 	std::map<std::string, Channel>::iterator channel_it ;
 	VEC_<STR_>::iterator it          = buffer.begin();
 	STR_ 				 channel = *it;
-	//STR_                 msg;
 
 	channel_it = server->_channels.find(channel);
 	if (channel_it == server->_channels.end())
