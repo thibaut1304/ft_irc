@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/07 12:11:08 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:51:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,9 @@
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
-# define RPL_ENDOFWHO(user, nick) (NAME + " 315 " + user + " " + nick + " :End of /WHO list\r\n")
+# define RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname) (NAME + " 352 " + nick + " " + channel + " " + user + " " + username + " " + ip + " " + NAME_V + " H" + chan + " :" \
+                            + hostname + " " + fullname + "\r\n")
+// <channel> <user> <host> <server> <nick> <H|G>[*][@|+] :<hopcount> <real name>")
+// "<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
 
-// 352     RPL_WHOREPLY
-                        // "<channel> <user> <host> <server> <nick>
-                        //  <H|G>[*][@|+] :<hopcount> <real name>"
+# define RPL_ENDOFWHO(nick, user) (NAME + " 315 " + nick + " " + user + " :End of /WHO list\r\n")
