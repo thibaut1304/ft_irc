@@ -103,6 +103,7 @@ void Channel::sendToAll(UserPtr user, std::string command)
 
 void Channel::addUser(UserPtr user)
 {
+	//UserPtr user = new User(*olduser); // NOTE SUPERFIX HERE
 	std::cout << "we add a user" << std::endl;
 	_users.insert(std::make_pair(user->getNickname(), user));
 	sendToAll(user, "JOIN");

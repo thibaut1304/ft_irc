@@ -104,6 +104,25 @@ public:
 	void addChannel(string ch_name, Channel::UserPtr user);
 
 
+	void print_server_users(void)
+	{
+		map_users::iterator it = _users.begin();
+		map_users::iterator ite = _users.end();
+		int fd;
+		while (it != ite)
+		{
+			fd = (*it).second.getFd();
+			std::cout << "+ FD OF SERVER USER IS : " << fd << std::endl;
+			std::cout << "- FD OF SERVER USER IS : " << (*it).first << std::endl;
+			it++;
+		}
+
+
+
+
+	}
+
+
 	void print_users_from_channel(string ch_name)
 	{
 		Channel *ch = getChannel(ch_name);
@@ -114,7 +133,8 @@ public:
 		Channel::map_users::iterator ite = mu.end();
 		while (it != ite)
 		{
-			std::cout << (*it).first  << std::endl;
+			std::cout << "Username : " << (*it).first << std::endl;
+			std::cout << "FD : "<< (*it).second->getFd() << std::endl;
 			it++;
 		}
 	}

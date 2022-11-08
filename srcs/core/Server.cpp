@@ -251,7 +251,8 @@ void Server::exploreCmd(int fd, std::string buff)
 		}
 		else
 		{
-			itCmdList->second(this, _users[fd]);
+			User *usr = new User(_users[fd]);
+			itCmdList->second(this, *usr);
 		}
 
 		if (!_users[fd].getValidUser() && !_users[fd].getNickname().empty() && !_users[fd].getUsername().empty() && !_users[fd].getFullName().empty() && !_users[fd].getHostname().empty() && _users[fd].getPASS().compare(_passwd) == 0)

@@ -64,7 +64,10 @@ User &User::operator=(const User &rhs) {
 	return (*this);
 }
 
-User::~User() {}
+User::~User() {
+	delete this;
+			//std::cout<< "Destroyed : " << _nickname << std::endl;
+}
 
 int         User::getFd           (void) const { return (_fd);         }
 time_t      User::getTimeActivity (void) const { return (_time);       }

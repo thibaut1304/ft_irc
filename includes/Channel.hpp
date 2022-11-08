@@ -70,7 +70,8 @@ public:
 
 		while (it != ite)
 		{
-			std::cout << (*it).first << std::endl;
+			std::cout << "Username : " << (*it).first << std::endl;
+			std::cout << "FD : "<< (*it).second->getFd() << std::endl;
 			it++;
 		}
 	}
