@@ -16,19 +16,20 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 
 
 # Actual commands to do
-- [ ] PASS
+
+- [x] PASS
 - [x] NICK
-- [ ] TOPIC
+- [W] TOPIC
 - [x] USER
-- [ ] MODE
-- [ ] KICK
-- [ ] PING
-- [ ] JOIN
-- [ ] WHO
+- [W] MODE
+- [A] KICK
+- [x] PING
+- [A] JOIN
+- [T] WHO
 - [x] PRIVMSG
-- [ ] PART
-- [ ] QUIT
-- [ ] INVITE
+- [A] PART
+- [T] QUIT
+- [A] INVITE
 
 # REFERENCE
 https://www.rfc-editor.org/rfc/rfc1459
