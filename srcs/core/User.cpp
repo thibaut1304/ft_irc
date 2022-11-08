@@ -42,10 +42,13 @@ User::User(const User &rhs) :
 	, _fullname		(rhs._fullname)
 	, _PASS			(rhs._PASS)
 	, _isKill		(rhs._isKill)
-{}
+{
+	std::cout << "const by copy creation USER fd : " << _fd << std::endl;
+}
 
 User &User::operator=(const User &rhs) {
 	if (this != &rhs) {
+	std::cout << "const by assign creation USER fd : " << _fd << std::endl;
 		_time       = rhs._time;
 		_fd         = rhs._fd;
 		_ip 		= rhs._ip;

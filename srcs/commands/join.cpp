@@ -68,8 +68,14 @@ void join(Server *serv, User user)
       serv->addChannel(channels[i], &user);
     }
   }
+
   std::map<std::string, Channel *> schannels = serv->getChannels();
   std::map<std::string, Channel *>::iterator it = schannels.begin();
   for (; it != schannels.end(); it++)
     std::cout << it->second->getName() << std::endl;
+
+
+  //std::cout << "check" << std::endl;
+  //serv->print_users_from_channel("#play");
+  //std::cout << "check" << std::endl;
 }

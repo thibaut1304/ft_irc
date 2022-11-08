@@ -23,7 +23,7 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelNam
 	std::cout << "constructor" << std::endl;
 
 	addUser(channelAdmin);
-	sendToAll(channelAdmin, "JOIN");
+	//sendToAll(channelAdmin, "JOIN");
 }
 
 Channel::Channel(std::string ChannelName, User *channelAdmin, std::string passwd) : _name(ChannelName), _passwd(passwd), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(true)
@@ -55,14 +55,52 @@ bool Channel::checkPassword(std::string password) { return password == this->_pa
 
 void Channel::sendToAll(UserPtr user, std::string command)
 {
-	int i = 0;
-	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name;
-	for (std::map<std::string, UserPtr>::iterator it = _users.begin(); it != _users.end(); it++)
+	//int i = 0;
+	std::string msg;
+	//map_channels::it = ch.getUsers->begin();
+	Channel::map_users mu = getUsers();
+	Channel::map_users::iterator it = mu.begin();
+	Channel::map_users::iterator ite = mu.end();
+
+	std::string username;
+	int destination;
+	while (it != ite)
 	{
-		std::cout << i++ << std::endl;
+		username = (*it).first;
+		msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name;
+		destination = mu[username]->getFd();
+
+
+		std::cout << "xxxxxxxxxxxxxxxxxxxx" << username<< std::endl;
+		std::cout << "xxxxxxxxxxxxxxxxxxxx" << destination << std::endl;
+
+
+		send(destination, msg.c_str(), msg.length(), 0);
+		it++;
 	}
-	// send((it->second)->getFd(), msg.c_str(), msg.length(), 0);
+
+
+
+	//while (it != ite)
+	//{
+		////msg = "=====================" +  (*it).first + "\n";
+
+		//std::cout << "container size --- " << (mu.size()) << std::endl;
+		//msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name;
+		//std::cout << "wtf is fd " << (*it).second->getFd() << std::endl;
+		//std::cout << "username is " << (*it).first<< std::endl;
+		//send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
+		//it++;
+	//}
+
+	//for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
+	//{
+	////std::cout << i++ << std::endl;
+	//msg = "-------------------------------" + (*it).first;
+	//send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
+	//}
 }
+
 void Channel::addUser(UserPtr user)
 {
 	std::cout << "we add a user" << std::endl;

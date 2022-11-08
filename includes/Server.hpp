@@ -102,6 +102,23 @@ public:
 	std::map<std::string, Channel *> getChannels();
 	void removeChannel(string ch_name);
 	void addChannel(string ch_name, Channel::UserPtr user);
+
+
+	void print_users_from_channel(string ch_name)
+	{
+		Channel *ch = getChannel(ch_name);
+
+		//map_channels::it = ch.getUsers->begin();
+		Channel::map_users mu = ch->getUsers();
+		Channel::map_users::iterator it = mu.begin();
+		Channel::map_users::iterator ite = mu.end();
+		while (it != ite)
+		{
+			std::cout << (*it).first  << std::endl;
+			it++;
+		}
+	}
+
 };
 
 /* ========================================================================== */
