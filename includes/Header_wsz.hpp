@@ -17,8 +17,16 @@
 #define P_(str)   std::cout << str;
 #define STR_      std::string
 #define VEC_      std::vector
+#define BUFFER_   std::vector<std::string>
+
+
 #define OK_       1
 #define NOT_OK_   0
+
+
+
+
+
 
 bool check_ERR_NOSUCHSERVER   (Server *server, User user);
 bool check_ERR_NOSUCHSERVER   (Server *server, User user);
@@ -26,6 +34,7 @@ bool check_ERR_NEEDMOREPARAMS (Server *server, User user);
 bool check_ERR_NOTONCHANNEL   (Server *server, User user);
 bool check_ERR_NOSUCHCHANNEL  (Server *server, User user);
 bool check_ERR_NOTREGISTERED  (Server *server, User user);
+bool check_ERR_NONICKNAMEGIVEN(Server *server, User user);
 
 void send_to_client(int fd, std::string msg, std::string err_code = "");
 

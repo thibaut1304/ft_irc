@@ -53,9 +53,11 @@
 
 static void exec_user_modes(User user, std::string modes)
 {
+	bool toggle = true;
 	(void)user;
 	(void)modes;
-	bool toggle = true;
+	(void)toggle;
+
 	if (modes[0] == '-')
 	{
 		toggle = false;
@@ -120,7 +122,7 @@ static void exec_channel_modes(User user, std::string modes)
 /* ---------------------------------- MAIN ---------------------------------- */
 /* ========================================================================== */
 
-void   mode(Server               *server, User    user)
+void   mode(Server               *server, User  user)
 {
 	(void)user;
 	if (check_ERR_NEEDMOREPARAMS (server, user) == NOT_OK_) return ;
@@ -131,11 +133,12 @@ void   mode(Server               *server, User    user)
 	//if (check_ERR_CHANOPRIVSNEEDED (server, user)   == NOT_OK_) return ; // TODO
 	//if (check_ERR_KEYSET (server, user)   == NOT_OK_) return ; // TODO
 
-	VEC_<STR_>           buffer          = server->_allBuff;
-	VEC_<STR_>::iterator it              = buffer.begin();
-	std::string          command         = *it;
-	std::string          channel_or_user = *(it + 1);
-	std::string          modes           = *(it + 2);
+	BUFFER_           buffer          = server->_allBuff;
+	BUFFER_::iterator it              = buffer.begin();
+
+	std::string       command         = it[0];
+	std::string       channel_or_user = it[1];
+	std::string       modes           = it[2];
 
 	if (is_channel_name(channel_or_user) == true)
 		exec_channel_modes(user, modes);

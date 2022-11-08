@@ -15,6 +15,21 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 - Sur la commande QUIT informer les autres utilisateur si l'user est dans un channel que une personne a quitter le serveur dans le channel
 
 
+# Actual commands to do
+- [ ] PASS
+- [x] NICK
+- [ ] TOPIC
+- [x] USER
+- [ ] MODE
+- [ ] KICK
+- [ ] PING
+- [ ] JOIN
+- [ ] WHO
+- [x] PRIVMSG
+- [ ] PART
+- [ ] QUIT
+- [ ] INVITE
+
 # REFERENCE
 https://www.rfc-editor.org/rfc/rfc1459
 
