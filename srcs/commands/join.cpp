@@ -29,6 +29,11 @@ void perror_and_exit(std::string code)
 }
 void join(Server *serv, User user)
 {
+	Server::map_users::iterator _it = serv->_users.begin();
+	Server::map_users::iterator _ite = serv->_users.end();
+	for (; _it != _ite; _it++)
+		if (_it->second.getNickname().compare(user.getNickname()) == 0)
+			break;
 
 	if (!check_ERR_NEEDMOREPARAMS(serv, user))
 		return;
@@ -59,13 +64,13 @@ void join(Server *serv, User user)
 					perror_and_exit("475");
 			}
 			else
-				it->second->addUser(&user);
+				it->second->addUser(&(_it->second));
 			std::cout << "channel found" << std::endl;
 		}
 		else
 		{
 			std::cout << "didnt find channel" << std::endl;
-			serv->addChannel(channels[i], &user);
+			serv->addChannel(channels[i], &(_it->second));
 		}
 	}
 

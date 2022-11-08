@@ -65,7 +65,7 @@ User &User::operator=(const User &rhs) {
 }
 
 User::~User() {
-	delete this;
+	//delete this;
 			//std::cout<< "Destroyed : " << _nickname << std::endl;
 }
 
