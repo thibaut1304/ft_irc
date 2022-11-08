@@ -42,28 +42,37 @@ private:
 	// set_of_users    _invited_users;
 
 public:
-	Channel(string ChannelName, UserPtr ChannelAdmin);
-	Channel(string ChannelName, UserPtr ChannelAdmin, string passwd);
-	Channel(Channel const &other);
-	~Channel();
+	Channel  (string  ChannelName, UserPtr ChannelAdmin);
+	Channel  (string  ChannelName, UserPtr ChannelAdmin, string passwd);
+	Channel  (Channel const        &other);
+	~Channel ();
 
-	int addUser(UserPtr user);
-	int removeUser(UserPtr user);
-	int banUser(UserPtr user);
-	int unbanUser(UserPtr user);
+	int addUser    (UserPtr user);
+	int removeUser (UserPtr user);
+	int banUser    (UserPtr user);
+	int unbanUser  (UserPtr user);
 
-	int isInChannel(UserPtr user);
-	int isBanned(UserPtr user);
-	int isInvited(UserPtr user);
+	int isInChannel (UserPtr user);
+	int isBanned    (UserPtr user);
+	int isInvited   (UserPtr user);
 
-	bool is_invite_only_channel();
-	bool is_password_only_channel();
-	bool checkPassword(std::string password);
+	bool is_invite_only_channel   (void);
+	bool is_password_only_channel (void);
+	bool checkPassword            (std::string password);
 
-	void setTopic(string str);
-	string getTopic(void);
+	void   setTopic (string str);
+	string getTopic (void);
 
-	set_of_users getUsers(void);
-	set_of_users getUsersBanned(void);
-	set_of_users getUsersInvited(void);
+	set_of_users getUsers        (void);
+	set_of_users getUsersBanned  (void);
+	set_of_users getUsersInvited (void);
+
+
+	void printUsers(void)
+	{
+
+
+
+	}
+
 };
