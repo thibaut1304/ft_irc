@@ -40,8 +40,7 @@ void join(Server *serv, User user)
 	std::vector<std::string> channels, passwords;
 	split(channels, serv->_allBuff[1], ",");
 	split(passwords, serv->_allBuff[2], ",");
-	for (size_t i = 0; i < channels.siz
-	e(); i++)
+	for (size_t i = 0; i < channels.size(); i++)
 	{
 		if (!charset("&#", channels[i]) || channels[i].size() > 50)
 		{
