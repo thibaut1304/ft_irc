@@ -79,9 +79,6 @@
 /* ...................................................... */
 #define RPL_NAMREPLY(nick, channel, nicks) (" 353 " + nick + " = " + channel + " :" + nicks)
 // #define RPL_NAMREPLY(nick, channel, nicks) (" 366 " + nick + " " + channel + " :End of /NAMES list." + "\r\n");
-/* ...................................................... */
-/* .................. Error join ........................ */
-/* ...................................................... */
 
 /* ...................................................... */
 /* .................. Error join ........................ */
@@ -95,7 +92,12 @@
 /* ...................................................... */
 
 #define ERR_TEMPLATE(ERR_CODE, MSG) (std::string() + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
-#define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " " + ":No such server")
+
+#define ERR_NOSUCHSERVER(server_name)  ERR_TEMPLATE("402", server_name   + " :No such server")
+#define ERR_NOSUCHCHANNEL(server_name) ERR_TEMPLATE("403", server_name   + " :No such channel")
+#define ERR_NOTONCHANNEL(channel)      ERR_TEMPLATE("442", channel       + " :You are not on that channel")
+#define ERR_UNKNOWNMODE(user,mode)     ERR_TEMPLATE("472", user+" "+mode + " :Is an unknown mode or character")
+#define ERR_CHANOPRIVSNEEDED(channel)  ERR_TEMPLATE("482", channel       + " :You're not a channel operator")
 
 /* ...................................................... */
 /* ....................... MOTD ......................... */

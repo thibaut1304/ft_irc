@@ -14,10 +14,10 @@
 
 bool check_ERR_NOSUCHSERVER(Server *server, User user)
 {
-	int                  destination = user.getFd();
-	VEC_<STR_>           buffer      = server->_allBuff;
-	VEC_<STR_>::iterator it          = buffer.begin();
-	std::string          msg;
+	int               destination = user.getFd();
+	BUFFER_           buffer      = server->_allBuff;
+	BUFFER_::iterator it          = buffer.begin();
+	std::string       msg;
 
 	if (buffer.size() > 1)
 	{

@@ -16,19 +16,10 @@
 bool check_ERR_NOTONCHANNEL(Server *server, User user)
 {
 	(void)user;
-	// int                  destination = user.getFd();
-	VEC_<STR_> buffer = server->_allBuff;
-	std::map<std::string, Channel *>::iterator channel_it;
-	VEC_<STR_>::iterator it = buffer.begin();
-	STR_ channel = *it;
-	// STR_                 msg;
-
-	channel_it = server->_channels.find(channel);
-	if (channel_it == server->_channels.end())
-	{
-		std::cout << "notok" << std::endl;
-		return NOT_OK_;
-	}
-	std::cout << "ok" << std::endl;
-	return OK_;
+	BUFFER_           buffer  = server->_allBuff;
+	BUFFER_::iterator it      = buffer.begin();
+	std::string       ch_name = *it;
+	Channel *channel = server->getChannel(ch_name);
+	(void)channel;
+	return false;
 }
