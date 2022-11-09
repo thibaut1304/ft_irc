@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/07 21:49:32 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:58:54 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void join(Server *serv, User user)
 	std::vector<std::string> channels, passwords;
 	split(channels, serv->_allBuff[1], ",");
 	split(passwords, serv->_allBuff[2], ",");
-	for (size_t i = 0; i < channels.size(); i++)
+	for (size_t i = 0; i < channels.siz
+	e(); i++)
 	{
 		if (!charset("&#", channels[i]) || channels[i].size() > 50)
 		{
@@ -65,25 +66,8 @@ void join(Server *serv, User user)
 			}
 			else
 				it->second->addUser(&(_it->second));
-			std::cout << "channel found" << std::endl;
 		}
 		else
-		{
-			std::cout << "didnt find channel" << std::endl;
 			serv->addChannel(channels[i], &(_it->second));
-		}
 	}
-
-	std::map<std::string, Channel *> schannels = serv->getChannels();
-	std::map<std::string, Channel *>::iterator it = schannels.begin();
-	for (; it != schannels.end(); it++)
-		std::cout << it->second->getName() << std::endl;
-
-
-	std::cout << "=================" << std::endl;
-	//std::cout << "check" << std::endl;
-	serv->print_users_from_channel("#play");
-	std::cout << "=================" << std::endl;
-	serv->print_server_users();
-	//std::cout << "check" << std::endl;
 }

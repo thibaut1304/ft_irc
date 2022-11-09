@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/07 21:05:50 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:37:37 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,15 @@
 
 Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(false)
 {
-	std::cout << "constructor" << std::endl;
-
 	addUser(channelAdmin);
-	//sendToAll(channelAdmin, "JOIN");
 }
 
 Channel::Channel(std::string ChannelName, User *channelAdmin, std::string passwd) : _name(ChannelName), _passwd(passwd), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(true)
 {
-	std::cout << "PASSWD CONSTRUCTOR" << std::endl;
 }
 
 Channel::Channel(Channel const &other)
 {
-	std::cout << "copie constructor" << std::endl;
 	_name = other._name;
 	_passwd = other._passwd;
 	_channelAdmin = other._channelAdmin;
@@ -42,7 +37,6 @@ Channel::Channel(Channel const &other)
 }
 Channel::~Channel()
 {
-	std::cout << "destructor called" << this->_name << std::endl;
 }
 
 /* ========================================================================== */
@@ -55,59 +49,17 @@ bool Channel::checkPassword(std::string password) { return password == this->_pa
 
 void Channel::sendToAll(UserPtr user, std::string command)
 {
-	//int i = 0;
-	std::string msg;
-	//map_channels::it = ch.getUsers->begin();
-	Channel::map_users mu = getUsers();
-	Channel::map_users::iterator it = mu.begin();
-	Channel::map_users::iterator ite = mu.end();
-
-	std::string username;
-	int destination;
-	while (it != ite)
+	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name + "\r\n";
+	for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
 	{
-		username = (*it).first;
-		msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name;
-		destination = mu[username]->getFd();
-
-
-		std::cout << "xxxxxxxxxxxxxxxxxxxx" << username<< std::endl;
-		std::cout << "xxxxxxxxxxxxxxxxxxxx" << destination << std::endl;
-
-
-		send(destination, msg.c_str(), msg.length(), 0);
-		it++;
+	send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
 	}
-
-
-
-	//while (it != ite)
-	//{
-		////msg = "=====================" +  (*it).first + "\n";
-
-		//std::cout << "container size --- " << (mu.size()) << std::endl;
-		//msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name;
-		//std::cout << "wtf is fd " << (*it).second->getFd() << std::endl;
-		//std::cout << "username is " << (*it).first<< std::endl;
-		//send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
-		//it++;
-	//}
-
-	//for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
-	//{
-	////std::cout << i++ << std::endl;
-	//msg = "-------------------------------" + (*it).first;
-	//send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
-	//}
 }
 
 void Channel::addUser(UserPtr user)
 {
-	//UserPtr user = new User(*olduser); // NOTE SUPERFIX HERE
-	std::cout << "we add a user" << std::endl;
 	_users.insert(std::make_pair(user->getNickname(), user));
 	sendToAll(user, "JOIN");
-	std::cout << "_users_size = " << _users.size() << std::endl;
 }
 std::string Channel::getName()
 {

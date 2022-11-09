@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/07 21:42:08 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:38:02 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,21 +123,6 @@ public:
 	}
 
 
-	void print_users_from_channel(string ch_name)
-	{
-		Channel *ch = getChannel(ch_name);
-
-		//map_channels::it = ch.getUsers->begin();
-		Channel::map_users mu = ch->getUsers();
-		Channel::map_users::iterator it = mu.begin();
-		Channel::map_users::iterator ite = mu.end();
-		while (it != ite)
-		{
-			std::cout << "Username : " << (*it).first << std::endl;
-			std::cout << "FD : "<< (*it).second->getFd() << std::endl;
-			it++;
-		}
-	}
 
 };
 

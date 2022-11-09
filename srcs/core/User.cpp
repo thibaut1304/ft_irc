@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:38:13 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 23:39:16 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:35:07 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ User::User( const int fd, const std::string hostname ) :
 	, _PASS       ("")
 	, _isKill	  (false)
 {
-	std::cout << "creation USER fd : " << fd << std::endl;
 }
 
 User::User(const User &rhs) :
@@ -43,12 +42,10 @@ User::User(const User &rhs) :
 	, _PASS			(rhs._PASS)
 	, _isKill		(rhs._isKill)
 {
-	std::cout << "const by copy creation USER fd : " << _fd << std::endl;
 }
 
 User &User::operator=(const User &rhs) {
 	if (this != &rhs) {
-	std::cout << "const by assign creation USER fd : " << _fd << std::endl;
 		_time       = rhs._time;
 		_fd         = rhs._fd;
 		_ip 		= rhs._ip;
