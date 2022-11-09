@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connectionReplies.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/07 17:00:34 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 00:21:34 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@
 
 #define ERR_NOSUCHSERVER(server_name)  ERR_TEMPLATE("402", server_name   + " :No such server")
 #define ERR_NOSUCHCHANNEL(server_name) ERR_TEMPLATE("403", server_name   + " :No such channel")
+#define ERR_NOSUCHCHANNEL_THH(server_name, nick) (NAME + " 403 " + nick + " " + server_name + " :No such channel\r\n")
 #define ERR_NOTONCHANNEL(channel)      ERR_TEMPLATE("442", channel       + " :You are not on that channel")
 #define ERR_UNKNOWNMODE(user,mode)     ERR_TEMPLATE("472", user+" "+mode + " :Is an unknown mode or character")
 #define ERR_CHANOPRIVSNEEDED(channel)  ERR_TEMPLATE("482", channel       + " :You're not a channel operator")
@@ -118,11 +119,11 @@
 /* ...................................................... */
 
 #define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
+# define ERR_CANNOTSENDTOCHAN(nick, channel_name) (NAME + " 404 " + nick + " " + channel_name + " :Cannot send to channel\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"
 // 414     ERR_WILDTOPLEVEL "<mask> :Wildcard in toplevel domain"
-// 404     ERR_CANNOTSENDTOCHAN "<channel name> :Cannot send to channel"
 // 413     ERR_NOTOPLEVEL "<mask> :No toplevel domain specified"
 // 411     ERR_NORECIPIENT ":No recipient given (<command>)"
 

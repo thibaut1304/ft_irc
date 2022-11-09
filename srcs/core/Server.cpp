@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/07 21:52:43 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 23:46:56 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 Server::Server(void) : _fdServer(-1), _passwd(), _port() {}
 Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(passwd), _port(port)
 {
-	FD_ZERO(&(_set));
-
 	memset(&_serverAddress, 0, sizeof(_serverAddress));
 	memset(&_clientAddress, 0, sizeof(_clientAddress));
 }
