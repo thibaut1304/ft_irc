@@ -91,13 +91,14 @@
 /* ........................ wsz ......................... */
 /* ...................................................... */
 
-#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string() + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
+#define n(nick) (nick == "" ? "*" : nick)
+#define ERR_TEMPLATE(ERR_CODE, NICK, MSG) (std::string() + NAME + " " + ERR_CODE + " " + n(NICK) + " " + MSG + "\r\n")
 
-#define ERR_NOSUCHSERVER(server_name)  ERR_TEMPLATE("402", server_name   + " :No such server")
-#define ERR_NOSUCHCHANNEL(server_name) ERR_TEMPLATE("403", server_name   + " :No such channel")
-#define ERR_NOTONCHANNEL(channel)      ERR_TEMPLATE("442", channel       + " :You are not on that channel")
-#define ERR_UNKNOWNMODE(user,mode)     ERR_TEMPLATE("472", user+" "+mode + " :Is an unknown mode or character")
-#define ERR_CHANOPRIVSNEEDED(channel)  ERR_TEMPLATE("482", channel       + " :You're not a channel operator")
+#define ERR_NOSUCHSERVER(nick, server_name)  ERR_TEMPLATE("402", nick, server_name   + " :No such server")
+#define ERR_NOSUCHCHANNEL(nick, server_name) ERR_TEMPLATE("403", nick, server_name   + " :No such channel")
+#define ERR_NOTONCHANNEL(nick, channel)      ERR_TEMPLATE("442", nick, channel       + " :You are not on that channel")
+#define ERR_UNKNOWNMODE(nick,mode)           ERR_TEMPLATE("472", nick, mode          + " :Is an unknown mode or character")
+#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You're not a channel operator")
 
 /* ...................................................... */
 /* ....................... MOTD ......................... */

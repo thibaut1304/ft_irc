@@ -17,13 +17,14 @@ bool check_ERR_NOSUCHSERVER(Server *server, User user)
 	int               destination = user.getFd();
 	BUFFER_           buffer      = server->_allBuff;
 	BUFFER_::iterator it          = buffer.begin();
+	std::string       nick        = user.getNickname();
 	std::string       msg;
 
 	if (buffer.size() > 1)
 	{
 		if (*(++it) != NAME_V)
 		{
-			msg =  ERR_NOSUCHSERVER(*it);
+			msg =  ERR_NOSUCHSERVER(nick, *it);
 			send(destination, msg.c_str(), msg.length(), 0);
 			return NOT_OK_;
 		}
