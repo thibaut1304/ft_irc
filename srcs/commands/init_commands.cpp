@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/05 01:42:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/09 18:41:10 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	Server::initCmd() {
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS
-	//_listCmd["NAMES"]         = &names;
+	_listCmd["NAMES"] = &names;
 	//_listCmd["LIST"]          = &list;
 
 	// # SERVER QUERIES AND COMMANDS

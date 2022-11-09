@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/09 15:37:37 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 18:27:55 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@
 /* ------------------------- CONSTRUCTOR DESTRUCTOR ------------------------- */
 /* ========================================================================== */
 
-Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(false)
+Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _invite_only(false), _passwd_required(false)
 {
+	_channelAdmin.insert(std::make_pair(channelAdmin->getNickname(), channelAdmin));
 	addUser(channelAdmin);
-}
-
-Channel::Channel(std::string ChannelName, User *channelAdmin, std::string passwd) : _name(ChannelName), _passwd(passwd), _channelAdmin(channelAdmin), _invite_only(false), _passwd_required(true)
-{
 }
 
 Channel::Channel(Channel const &other)
@@ -95,6 +92,8 @@ int Channel::isInvited(std::string nickname)
 void Channel::setTopic(string str) { _topic = str; }
 
 Channel::string Channel::getTopic(void) { return _topic; }
+
+std::map<std::string, Channel::UserPtr> Channel::getAdmin(void) { return _channelAdmin; }
 std::map<std::string, Channel::UserPtr> Channel::getUsers(void) { return _users; }
 std::map<std::string, Channel::UserPtr> Channel::getUsersBanned(void) { return _users_banned; }
 std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return _users_invited; }

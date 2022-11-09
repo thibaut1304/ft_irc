@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/07 21:28:43 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:18:36 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ class       Channel
 {
 public:
 	typedef User*                    UserPtr;
-	typedef std::string              string;
-	typedef std::set<UserPtr>        set_of_users;
+	typedef std::string string;
 	typedef std::map<string,UserPtr> map_users;
 
 	// typedef std::vector<UserPtr> vector_of_users;
@@ -29,15 +28,13 @@ private:
 	string _name;
 	string _passwd;
 	string _topic;
-	std::map<std::string, UserPtr> _users, _users_banned, _users_invited;
-	UserPtr _channelAdmin;
+	std::map<std::string, UserPtr> _users, _users_banned, _users_invited, _channelAdmin;
 
 	bool _invite_only;
 	bool _passwd_required;
 
 public:
-	Channel  (string  ChannelName, UserPtr ChannelAdmin);
-	Channel  (string  ChannelName, UserPtr ChannelAdmin, string passwd);
+	Channel(string ChannelName, UserPtr ChannelAdmin);
 	Channel  (Channel const        &other);
 	~Channel ();
 
@@ -58,6 +55,7 @@ public:
 	void   setTopic (string str);
 	string getTopic (void);
 
+	std::map<std::string, Channel::UserPtr> getAdmin(void);
 	std::map<std::string, Channel::UserPtr> getUsers        (void);
 	std::map<std::string, Channel::UserPtr> getUsersBanned  (void);
 	std::map<std::string, Channel::UserPtr> getUsersInvited (void);

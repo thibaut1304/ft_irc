@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/09 15:58:54 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:35:37 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void join(Server *serv, User user)
 	std::vector<std::string> channels, passwords;
 	split(channels, serv->_allBuff[1], ",");
 	split(passwords, serv->_allBuff[2], ",");
-	for (size_t i = 0; i < channels.siz
-	e(); i++)
+	for (size_t i = 0; i < channels.size(); i++)
 	{
 		if (!charset("&#", channels[i]) || channels[i].size() > 50)
 		{
