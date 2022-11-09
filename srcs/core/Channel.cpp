@@ -126,6 +126,19 @@ std::string Channel::get_ban_mask            (void) { return _ban_mask          
 std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
 //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
+bool Channel::does_user_exist(std::string user_name)
+{
+	//set_of_users users = getUsers();
+	//set_of_users::iterator it = users.begin();
+	//set_of_users::iterator ite = users.end();
+
+
+	return (true);
+
+
+}
+
+
 //        ERR_NEEDMOREPARAMS              ERR_BANNEDFROMCHAN
 //        ERR_INVITEONLYCHAN              ERR_BADCHANNELKEY
 //        ERR_CHANNELISFULL               ERR_BADCHANMASK

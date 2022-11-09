@@ -106,4 +106,6 @@ class Channel
 		set_of_users getUsers        (void);
 		set_of_users getUsersBanned  (void);
 		set_of_users getUsersInvited (void);
+
+		bool does_user_exist(std::string user_name);
 };
