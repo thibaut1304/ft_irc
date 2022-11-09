@@ -87,7 +87,6 @@
 
 #define ERR_NOSUCHSERVER(server_name)  ERR_TEMPLATE("402", server_name   + " " + ":No such server")
 #define ERR_NOSUCHCHANNEL(server_name) ERR_TEMPLATE("403", server_name   + " " + ":No such channel")
-#define ERR_NOSUCHCHANNEL(server_name) ERR_TEMPLATE("403", server_name   + " " + ":No such channel")
 #define ERR_UNKNOWNMODE(user,mode)     ERR_TEMPLATE("472", user+" "+mode + " " + ":is an unknown mode or character")
 
 /* ...................................................... */
