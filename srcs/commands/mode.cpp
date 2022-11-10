@@ -21,26 +21,25 @@
 /* ------------------------------- USER MODES ------------------------------- */
 /* ========================================================================== */
 
-static void exec_user_modes(User user, std::string modes)
-{
-	bool toggle = true;
-	(void)user;
-	(void)modes;
-	(void)toggle;
+//static void exec_user_modes(User user, std::string modes)
+//{
+//bool toggle = true;
+//(void)user;
+//(void)modes;
+//(void)toggle;
 
-	if (modes[0] == '-')
-	{
-		toggle = false;
-		modes = &modes[1];
-	}
-}
+//if (modes[0] == '-')
+//{
+//toggle = false;
+//modes = &modes[1];
+//}
+//}
 
 /* ========================================================================== */
 /* ----------------------------- CHANNEL MODES ------------------------------ */
 /* ========================================================================== */
 
 static bool is_channel_name(std::string str) {	return (str[0] == '#'); }
-
 
 static void channel_mode_p(bool toggle, Channel * channel) { channel->set_is_private          (toggle); };
 static void channel_mode_s(bool toggle, Channel * channel) { channel->set_is_secret           (toggle); };
@@ -87,9 +86,10 @@ static void parse_modes(User user, char mode, bool toggle, Channel * channel)
 static void exec_channel_modes(User user, std::string modes, Channel * channel)
 {
 	bool toggle = true;
-	if (modes[0] == '-')
+	if (modes[0] == '-' || modes [0] == '+')
 	{
-		toggle = false;
+		if (modes[0] == '-')
+			toggle = false;
 		modes = &modes[1];
 	}
 	for (size_t i = 0; i < modes.length(); i++)
@@ -106,7 +106,7 @@ void   mode(Server               *server, User  user)
 	if (check_ERR_NEEDMOREPARAMS (server, user) == NOT_OK_) return ;
 	if (check_ERR_NOTREGISTERED  (server, user) == NOT_OK_) return ;
 	if (check_ERR_NOSUCHCHANNEL  (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOTONCHANNEL   (server, user) == NOT_OK_) return ; // TODO
+	if (check_ERR_NOTONCHANNEL   (server, user) == NOT_OK_) return ;
 	//if (check_ERR_NOSUCHNICK     (server, user)   == NOT_OK_) return ; // TODO
 	//if (check_ERR_CHANOPRIVSNEEDED (server, user)   == NOT_OK_) return ; // TODO
 	//if (check_ERR_KEYSET (server, user)   == NOT_OK_) return ; // TODO
@@ -124,7 +124,10 @@ void   mode(Server               *server, User  user)
 		exec_channel_modes(user, modes, channel);
 	}
 	else
-		exec_user_modes(user, modes);
+	{
+		std::cout << "--------------- USER MODES WIP -------------------" << std::endl;
+		//exec_user_modes(user, modes);
+	}
 }
 
 
