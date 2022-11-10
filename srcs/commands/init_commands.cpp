@@ -29,7 +29,7 @@ void	Server::initCmd() {
 	// # CHANNEL OPERATIONS
 	_listCmd["JOIN"]          = &join;
 	//_listCmd["PART"]          = &part;    // TODO
-	//_listCmd["MODE"]          = &mode;    // TODO
+	_listCmd["MODE"]          = &mode;    // TODO
 	//_listCmd["CHANNEL MODES"] = &;        // TODO
 	//_listCmd["USER MODES"]    = &;        // TODO
 	_listCmd["TOPIC"]         = &topic;   // TODO

@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 15:48:23 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:23:57 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,15 @@
 /* ........................ wsz ......................... */
 /* ...................................................... */
 
-#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string() + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
-#define ERR_NOSUCHSERVER(server_name) ERR_TEMPLATE("402", server_name + " " + ":No such server")
+#define n(nick) (nick == "" ? "*" : nick)
+#define ERR_TEMPLATE(ERR_CODE, NICK, MSG) (std::string() + NAME + " " + ERR_CODE + " " + n(NICK) + " " + MSG + "\r\n")
+
+#define ERR_NOSUCHSERVER(nick, server_name)  ERR_TEMPLATE("402", nick, server_name   + " :No such server")
+#define ERR_NOSUCHCHANNEL(nick, server_name) ERR_TEMPLATE("403", nick, server_name   + " :No such channel")
+#define ERR_NOSUCHCHANNEL_THH(server_name, nick) (NAME + " 403 " + nick + " " + server_name + " :No such channel\r\n")
+#define ERR_NOTONCHANNEL(nick, channel)      ERR_TEMPLATE("442", nick, channel       + " :You are not on that channel")
+#define ERR_UNKNOWNMODE(nick,mode)           ERR_TEMPLATE("472", nick, mode          + " :Is an unknown mode or character")
+#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You're not a channel operator")
 
 /* ...................................................... */
 /* ....................... MOTD ......................... */
@@ -117,11 +124,11 @@
 /* ...................................................... */
 
 #define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
+# define ERR_CANNOTSENDTOCHAN(nick, channel_name) (NAME + " 404 " + nick + " " + channel_name + " :Cannot send to channel\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"
 // 414     ERR_WILDTOPLEVEL "<mask> :Wildcard in toplevel domain"
-// 404     ERR_CANNOTSENDTOCHAN "<channel name> :Cannot send to channel"
 // 413     ERR_NOTOPLEVEL "<mask> :No toplevel domain specified"
 // 411     ERR_NORECIPIENT ":No recipient given (<command>)"
 

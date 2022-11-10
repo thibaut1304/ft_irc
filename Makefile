@@ -6,7 +6,7 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/10 15:21:59 by adlancel         ###   ########.fr        #
+#    Updated: 2022/11/10 16:26:58 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,11 +73,15 @@ SRCS		:=  \
 				commands/privmsg.cpp   			\
 				commands/names.cpp 			    \
 				commands/list.cpp      			\
+				commands/mode.cpp 			    \
+				
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
 				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
 				commands/checks/check_ERR_NOTONCHANNEL.cpp \
+				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
+				commands/checks/check_ERR_NONICKNAMEGIVEN.cpp \
 
 				# TODO
 				#commands/admin.cpp              \
@@ -86,9 +90,7 @@ SRCS		:=  \
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# commands/join.cpp      \
 				# commands/part.cpp      \
-				# commands/mode.cpp      \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
 				# commands/links.cpp     \

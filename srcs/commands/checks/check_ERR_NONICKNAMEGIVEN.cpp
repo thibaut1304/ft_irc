@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_ERR_NEEDMOREPARAMS.cpp                       :+:      :+:    :+:   */
+/*   todo.check_ERR_NONICKNAMEGIVEN.cpp                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/05 17:49:16 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/05 17:50:33 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/08 00:56:24 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/08 01:00:29 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "connectionReplies.hpp"
 
-bool check_ERR_NEEDMOREPARAMS(Server *server, User user)
+bool check_ERR_NONICKNAMEGIVEN(Server * server, User user)
 {
-	int               destination = user.getFd();
+	int                  destination = user.getFd();
 	BUFFER_           buffer      = server->_allBuff;
 	BUFFER_::iterator it          = buffer.begin();
-	STR_              username    = user.getNickname();
-	STR_              msg;
+	std::string msg;
 
-	username = (username == "") ? "*"  : username;
-
-	if (buffer.size() < 2)
+	if (buffer.size() == 1)
 	{
-		msg = NAME;
-		msg += ERR_NEEDMOREPARAMS(*it, username);
+		msg = ERR_NONICKNAMEGIVEN(*it);
 		send(destination, msg.c_str(), msg.length(), 0);
 		return NOT_OK_;
 	}
 	return OK_;
 }
+

@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_ERR_NOTREGISTERED.cpp                        :+:      :+:    :+:   */
+/*   todo.check_ERR_NOSUCHNICK.cpp                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/04 15:44:55 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/04 15:45:12 by wszurkow         ###   ########.fr       */
+/*   Created: 2022/11/08 01:02:41 by wszurkow          #+#    #+#             */
+/*   Updated: 2022/11/08 01:04:57 by wszurkow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-bool check_ERR_NOTREGISTERED(Server *server, User user)
+bool check_ERR_NOSUCHNICK(Server * server, User user)
 {
-	int               destination = user.getFd();
-	BUFFER_           buffer      = server->_allBuff;
-	BUFFER_::iterator it          = buffer.begin();
-	STR_              command     = *it;
-	STR_              msg;
+	int                  destination = user.getFd();
+	VEC_<STR_>           buffer      = server->_allBuff;
+	VEC_<STR_>::iterator it          = buffer.begin();
+	std::string msg;
 
-	if (user.getValidUser() == false)
-	{
-		msg = ERR_NOTREGISTERED(*it);
-		send(destination, msg.c_str(), msg.length(), 0);
-		return NOT_OK_;
-	}
-	return OK_;
 }

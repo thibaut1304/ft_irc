@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/09 17:34:49 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:29:17 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 Server::Server(void) : _fdServer(-1), _passwd(), _port() {}
 Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(passwd), _port(port)
 {
-	FD_ZERO(&(_set));
-
 	memset(&_serverAddress, 0, sizeof(_serverAddress));
 	memset(&_clientAddress, 0, sizeof(_clientAddress));
 }
@@ -170,6 +168,37 @@ void Server::addChannel(string ch_name, Channel::UserPtr user)
 	Channel *chan = new Channel(ch_name, user);
 	_channels.insert(std::make_pair<std::string, Channel *>(ch_name, chan));
 }
+
+//bool Server::is_user_registered(string user_name)
+//{
+	//if (_users.find(user_name) == _users.end())
+		//return false;
+	//User user = _users.find(user_name)->second;
+	//return (user.getValidUser());
+//}
+
+//void Server::remove_user_from_channel(string user_name, string ch_name)
+//{
+	//if (does_channel_exist (ch_name) == false) return ;
+	//Channel ch = getChannel(ch_name);
+	//ch.removeUser(user_name);
+//}
+
+//void Server::add_user_to_channel(string user_name, string ch_name)
+//{
+	//if (does_channel_exist (ch_name) == false) return ;
+	//Channel ch = getChannel(ch_name);
+	//ch.addUser(user_name);
+//}
+
+//bool Server::is_user_in_channel(string user_name, string channel_name)
+//{
+	//if (does_channel_exist (channel_name) == false) return false;
+	//Channel ch = getChannel(channel_name);
+	//if (ch.isInChannel (user_name)        == false) return false; // TODO
+	//return (true);
+//}
+
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ------------------------- TODO WORK IN PROGRESS -------------------------- */
