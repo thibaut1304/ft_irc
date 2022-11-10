@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 16:25:44 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:27:04 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ private:
 	string _passwd;
 	string _topic;
 	std::map<std::string, UserPtr> _users, _users_banned, _users_invited, _channelAdmin;
-
+	int _nbUsers;
 	bool _invite_only;
 	bool _passwd_required;
 
@@ -47,37 +47,37 @@ private:
 		size_t      _user_limit;                                // l - set the user limit to channel;
 		std::string _ban_mask;                                  // b - set a ban mask to keep users out;
 		std::string _channel_key;                               // k - set a channel key (password).
-		bool        _is_accepting_messages_from_outside_client; // n - no messages to channel from clients on the outside;
-		////
+		bool _is_accepting_messages_from_outside_client;		// n - no messages to channel from clients on the outside;
+																////
 
-public:
-	Channel(string ChannelName, UserPtr ChannelAdmin);
-	Channel(Channel const &other);
-	~Channel();
+	public:
+		Channel(string ChannelName, UserPtr ChannelAdmin);
+		Channel(Channel const &other);
+		~Channel();
 
-	void addUser(UserPtr user);
-	void banUser(std::string nickname);
-	void unbanUser(std::string nickname);
-	void removeUser(std::string nickname);
-	int  isInChannel(std::string nickname);
-	int  isBanned(std::string nickname);
-	int  isInvited(std::string nickname);
-	std::string getName();
+		void addUser(UserPtr user);
+		void banUser(std::string nickname);
+		void unbanUser(std::string nickname);
+		void removeUser(std::string nickname);
+		int isInChannel(std::string nickname);
+		int isBanned(std::string nickname);
+		int isInvited(std::string nickname);
+		int numberOfUsers();
 
-	bool is_invite_only_channel   ();
-	bool is_password_only_channel ();
-	bool checkPassword            (std::string password);
-	void sendToAll                (UserPtr     user, std::string command, std::string other_msg);
+			std::string getName();
 
-	void setTopic(string str);
-	string getTopic(void);
+		bool is_invite_only_channel();
+		bool is_password_only_channel();
+		bool checkPassword(std::string password);
+		void sendToAll(UserPtr user, std::string command, std::string other_msg);
 
-	std::map<std::string, Channel::UserPtr> getAdmin(void);
-	std::map<std::string, Channel::UserPtr> getUsers(void);
-	std::map<std::string, Channel::UserPtr> getUsersBanned(void);
-	std::map<std::string, Channel::UserPtr> getUsersInvited(void);
+		void setTopic(string str);
+		string getTopic(void);
 
-
+		std::map<std::string, Channel::UserPtr> getAdmin(void);
+		std::map<std::string, Channel::UserPtr> getUsers(void);
+		std::map<std::string, Channel::UserPtr> getUsersBanned(void);
+		std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 
 	public:
 

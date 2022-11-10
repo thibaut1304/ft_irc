@@ -18,6 +18,48 @@
 // TODO WIP
 
 /* ========================================================================== */
+/* --------------------------------- UTILS ---------------------------------- */
+/* ========================================================================== */
+
+static bool is_in_charset(std::string charset, char c)
+{
+	for (size_t j = 0; j < charset.length(); j++)
+		if (c == charset[j])
+			return true;
+	return false;
+}
+
+static bool add_or_remove(std::string modes)
+{
+	if (modes[0] == '-' || modes[0] == '+')
+		return ((modes[0] == '-') ? false : true) ;
+	return true;
+}
+
+static std::string trim_sign (std::string modes)
+{
+	return ( modes[0] == '-' || modes[0] == '+') ? &modes[1] : modes;
+}
+
+static bool check_arg_error(Server *server, int arg_index)
+{
+	BUFFER_           buffer          = server->_allBuff;
+	BUFFER_::iterator it              = buffer.begin();
+	BUFFER_::iterator arguments_start = it + 3;
+	int arg_count = 0;
+
+	while (arguments_start + arg_count < buffer.end())
+		arg_count++;
+
+	if (arg_count < arg_index || arg_count == 0)
+	{
+		std::cout << "ERROR" << std::endl;
+		return NOT_OK_; // TODO error
+	}
+	return OK_;
+}
+
+/* ========================================================================== */
 /* ------------------------------- USER MODES ------------------------------- */
 /* ========================================================================== */
 
@@ -74,10 +116,6 @@ static void set_bool_modes(User user, char mode, bool toggle, Channel * channel)
 	if (mode == 'v') modified = channel_mode_v(toggle, channel);
 	if (mode == 'n') modified = channel_mode_n(toggle, channel);
 
-	//if (mode == 'l')
-	//if (mode == 'b')
-	//if (mode == 'k')
-
 	if (modified)
 	{
 		if (toggle == true)  msg = "+";
@@ -87,9 +125,10 @@ static void set_bool_modes(User user, char mode, bool toggle, Channel * channel)
 	}
 }
 
- /* ..................................................... */
- /* .................. ARG EXEC MODES ................... */
- /* ..................................................... */
+/* ..................................................... */
+/* .................. ARG EXEC MODES ................... */
+/* ..................................................... */
+
 static void set_arg_modes(
 		Server* server,
 		User        user,
@@ -103,31 +142,17 @@ static void set_arg_modes(
 	(void)user;
 	(void)toggle;
 	std::string msg;
-	int arg_count = 0;
 
 	BUFFER_           buffer          = server->_allBuff;
 	BUFFER_::iterator it              = buffer.begin();
 	BUFFER_::iterator arguments_start = it + 3;
 
-	std::cout << "!" << std::endl;
-
-	while (arguments_start < buffer.end())
-	{
-		arg_count++;
-		arguments_start++;
-	}
-
-	std::cout << "!" << std::endl;
-	std::cout << arg_count << std::endl;
-
-	if (arg_count < arg_index || arg_count == 0)
-	{
-		std::cout << "ERROR" << std::endl;
-		return ; // TODO error
-	}
+	if (check_arg_error(server, arg_index) == false) return ; // TODO error msg;
 
 	std::string arg = arguments_start[arg_index];
 
+	if (mode == 'b') channel->set_ban_mask(arg);
+	if (mode == 'k') channel->set_channel_key(arg);
 	if (mode == 'l')
 	{
 		size_t limit;
@@ -136,68 +161,64 @@ static void set_arg_modes(
 		ss >> limit;
 		channel->set_user_limit(limit);
 	}
-
-	std::cout << "!" << std::endl;
-
-	if (mode == 'b')
-	{
-		channel->set_ban_mask(arg);
-	}
-
-	if (mode == 'k')
-	{
-		channel->set_channel_key(arg);
-	}
-	std::cout << "!" << std::endl;
 }
 
 /* ...................................................... */
 /* ....................... PARSE ........................ */
 /* ...................................................... */
+
+
 static void parse_modes(
 		Server*     server,
 		User        user,
 		std::string modes,
 		int         index,
 		bool        toggle,
-		Channel*    channel
+		Channel*    channel,
+		int*        arg_index,
+		std::string msg = ""
 		)
 {
-	std::string msg;
-	std::string charset_bool = "opsitnmv";
-	std::string charset_args = "lbk";
-	static int arg_index = 0;
+	/* .................................................. */
+	/* ................... BOOL MODES ................... */
+	/* .................................................. */
+	if (is_in_charset("opsitnvm", modes[index]) == true) return set_bool_modes(user, modes[index], toggle, channel);
 
-	for (size_t j = 0; j < charset_bool.length(); j++)
-		if (modes[index] == charset_bool[j])
-		{
-			set_bool_modes(user, modes[index], toggle, channel);
-			return ;
-		}
+	/* .................................................. */
+	/* ................... DATA MODES ................... */
+	/* .................................................. */
+	if (is_in_charset("lbk",      modes[index]) == true)
+	{
+		set_arg_modes(server, user, modes[index], toggle, channel, *arg_index);
+		*arg_index += 1;
+		return ;
+	}
 
-	for (size_t j = 0; j < charset_args.length(); j++)
-		if (modes[index] == charset_args[j])
-		{
-			set_arg_modes(server, user, modes[index], toggle, channel, arg_index);
-			arg_index++;
-			return ;
-		}
+	/* .................................................. */
+	/* .................. UNKNOWN MODE .................. */
+	/* .................................................. */
 	msg = ERR_UNKNOWNMODE(user.getNickname(), modes[index]);
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 	return ;
 }
 
 
-////////////////////////////////////////////////
-static bool        add_or_remove(std::string modes) { if (modes[0] == '-' || modes[0] == '+') { return ((modes[0] == '-') ? false : true) ;} return true; }
-static std::string trim_sign    (std::string modes) { return ( modes[0] == '-' || modes[0] == '+') ? &modes[1] : modes; }
-
-static void exec_channel_modes(Server *server, User user, std::string modes, Channel * channel)
+/* ...................................................... */
+/* ............. CHANNEL MODE MAIN FUNCTION ............. */
+/* ...................................................... */
+static void exec_channel_modes(
+		Server*     server,
+		User        user,
+		std::string modes,
+		Channel*    channel,
+		int         arg_index = 0
+		)
 {
 	bool toggle = add_or_remove(modes);
-	modes       = trim_sign    (modes);
+
+	modes = trim_sign(modes);
 	for (size_t i = 0; i < modes.length(); i++)
-		parse_modes(server, user, modes, i, toggle, channel);
+		parse_modes(server, user, modes, i, toggle, channel, &arg_index);
 }
 
 /* ========================================================================== */
@@ -217,16 +238,21 @@ void   mode(Server               *server, User  user)
 
 	BUFFER_           buffer          = server->_allBuff;
 	BUFFER_::iterator it              = buffer.begin();
+	std::string       channel_or_user = it[1]; // NOTE : Cannot segault because checked above/
+	std::string       modes           = it[2]; // NOTE : Cannot segault because checked above/
 
-	//std::string       command         = it[0];
-	std::string       channel_or_user = it[1];
-	std::string       modes           = it[2];
-
+	/* .................................................. */
+	/* .................. CHANNEL EXEC .................. */
+	/* .................................................. */
 	if (is_channel_name(channel_or_user) == true)
 	{
 		Channel *channel = server->getChannel(channel_or_user);
 		exec_channel_modes(server, user, modes, channel);
 	}
+
+	/* .................................................. */
+	/* ................... USER EXEC .................... */
+	/* .................................................. */
 	else
 	{
 		std::cout << "--------------- USER MODES WIP -------------------" << std::endl;

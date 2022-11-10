@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   admin.cpp                                          :+:      :+:    :+:   */
+/*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:24:21 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 17:39:32 by wsz              ###   ########.fr       */
+/*   Updated: 2022/11/10 20:56:09 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static void set_topic(Server * server, User user)
 		std::string new_topic = it[2];
 		Channel     *channel   = server->getChannel(ch_name);
 
-		channel->setTopic(new_topic);
-		std::string msg = "Topic set : " + new_topic;
-		channel->sendToAll(&user, "TOPIC", new_topic);
+			channel->setTopic(new_topic);
+			std::string msg = "Topic set : " + new_topic;
+			channel->sendToAll(&user, "TOPIC", new_topic);
 	}
 }
 
