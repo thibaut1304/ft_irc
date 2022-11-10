@@ -34,13 +34,13 @@ PASS <pass>
 - [ ] SQUIT
 
 ## Channel Operations
-- [A] JOIN
+- [X] JOIN
 - [A] PART
 - [A] MODE
 	- [A] CHANNEL MODES
 	- [A] USER MODES
 - [A] TOPIC
-- [A] NAMES
+- [X] NAMES
 - [A] LIST
 - [A] INVITES
 - [A] KICK

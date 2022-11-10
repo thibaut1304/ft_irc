@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 13:59:57 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:48:23 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@
 /* ................. Replies Channel .................... */
 /* ...................................................... */
 #define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks + "\r\n")
-// #define RPL_NAMREPLY(nick, channel, nicks) (" 366 " + nick + " " + channel + " :End of /NAMES list." + "\r\n");
+#define RPL_ENDOFNAMES(nick, channel) (NAME + " 366 " + nick + " " + channel + ": END of / NAMES list.\r\n");
+#define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n");
+#define RPL_LIST(nick, channel, username, flags) (NAME + " 322 " + nick + " " + channel + username + ":[" + flags + "]\r\n");
+#define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n");
 /* ...................................................... */
 
 /* ...................................................... */
@@ -88,7 +91,6 @@
 #define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel (invite only)" + "\r\n");
 #define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n");
 #define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n");
-#define RPL_ENDOFNAMES(nick) (NAME + " 366 " + nick + " * :END of /NAMES list.\r\n")
 /* ...................................................... */
 /* ........................ wsz ......................... */
 /* ...................................................... */

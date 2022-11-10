@@ -6,24 +6,21 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:47:14 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 14:00:22 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:31:25 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
 #include <Server.hpp>
 
-void names_one_param(User user)
-{
-    std::string msg = RPL_ENDOFNAMES(user.getNickname());
-    send(user.getFd(), msg.c_str(), msg.length(), 0);
-}
-
 void names(Server *serv, User user)
 {
     std::string msg;
     if (serv->_allBuff.size() == 1)
-        names_one_param(user);
+    {
+        std::string msg = RPL_ENDOFNAMES(user.getNickname(), "*");
+        send(user.getFd(), msg.c_str(), msg.length(), 0);
+    }
     else
     {
         std::vector<std::string> channels;
@@ -62,10 +59,10 @@ void names(Server *serv, User user)
                         itu++;
                     }
                 }
-
                 msg = RPL_NAMREPLY(user.getNickname(), channels[i], users);
                 send(user.getFd(), msg.c_str(), msg.length(), 0);
-                names_one_param(user);
+                std::string msg = RPL_ENDOFNAMES(user.getNickname(), channels[i]);
+                send(user.getFd(), msg.c_str(), msg.length(), 0);
             }
         }
     }

@@ -6,7 +6,7 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/09 18:41:37 by adlancel         ###   ########.fr        #
+#    Updated: 2022/11/10 15:21:59 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ SRCS		:=  \
 				commands/join.cpp     			\
 				commands/privmsg.cpp   			\
 				commands/names.cpp 			    \
+				commands/list.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -88,7 +89,6 @@ SRCS		:=  \
 				# commands/join.cpp      \
 				# commands/part.cpp      \
 				# commands/mode.cpp      \
-				# commands/list.cpp      \
 				# commands/invites.cpp   \
 				# commands/kick.cpp      \
 				# commands/links.cpp     \

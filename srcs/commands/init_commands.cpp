@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/09 18:41:10 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:21:39 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	Server::initCmd() {
 
 	// # CHANNEL OPERATIONS
 	_listCmd["NAMES"] = &names;
-	//_listCmd["LIST"]          = &list;
+	_listCmd["LIST"] = &list;
 
 	// # SERVER QUERIES AND COMMANDS
 	_listCmd["VERSION"]       = &version;
