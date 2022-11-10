@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 16:39:02 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:20:12 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@
 /* ...................................................... */
 #define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks + "\r\n")
 #define RPL_ENDOFNAMES(nick, channel) (NAME + " 366 " + nick + " " + channel + ": END of / NAMES list.\r\n");
-#define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n");
-#define RPL_LIST(nick, channel, username, flags) (NAME + " 322 " + nick + " " + channel + username + ":[" + flags + "]\r\n");
-#define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n");
+#define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n")
+#define RPL_LIST(nick, channel, usernumber, flags) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + "\r\n")
+#define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
 /* ...................................................... */
 
 /* ...................................................... */

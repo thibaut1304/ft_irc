@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 16:44:12 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:27:53 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /* ------------------------- CONSTRUCTOR DESTRUCTOR ------------------------- */
 /* ========================================================================== */
 
-Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _invite_only(false), _passwd_required(false), _is_private(false), _is_secret(false), _is_invite_only(false), _is_topic_locked(false), _is_moderated(false), _mute_non_moderators(false), _user_limit(25), _ban_mask(""), _channel_key(""), _is_accepting_messages_from_outside_client(false)
+Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _nbUsers(0), _invite_only(false), _passwd_required(false), _is_private(false), _is_secret(false), _is_invite_only(false), _is_topic_locked(false), _is_moderated(false), _mute_non_moderators(false), _user_limit(25), _ban_mask(""), _channel_key(""), _is_accepting_messages_from_outside_client(false)
 
 {
 	_channelAdmin.insert(std::make_pair(channelAdmin->getNickname(), channelAdmin));
@@ -27,6 +27,7 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelNam
 
 Channel::Channel(Channel const &other)
 {
+	_nbUsers = other._nbUsers;
 	_name                = other._name;
 	_passwd              = other._passwd;
 	_channelAdmin        = other._channelAdmin;
@@ -71,8 +72,10 @@ void Channel::sendToAll(UserPtr user, std::string command , std::string other_ms
 
 void Channel::addUser(UserPtr user)
 {
+
 	_users.insert(std::make_pair(user->getNickname(), user));
 	sendToAll(user, "JOIN");
+	_nbUsers++;
 }
 std::string Channel::getName()
 {
@@ -104,7 +107,10 @@ int Channel::isInvited(std::string nickname)
 {
 	return (_users_invited.find(nickname) == _users_invited.end() ? false : true);
 }
-
+int Channel::numberOfUsers()
+{
+	return (_nbUsers);
+}
 void Channel::setTopic(string str) { _topic = str; }
 
 Channel::string Channel::getTopic(void) { return _topic; }
