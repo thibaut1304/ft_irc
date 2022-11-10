@@ -59,9 +59,9 @@ public:
 	void banUser(std::string nickname);
 	void unbanUser(std::string nickname);
 	void removeUser(std::string nickname);
-	int isInChannel(std::string nickname);
-	int isBanned(std::string nickname);
-	int isInvited(std::string nickname);
+	int  isInChannel(std::string nickname);
+	int  isBanned(std::string nickname);
+	int  isInvited(std::string nickname);
 	std::string getName();
 
 	bool is_invite_only_channel   ();

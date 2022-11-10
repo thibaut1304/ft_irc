@@ -19,9 +19,9 @@ static bool check(Server *server, User user)
 	std::string       ch_name = *(it + 1);
 	std::string       user_name = user.getNickname();
 
-	if (server->does_channel_exist(ch_name) == false) return NOT_OK_;
-	Channel channel = *(server->getChannel(ch_name));
-	if (channel.does_user_exist(user_name) == false) return NOT_OK_;
+	//if (server->does_channel_exist(ch_name) == false) return NOT_OK_;
+	Channel *channel = (server->getChannel(ch_name));
+	if (channel->does_user_exist(user_name) == false) return NOT_OK_;
 	return OK_;
 }
 
