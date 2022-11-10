@@ -155,15 +155,16 @@ std::string Channel::get_channel_key         (void) { return _channel_key       
 
 bool Channel::does_user_exist(std::string user_name)
 {
-	(void)user_name;
-	//set_of_users users = getUsers();
-	//set_of_users::iterator it = users.begin();
-	//set_of_users::iterator ite = users.end();
-
-
-	return (true);
-
-
+	map_users users = getUsers();
+	map_users::iterator it = users.begin();
+	map_users::iterator ite = users.end();
+	while (it != ite)
+	{
+		if (user_name == it->second->getNickname())
+			return (true);
+		it++;
+	}
+	return (false);
 }
 
 

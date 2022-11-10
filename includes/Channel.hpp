@@ -37,7 +37,7 @@ private:
 		/* ------------------------- CHANNEL FLAGS -------------------------- */
 		/* ================================================================== */
 
-		//                                                    // o - give/take channel operator privileges;
+		//                                                      // o - give/take channel operator privileges;
 		bool        _is_private;                                // p - private channel flag;
 		bool        _is_secret;                                 // s - secret channel flag;
 		bool        _is_invite_only;                            // i - invite-only channel flag;
@@ -48,8 +48,7 @@ private:
 		std::string _ban_mask;                                  // b - set a ban mask to keep users out;
 		std::string _channel_key;                               // k - set a channel key (password).
 		bool        _is_accepting_messages_from_outside_client; // n - no messages to channel from clients on the outside;
-																////
-
+		////
 
 public:
 	Channel(string ChannelName, UserPtr ChannelAdmin);
