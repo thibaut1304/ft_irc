@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/09 19:18:36 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:10:47 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include <Header.hpp>
 #include <Users.hpp>
 
-class       Channel
+class Channel
 {
 public:
-	typedef User*                    UserPtr;
+	typedef User *UserPtr;
 	typedef std::string string;
-	typedef std::map<string,UserPtr> map_users;
+	typedef std::map<string, UserPtr> map_users;
 
 	// typedef std::vector<UserPtr> vector_of_users;
 
@@ -35,41 +35,41 @@ private:
 
 public:
 	Channel(string ChannelName, UserPtr ChannelAdmin);
-	Channel  (Channel const        &other);
-	~Channel ();
+	Channel(Channel const &other);
+	~Channel();
 
-	void        addUser     (UserPtr     user);
-	void        banUser     (std::string nickname);
-	void        unbanUser   (std::string nickname);
-	void        removeUser  (std::string nickname);
-	int         isInChannel (std::string nickname);
-	int         isBanned    (std::string nickname);
-	int         isInvited   (std::string nickname);
-	std::string getName     ();
+	void addUser(UserPtr user);
+	void banUser(std::string nickname);
+	void unbanUser(std::string nickname);
+	void removeUser(std::string nickname);
+	int isInChannel(std::string nickname);
+	int isBanned(std::string nickname);
+	int isInvited(std::string nickname);
+	std::string getName();
 
-	bool is_invite_only_channel   ();
-	bool is_password_only_channel ();
-	bool checkPassword            (std::string password);
-	void sendToAll                (UserPtr     user, std::string command);
+	bool is_invite_only_channel();
+	bool is_password_only_channel();
+	bool checkPassword(std::string password);
+	void sendToAll(UserPtr user, std::string command);
 
-	void   setTopic (string str);
-	string getTopic (void);
+	void setTopic(string str);
+	string getTopic(void);
 
 	std::map<std::string, Channel::UserPtr> getAdmin(void);
-	std::map<std::string, Channel::UserPtr> getUsers        (void);
-	std::map<std::string, Channel::UserPtr> getUsersBanned  (void);
-	std::map<std::string, Channel::UserPtr> getUsersInvited (void);
+	std::map<std::string, Channel::UserPtr> getUsers(void);
+	std::map<std::string, Channel::UserPtr> getUsersBanned(void);
+	std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 
 	void printUsers(void)
 	{
 		map_users map = getUsers();
-		map_users::iterator it  = map.begin();
+		map_users::iterator it = map.begin();
 		map_users::iterator ite = map.end();
 
 		while (it != ite)
 		{
 			std::cout << "Username : " << (*it).first << std::endl;
-			std::cout << "FD : "<< (*it).second->getFd() << std::endl;
+			std::cout << "FD : " << (*it).second->getFd() << std::endl;
 			it++;
 		}
 	}

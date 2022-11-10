@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/09 20:07:54 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:59:57 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@
 /* ...................................................... */
 /* ................. Replies Channel .................... */
 /* ...................................................... */
-#define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks)
+#define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks + "\r\n")
 // #define RPL_NAMREPLY(nick, channel, nicks) (" 366 " + nick + " " + channel + " :End of /NAMES list." + "\r\n");
 /* ...................................................... */
 

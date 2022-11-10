@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/09 18:27:55 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:10:21 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void Channel::sendToAll(UserPtr user, std::string command)
 	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name + "\r\n";
 	for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
 	{
-	send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
+		if (it->second != user)
+			send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
 	}
 }
 
@@ -57,6 +58,7 @@ void Channel::addUser(UserPtr user)
 {
 	_users.insert(std::make_pair(user->getNickname(), user));
 	sendToAll(user, "JOIN");
+	// names(serv, user);
 }
 std::string Channel::getName()
 {
