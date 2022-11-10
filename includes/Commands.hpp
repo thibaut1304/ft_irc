@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:29:55 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/04 18:23:17 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/10 12:20:22 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,6 @@ void userhost      (Server *, User);
 void ison          (Server *, User);
 void motd          (Server *, User);
 
+// # BOT
+typedef void (*cmdBot)(Server *, User, std::vector<std::string>);
+void executeBot	   (Server *, User);

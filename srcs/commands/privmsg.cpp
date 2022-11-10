@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 00:44:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/10 12:00:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ static void	searchChannel(std::string nameChannel, Server *serv, User user, std:
 	std::vector<std::string> allBuff = serv->_allBuff;
 	std::string cmd = *(allBuff.begin());
 	allBuff.erase(allBuff.begin());
-
+	std::string nameBot = "#bot";
+	if (nameChannel.compare(nameBot) == 0) {
+		executeBot(serv, user);
+		return ;
+	}
 	if (serv->does_channel_exist(nameChannel)) {
 		std::map<std::string, Channel *>::iterator it_chan= serv->_channels.find(nameChannel);
 		std::cout << _GREEN << it_chan->first << _NC << std::endl;
