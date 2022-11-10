@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:47:14 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 14:31:25 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:42:32 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void names(Server *serv, User user)
         {
             if (!serv->does_channel_exist(channels[i]))
             {
-                msg = NAME + ERR_NOSUCHCHANNEL(channels[i]);
+                msg = ERR_NOSUCHCHANNEL(user.getNickname(), channels[i]);
                 send(user.getFd(), msg.c_str(), msg.length(), 0);
             }
             else

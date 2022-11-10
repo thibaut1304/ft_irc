@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 16:28:11 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:44:12 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,11 @@
 /* ------------------------- CONSTRUCTOR DESTRUCTOR ------------------------- */
 /* ========================================================================== */
 
-Channel::Channel(std::string ChannelName, User *channelAdmin) :
-	_name                  (ChannelName)
-	, _passwd              ("")
-	, _channelAdmin        (channelAdmin)
-	, _invite_only         (false)
-	, _passwd_required     (false)
-	, _is_private          (false)
-	, _is_secret           (false)
-	, _is_invite_only      (false)
-	, _is_topic_locked     (false)
-	, _is_moderated        (false)
-	, _mute_non_moderators (false)
-	, _user_limit          (25)
-	, _ban_mask            ("")
-	, _channel_key         ("")
-	, _is_accepting_messages_from_outside_client(false)
+Channel::Channel(std::string ChannelName, User *channelAdmin) : _name(ChannelName), _passwd(""), _invite_only(false), _passwd_required(false), _is_private(false), _is_secret(false), _is_invite_only(false), _is_topic_locked(false), _is_moderated(false), _mute_non_moderators(false), _user_limit(25), _ban_mask(""), _channel_key(""), _is_accepting_messages_from_outside_client(false)
 
 {
 	_channelAdmin.insert(std::make_pair(channelAdmin->getNickname(), channelAdmin));
 	addUser(channelAdmin);
-}
-
-Channel::Channel(std::string ChannelName, User *channelAdmin, std::string passwd) :
-	_name                  (ChannelName)
-	, _passwd              (passwd)
-	, _channelAdmin        (channelAdmin)
-	, _invite_only         (false)
-	, _passwd_required     (false)
-	, _is_private          (false)
-	, _is_secret           (false)
-	, _is_invite_only      (false)
-	, _is_topic_locked     (false)
-	, _is_moderated        (false)
-	, _mute_non_moderators (false)
-	, _user_limit          (25)
-	, _ban_mask            ("")
-	, _channel_key         ("")
-	, _is_accepting_messages_from_outside_client(false)
-{
 }
 
 Channel::Channel(Channel const &other)
@@ -100,8 +66,7 @@ void Channel::sendToAll(UserPtr user, std::string command , std::string other_ms
 	else
 		msg += command + " " + this->_name + " :" + other_msg +"\r\n" ;
 	for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
-		if (it->second != user)
-			send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
+		send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
 }
 
 void Channel::addUser(UserPtr user)
