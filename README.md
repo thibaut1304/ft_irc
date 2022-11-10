@@ -57,7 +57,7 @@ PASS <pass>
 	- [A] USER MODES
 - [A] TOPIC
 - [X] NAMES
-- [A] LIST
+- [X] LIST
 - [A] INVITES
 - [A] KICK
 
