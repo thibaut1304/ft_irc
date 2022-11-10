@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 18:27:53 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 22:48:19 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void Channel::addUser(UserPtr user)
 	sendToAll(user, "JOIN");
 	_nbUsers++;
 }
+void Channel::inviteUser(UserPtr user)
+{
+	_users_invited.insert(std::make_pair(user->getNickname(), user));
+}
 std::string Channel::getName()
 {
 	return (_name);
@@ -106,6 +110,10 @@ int Channel::isBanned(std::string nickname)
 int Channel::isInvited(std::string nickname)
 {
 	return (_users_invited.find(nickname) == _users_invited.end() ? false : true);
+}
+int Channel::isAdmin(std::string nickname)
+{
+	return (_channelAdmin.find(nickname) == _channelAdmin.end() ? false : true);
 }
 int Channel::numberOfUsers()
 {

@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 18:27:04 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 22:29:58 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ private:
 		int isInChannel(std::string nickname);
 		int isBanned(std::string nickname);
 		int isInvited(std::string nickname);
+		int isAdmin(std::string nickname);
 		int numberOfUsers();
 
 			std::string getName();

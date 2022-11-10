@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/09 23:46:40 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/10 22:21:19 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ public:
 	bool does_channel_exist(string ch_name);
 	Channel *getChannel(string ch_name);
 	std::map<std::string, Channel *> getChannels();
+	std::map<const int, User> getUsers();
+	User *getUser(std::string nickname);
+
 	void removeChannel(string ch_name);
 	void addChannel(string ch_name, Channel::UserPtr user);
 

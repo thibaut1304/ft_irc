@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 16:29:17 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 22:01:38 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,15 @@ void Server::killUserClient(int fd)
 /* ========================================================================== */
 
 bool Server::does_channel_exist(string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false : true; }
-Channel* Server::getChannel(string ch_name) { return _channels.find(ch_name)->second; }
+
+Channel* Server::getChannel(string ch_name) { 
+	
+	return _channels.find(ch_name)->second;
+	
+	}
+	 
+
+
 void Server::removeChannel(string ch_name) { _channels.erase(ch_name); }
 void Server::addChannel(string ch_name, Channel::UserPtr user)
 {
@@ -168,7 +176,20 @@ void Server::addChannel(string ch_name, Channel::UserPtr user)
 	Channel *chan = new Channel(ch_name, user);
 	_channels.insert(std::make_pair<std::string, Channel *>(ch_name, chan));
 }
-
+std::map<const int, User> Server::getUsers()
+{
+	return _users;		
+}
+User* Server::getUser(std::string nickname)
+{
+	
+for(std::map<const int, User>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second.getNickname() == nickname)
+		return (&it->second);
+	}
+return NULL;	
+}
 //bool Server::is_user_registered(string user_name)
 //{
 	//if (_users.find(user_name) == _users.end())
