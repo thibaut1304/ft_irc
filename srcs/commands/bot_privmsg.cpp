@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:51:14 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 12:32:28 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:03:58 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,62 @@ void bot(Server *serv, User user, std::vector<std::string> cmd) {
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 }
 
+void cmdWeather(Server *serv, User user, std::vector<std::string> cmd) {
+	(void)cmd;
+	(void)serv;
+	std::string msg = "-- > shorturl.at/dhrsW\r\n";
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
+}
+
+void cmdTime(Server *serv, User user, std::vector<std::string> cmd) {
+	(void)cmd;
+	(void)serv;
+	std::string          msg;
+	std::stringstream    server_time;
+
+		server_time        \
+			<< get_charday() \
+			<< " " \
+			<< ((get_day() < 10) ? "0" : "") \
+			<< get_day()   \
+			<< "/"         \
+			<< ((get_month() < 10) ? "0" : "") \
+			<< get_month() \
+			<< "/"         \
+			<< get_year()  \
+			<< " "         \
+			<< get_hour()  \
+			<< ":"         \
+			<< ((get_minute() < 10) ? "0" : "") \
+			<< get_minute() \
+			<< ":"         \
+			<< ((get_seconds() < 10) ? "0" : "") \
+			<< get_seconds() \
+			<< " CET"
+			<< std::endl;
+
+		msg =  NAME_V;
+		msg += " ";
+		msg += ":";
+		msg += server_time.str();
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+}
+
 void	initCmdBot(std::map<std::string, cmdBot> & listCmd) {
 	listCmd["HELP"] = &cmdHelp;
 	listCmd["BOT"] = &bot;
 	listCmd["M14"] = &cmdMetro;
+	listCmd["WEATHER"] = &cmdWeather;
+	listCmd["TIME"] = &cmdTime;
+
 }
 
 void	initStringCmd(std::vector<std::string> & cmd) {
 	cmd.push_back("HELP : This help text\r\n");
 	cmd.push_back("M14 : Know the timetables of the metro 14\r\n");
 	cmd.push_back("BOT : A short description about me\r\n");
+	cmd.push_back("WEATHER : The weather report\r\n");
+	cmd.push_back("TIME : Print the time\r\n");
 }
 
 void executeBot(Server *serv, User user) {
