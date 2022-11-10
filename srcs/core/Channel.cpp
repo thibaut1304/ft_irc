@@ -90,13 +90,16 @@ bool Channel::is_invite_only_channel() { return _invite_only; }
 bool Channel::is_password_only_channel() { return _passwd_required; }
 bool Channel::checkPassword(std::string password) { return password == this->_passwd; }
 
-void Channel::sendToAll(UserPtr user, std::string command)
+void Channel::sendToAll(UserPtr user, std::string command , std::string other_msg = "")
 {
-	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " + command + " :" + this->_name + "\r\n";
+	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " " ;
+
+	if (other_msg == "")
+		msg += command + " :" + this->_name + "\r\n";
+	else
+		msg += command + " " + this->_name + " :" + other_msg +"\r\n" ;
 	for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
-	{
-	send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
-	}
+		send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
 }
 
 void Channel::addUser(UserPtr user)
@@ -152,7 +155,7 @@ void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators =
 void Channel::set_user_limit          (size_t s)        { _user_limit          = s;   }; // l - set the user limit to channel;
 void Channel::set_ban_mask            (std::string str) { _ban_mask            = str; }; // b - set a ban mask to keep users out;
 void Channel::set_channel_key         (std::string str) { _channel_key         = str; }; // k - set a channel key (password).
-//void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
+																						 //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
 bool        Channel::get_is_private          (void) { return _is_private          ; }; // p - private channel flag;
 bool        Channel::get_is_secret           (void) { return _is_secret           ; }; // s - secret channel flag;
@@ -163,7 +166,7 @@ bool        Channel::get_mute_non_moderators (void) { return _mute_non_moderator
 size_t      Channel::get_user_limit          (void) { return _user_limit          ; }; // l - set the user limit to channel;
 std::string Channel::get_ban_mask            (void) { return _ban_mask            ; }; // b - set a ban mask to keep users out;
 std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
-//void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
+																					   //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
 bool Channel::does_user_exist(std::string user_name)
 {

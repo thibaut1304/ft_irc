@@ -71,7 +71,7 @@ public:
 	bool is_invite_only_channel   ();
 	bool is_password_only_channel ();
 	bool checkPassword            (std::string password);
-	void sendToAll                (UserPtr     user, std::string command);
+	void sendToAll                (UserPtr     user, std::string command, std::string other_msg);
 
 	void   setTopic (string str);
 	string getTopic (void);

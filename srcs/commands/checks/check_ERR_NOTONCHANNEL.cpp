@@ -11,15 +11,33 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "Channel.hpp"
+
+static bool check(Server *server, User user)
+{
+	BUFFER_           buffer  = server->_allBuff;
+	BUFFER_::iterator it      = buffer.begin();
+	std::string       ch_name = *(it + 1);
+	std::string       user_name = user.getNickname();
+
+	if (server->does_channel_exist(ch_name) == false) return NOT_OK_;
+	Channel channel = *(server->getChannel(ch_name));
+	if (channel.does_user_exist(user_name) == false) return NOT_OK_;
+	return OK_;
+}
 
 bool check_ERR_NOTONCHANNEL(Server *server, User user)
 {
-	(void)user;
+	int destination = user.getFd();
 	BUFFER_           buffer  = server->_allBuff;
 	BUFFER_::iterator it      = buffer.begin();
-	std::string       ch_name = *it;
-	Channel *channel = server->getChannel(ch_name);
-	(void)channel;
-	return false;
+	std::string       ch_name = *(it + 1);
+	std::string msg;
+
+	if (check(server, user) == NOT_OK_)
+	{
+		msg += ERR_NOTONCHANNEL(user.getNickname(), ch_name);
+		send(destination, msg.c_str(), msg.length(), 0);;
+		return NOT_OK_;
+	}
+	return OK_;
 }
