@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Channel.hpp"
 #include "Server.hpp"
 
 // TODO WIP
@@ -17,9 +18,28 @@
 // TODO WIP
 // TODO WIP
 
+
 /* ========================================================================== */
 /* --------------------------------- UTILS ---------------------------------- */
 /* ========================================================================== */
+
+void __debug_modes(Channel *channel)
+{
+	std::cout << "============================================" << std::endl;
+	std::cout << "chan key              :"<< channel->get_channel_key()                               << std::endl;
+	std::cout << "ban mask              :"<< channel->get_ban_mask()                                  << std::endl;
+	std::cout << "accept outside client :"<< channel->get_is_accepting_messages_from_outside_client() << std::endl;
+	std::cout << "inv only              :"<< channel->get_is_invite_only()                            << std::endl;
+	std::cout << "moderated             :"<< channel->get_is_moderated()                              << std::endl;
+	std::cout << "private               :"<< channel->get_is_private()                                << std::endl;
+	std::cout << "secret                :"<< channel->get_is_secret()                                 << std::endl;
+	std::cout << "unlocked topic        :"<< channel->get_is_topic_unlocked()                         << std::endl;
+	std::cout << "mute non operators    :"<< channel->get_mute_non_moderators()                       << std::endl;
+	std::cout << "user limit            :"<< channel->get_user_limit()                                << std::endl;
+	std::cout << "============================================" << std::endl;
+}
+
+static bool is_channel_name(std::string str) {	return (str[0] == '#'); }
 
 static bool is_in_charset(std::string charset, char c)
 {
@@ -80,9 +100,6 @@ static bool check_arg_error(Server *server, int arg_index)
 /* ========================================================================== */
 /* ----------------------------- CHANNEL MODES ------------------------------ */
 /* ========================================================================== */
-
-static bool is_channel_name(std::string str) {	return (str[0] == '#'); }
-
 
 /* ...................................................... */
 /* ................. BOOL SETTERS ....................... */
@@ -167,7 +184,6 @@ static void set_arg_modes(
 /* ....................... PARSE ........................ */
 /* ...................................................... */
 
-
 static void parse_modes(
 		Server*     server,
 		User        user,
@@ -202,7 +218,6 @@ static void parse_modes(
 	return ;
 }
 
-
 /* ...................................................... */
 /* ............. CHANNEL MODE MAIN FUNCTION ............. */
 /* ...................................................... */
@@ -216,9 +231,17 @@ static void exec_channel_modes(
 {
 	bool toggle = add_or_remove(modes);
 
+	/////////////////////// TODO delete
+	__debug_modes(channel);
+	/////////////////////// TODO delete
+
 	modes = trim_sign(modes);
 	for (size_t i = 0; i < modes.length(); i++)
 		parse_modes(server, user, modes, i, toggle, channel, &arg_index);
+
+	/////////////////////// TODO delete
+	__debug_modes(channel);
+	/////////////////////// TODO delete
 }
 
 /* ========================================================================== */
