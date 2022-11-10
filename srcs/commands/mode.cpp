@@ -147,12 +147,12 @@ static void set_bool_modes(User user, char mode, bool toggle, Channel * channel)
 /* ..................................................... */
 
 static void set_arg_modes(
-		Server* server,
-		User        user,
-		char mode,
-		bool        toggle,
-		Channel*    channel,
-		int arg_index
+		Server*  server,
+		User     user,
+		char     mode,
+		bool     toggle,
+		Channel* channel,
+		int      arg_index
 		)
 {
 	//bool modified = false;
@@ -195,14 +195,10 @@ static void parse_modes(
 		std::string msg = ""
 		)
 {
-	/* .................................................. */
 	/* ................... BOOL MODES ................... */
-	/* .................................................. */
 	if (is_in_charset("opsitnvm", modes[index]) == true) return set_bool_modes(user, modes[index], toggle, channel);
 
-	/* .................................................. */
 	/* ................... DATA MODES ................... */
-	/* .................................................. */
 	if (is_in_charset("lbk",      modes[index]) == true)
 	{
 		set_arg_modes(server, user, modes[index], toggle, channel, *arg_index);
@@ -210,9 +206,7 @@ static void parse_modes(
 		return ;
 	}
 
-	/* .................................................. */
 	/* .................. UNKNOWN MODE .................. */
-	/* .................................................. */
 	msg = ERR_UNKNOWNMODE(user.getNickname(), modes[index]);
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 	return ;
