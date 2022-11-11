@@ -13,19 +13,37 @@
 #include "Server.hpp"
 #include "Mode.hpp"
 
+static bool check_USERS(Server * server, User user, std::string target)
+{
+	if (target[0] != '#')
+	{
+		if (check_ERR_NOSUCHNICK (server, user) == NOT_OK_) return NOT_OK_;
+	}
+	return OK_;
+}
+
+static bool check_CHANNELS(Server * server, User user, std::string target)
+{
+	if (target[0] == '#')
+	{
+		if (check_ERR_NOSUCHCHANNEL (server, user) == NOT_OK_) return NOT_OK_;
+		if (check_ERR_NOTONCHANNEL  (server, user) == NOT_OK_) return NOT_OK_;
+	}
+	return OK_;
+}
+
 void mode(Server *server, User  user)
 {
-	if (check_ERR_NEEDMOREPARAMS   (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOTREGISTERED    (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOSUCHCHANNEL    (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOTONCHANNEL     (server, user) == NOT_OK_) return ;
-	//if (check_ERR_NOSUCHNICK       (server, user) == NOT_OK_) return ; // TODO
-	//if (check_ERR_CHANOPRIVSNEEDED (server, user) == NOT_OK_) return ; // TODO
-	//if (check_ERR_KEYSET           (server, user) == NOT_OK_) return ; // TODO
-
 	BUFFER_           buffer = server->_allBuff;
 	BUFFER_::iterator it     = buffer.begin();
-	std::string       target = it[1]; // NOTE : Cannot segault because checked above/
+	std::string       target = buffer.size() > 1 ? it[1] : "";
+
+	if (check_ERR_NEEDMOREPARAMS (server, user)         == NOT_OK_) return ;
+	if (check_ERR_NOTREGISTERED  (server, user)         == NOT_OK_) return ;
+	if (check_CHANNELS           (server, user, target) == NOT_OK_) return ;
+	if (check_USERS              (server, user, target) == NOT_OK_) return ;
+	//if (check_ERR_CHANOPRIVSNEEDED (server, user) == NOT_OK_) return ; // TODO
+	//if (check_ERR_KEYSET           (server, user) == NOT_OK_) return ; // TODO
 
 	if (target[0] == '#') mode_channel(server, user, target);
 	else                  mode_user   (server, user, target);

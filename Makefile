@@ -83,6 +83,7 @@ SRCS		:=  \
 				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
 				commands/checks/check_ERR_NOTONCHANNEL.cpp \
 				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
+				commands/checks/check_ERR_NOSUCHNICK.cpp \
 				commands/checks/check_ERR_NONICKNAMEGIVEN.cpp \
 
 				# TODO
