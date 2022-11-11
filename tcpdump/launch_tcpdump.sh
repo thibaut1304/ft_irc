@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-IMAGE_NAME="tcp_irc"
+IMAGE_NAME="tcprc"
 CONTAINER_NAME=$IMAGE_NAME
 
 docker build ./ -t $IMAGE_NAME

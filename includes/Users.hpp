@@ -22,6 +22,11 @@ class User {
 		bool        _statusPing;
 		bool        _validUser;
 
+		bool _receive_wallops;
+		bool _receive_server_notice;
+		bool _is_invisible;
+		bool _is_operator;
+
 		std::string _ip;
 		std::string _hostname;
 		std::string _nickname;
@@ -62,5 +67,15 @@ class User {
 
 		bool		getIsKill()		  const;
 		void		setIsKill(bool);
+
+
+		bool get_receive_wallops       (void) const;
+		bool get_receive_server_notice (void) const;
+		bool get_is_invisible          (void) const;
+		bool get_is_operator           (void) const;
+		void set_receive_wallops       (bool) ;
+		void set_receive_server_notice (bool) ;
+		void set_is_invisible          (bool) ;
+		void set_is_operator           (bool) ;
 
 };

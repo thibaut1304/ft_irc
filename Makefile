@@ -74,6 +74,9 @@ SRCS		:=  \
 				commands/names.cpp 			    \
 				commands/list.cpp      			\
 				commands/mode.cpp 			    \
+				commands/mode_channel.cpp 		\
+				commands/mode_user.cpp   		\
+				commands/mode_utils.cpp 		\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
