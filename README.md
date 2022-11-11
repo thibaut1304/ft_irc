@@ -19,16 +19,16 @@ Select VS poll -> https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-ep
 
 - [x] PASS
 - [x] NICK
-- [W] TOPIC
-- [x] USER
-- [W] MODE
-- [A] KICK
 - [x] PING
-- [A] JOIN
-- [T] WHO
 - [x] PRIVMSG
-- [A] PART
+- [x] USER
+- [W] TOPIC
+- [W] MODE
+- [T] WHO
 - [T] QUIT
+- [A] PART
+- [A] JOIN
+- [A] KICK
 - [A] INVITE
 
 # REFERENCE

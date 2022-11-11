@@ -34,7 +34,7 @@ static std::string get_options_from_channel(Channel *chan)
         options.append("s");
     if (chan->get_is_invite_only())
         options.append("i");
-    if (chan->get_is_topic_locked())
+    if (chan->get_is_topic_unlocked() == false)
         options.append("t");
     if (chan->get_is_moderated())
         options.append("m");

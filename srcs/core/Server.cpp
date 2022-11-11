@@ -27,6 +27,7 @@ Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(pa
 }
 Server::~Server(void) {}
 
+Server::map_users Server::get_users() const { return _users ; }
 std::string Server::getPasswd(void) const { return (_passwd); }
 std::string Server::getPort(void) const { return (_port); }
 void Server::setPasswd(std::string pass) { _passwd = pass; }

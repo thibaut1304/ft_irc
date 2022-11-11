@@ -77,12 +77,16 @@ SRCS		:=  \
 				commands/mode.cpp 			    \
 				commands/invite.cpp		    	\
 				commands/part.cpp      			\
+				commands/mode_channel.cpp 		\
+				commands/mode_user.cpp   		\
+				commands/mode_utils.cpp 		\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
 				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
 				commands/checks/check_ERR_NOTONCHANNEL.cpp \
 				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
+				commands/checks/check_ERR_NOSUCHNICK.cpp \
 				commands/checks/check_ERR_NONICKNAMEGIVEN.cpp \
 
 				# TODO

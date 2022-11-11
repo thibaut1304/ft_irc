@@ -74,6 +74,7 @@ public:
 	Server(string, string);
 	~Server(void);
 
+	map_users get_users(void) const;
 	string getPasswd() const;
 	string getPort() const;
 	void setPasswd(string);
