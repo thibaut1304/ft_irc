@@ -44,21 +44,26 @@ void join(Server *serv, User user)
 		}
 		else if (serv->does_channel_exist(channels[i]))
 		{
+			std::cout << "ici 1" << std::endl;
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
-			if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
+			if (!it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
 			{
+			std::cout << "ici 2" << std::endl;
+				std::cout << "check channel" << std::endl;
 				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
 					perror_and_exit("473");
 			}
 			else if (it->second->is_password_only_channel() && it->second->checkPassword(passwords[i]))
 			{
+			std::cout << "ici 3" << std::endl;
 				std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
 					perror_and_exit("475");
 			}
 			else
 			{
+			std::cout << "ici 4" << std::endl;
 				it->second->addUser(&(_it->second));
 				names(serv, (_it->second));
 			}

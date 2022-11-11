@@ -67,7 +67,8 @@ Channel::~Channel()
 /* ---------------------------- CHANNEL METHODS ----------------------------- */
 /* ========================================================================== */
 
-bool Channel::is_invite_only_channel() { return _invite_only; }
+bool Channel::is_invite_only_channel() { return _invite_only;}
+
 bool Channel::is_password_only_channel() { return _passwd_required; }
 bool Channel::checkPassword(std::string password) { return password == this->_passwd; }
 
@@ -149,7 +150,11 @@ std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return 
 
 void Channel::set_is_private          (bool b)          { _is_private          = b;   };   // p - private channel flag;
 void Channel::set_is_secret           (bool b)          { _is_secret           = b;   };   // s - secret channel flag;
-void Channel::set_is_invite_only      (bool b)          { _is_invite_only      = b;   };   // i - invite-only channel flag;
+void Channel::set_is_invite_only      (bool b)          {
+	 _is_invite_only      = b; 
+	std::cout << "set invite only" << std::endl;
+	 
+	   };   // i - invite-only channel flag;
 void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   = b;   };   // t - topic settable by channel operator only flag;
 void Channel::set_is_moderated        (bool b)          { _is_moderated        = b;   };   // m - moderated channel;
 void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators = b;   };   // v - give/take the ability to speak on a moderated channel;
