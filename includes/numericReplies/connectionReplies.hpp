@@ -62,7 +62,7 @@
 
 #define ERR_NOORIGIN "409 :No origin specified" + "\r\n"
 
-// # define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
+// # define ERRf_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
 
 #define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
 
@@ -82,9 +82,7 @@
 #define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n")
 #define RPL_LIST(nick, channel, usernumber, flags) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + "\r\n")
 #define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
-#define ERR_NOSUCHNICK(nick, nickname) (NAME + " 401 " + nick + " :No such nick\r\n") 
-#define ERR_NOSUCHNICK(nick, nickname) (NAME + " 402 " + nick + " :You must be a channel operator\r\n") 
-#define ERR_NOTONCHANNEL(nick, channel)(NAME + "442" + nick + " " + channel +" :You're not on that channel!")
+// #define ERR_NOSUCHNICK(nick, nickname) (NAME + " 402 " + nick + " :You must be a channel operator\r\n") 
 /* ...................................................... */
 
 /* ...................................................... */

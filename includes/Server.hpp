@@ -162,7 +162,9 @@ void splitCmd(std::vector<std::string> &sCmd, std::string cmd);
 void split(std::vector<std::string> &sCmd, std::string cmd, std::string delimiter);
 void print_buff(std::vector<std::string> buff);
 void myToupper(std::string &emma);
+void perror_and_exit(std::string code);
 int findCharParsing(std::string buff);
+
 
 int get_year(void);
 int get_month(void);

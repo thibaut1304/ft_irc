@@ -41,7 +41,7 @@ void user_modes    (Server *, User); // TODO wtf?
 void topic         (Server *, User);
 void names         (Server *, User);
 void list          (Server *, User);
-void invites       (Server *, User);
+void invite       (Server *, User);
 void kick          (Server *, User);
 
 // # SERVER QUERIES AND COMM,NDS

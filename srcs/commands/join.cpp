@@ -20,13 +20,7 @@ static int charset(std::string charset, std::string str)
 			return (1);
 	return 0;
 }
-void perror_and_exit(std::string code)
-{
-	std::string error = "Error send msg ";
-	error.append(code);
-	perror(error.c_str());
-	exit(errno);
-}
+
 void join(Server *serv, User user)
 {
 	Server::map_users::iterator _it = serv->_users.begin();
@@ -51,7 +45,7 @@ void join(Server *serv, User user)
 		else if (serv->does_channel_exist(channels[i]))
 		{
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
-			if (it->second->is_invite_only_channel() && it->second->isInvited(user.getNickname()))
+			if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
 			{
 				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)

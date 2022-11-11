@@ -37,6 +37,7 @@ SRCS		:=  \
 				core/server/server_launch.cpp         \
 				core/server/server_new_connection.cpp \
 				\
+				utils/basic/perror_and_exit.cpp \
 				utils/basic/myToupper.cpp       \
 				utils/basic/find_char_string.cpp\
 				utils/basic/get_local_time.cpp  \
@@ -74,6 +75,8 @@ SRCS		:=  \
 				commands/names.cpp 			    \
 				commands/list.cpp      			\
 				commands/mode.cpp 			    \
+				commands/invite.cpp		    	\
+				commands/part.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -89,8 +92,6 @@ SRCS		:=  \
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# commands/part.cpp      \
-				# commands/invites.cpp   \
 				# commands/kick.cpp      \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \

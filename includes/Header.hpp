@@ -56,5 +56,6 @@
 # include <map>
 # include <vector>
 # include <set>
+# include <cerrno>
 
 #endif
