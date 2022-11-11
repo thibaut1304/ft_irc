@@ -42,18 +42,6 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) :
 Channel::Channel(Channel const &other)
 {
 	_nbUsers = other._nbUsers;
-<<<<<<< HEAD
-	_name = other._name;
-	_passwd = other._passwd;
-	_channelAdmin = other._channelAdmin;
-	_invite_only = other._invite_only;
-	_passwd_required = other._passwd_required;
-	_is_private = other._is_private;
-	_is_secret = other._is_secret;
-	_is_invite_only = other._is_invite_only;
-	_is_topic_locked = other._is_topic_locked;
-	_is_moderated = other._is_moderated;
-=======
 	_name                = other._name;
 	_passwd              = other._passwd;
 	_channelAdmin        = other._channelAdmin;
@@ -64,7 +52,6 @@ Channel::Channel(Channel const &other)
 	_is_invite_only      = other._is_invite_only;
 	_is_topic_unlocked     = other._is_topic_unlocked;
 	_is_moderated        = other._is_moderated;
->>>>>>> master
 	_mute_non_moderators = other._mute_non_moderators;
 	_user_limit = other._user_limit;
 	_ban_mask = other._ban_mask;
@@ -159,21 +146,6 @@ std::map<std::string, Channel::UserPtr> Channel::getAdmin(void) { return _channe
 std::map<std::string, Channel::UserPtr> Channel::getUsers(void) { return _users; }
 std::map<std::string, Channel::UserPtr> Channel::getUsersBanned(void) { return _users_banned; }
 std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return _users_invited; }
-
-void Channel::set_is_private(bool b) { _is_private = b; }; // p - private channel flag;
-void Channel::set_is_secret(bool b) { _is_secret = b; };   // s - secret channel flag;
-void Channel::set_is_invite_only(bool b)
-{
-	std::cout << "set invite only\n";
-	_is_invite_only = b;
-};																			 // i - invite-only channel flag;
-void Channel::set_is_topic_locked(bool b) { _is_topic_locked = b; };		 // t - topic settable by channel operator only flag;
-void Channel::set_is_moderated(bool b) { _is_moderated = b; };				 // m - moderated channel;
-void Channel::set_mute_non_moderators(bool b) { _mute_non_moderators = b; }; // v - give/take the ability to speak on a moderated channel;
-void Channel::set_user_limit(size_t s) { _user_limit = s; };				 // l - set the user limit to channel;
-void Channel::set_ban_mask(std::string str) { _ban_mask = str; };			 // b - set a ban mask to keep users out;
-void Channel::set_channel_key(std::string str) { _channel_key = str; };		 // k - set a channel key (password).
-																			 // void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
 void Channel::set_is_private          (bool b)          { _is_private          = b;   };   // p - private channel flag;
 void Channel::set_is_secret           (bool b)          { _is_secret           = b;   };   // s - secret channel flag;
