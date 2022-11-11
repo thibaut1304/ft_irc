@@ -1,0 +1,16 @@
+nick w
+user 1 2 3 :5
+pass 1234
+join #p
+mode #p +psitmvn
+mode #p -tmvnisp
+mode #p pppppppppiiiiiiiiissssttttmvn
+mode #p -pppppppppiiiiiiiiissssttttmvn
+mode #p +psbitlmvkn ban 42 key
+mode #p +psbitlmvkhn
+
+nick w
+user 1 2 3 :5
+join #p
+mode #p +psitmvn
+
