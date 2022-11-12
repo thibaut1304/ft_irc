@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:39:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/12 19:39:47 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/12 20:37:27 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,42 +17,46 @@
 // :irc.local 315 qq qq :End of /WHO list.
 // RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname)
 
-static void recordAdminChannel(Server *serv, std::map<std::string, std::string> & userChannel) {
+static void recordAdminChannel(Server *serv, std::map<std::string, User *> & userChannel) {
 	std::map<std::string, Channel *>::iterator it_chan = serv->_channels.begin();
 
 	for (; it_chan != serv->_channels.end() ; it_chan++) {
 		std::map<std::string, User *> admin = it_chan->second->getAdmin();
 		std::map<std::string, User *>::iterator it_admin = admin.begin();
-		userChannel[it_admin->first] = it_chan->second->getName();
+		userChannel[it_chan->second->getName()] = it_admin->second;
 	}
 }
 
 static void	printAllUser(Server *serv, User user) {
 	std::string tmp_channel = "*";
-	std::string tmp_chan 	= "";
+	std::string tmp_chan 	= "@";
 
+	// Prendre la clefs nickname user valeur map de user * et channel
 	// Nickname et name channel !
-	std::map<std::string, std::string> userChannel;
+	std::map<std::string, User *> userChannel;
 	recordAdminChannel(serv, userChannel);
 
-	// std::vector<std::string>::iterator search = ++serv->_allBuff.begin();
-	std::map<const int, User>::iterator it_user = serv->_users.begin();
-
-	for (;it_user != serv->_users.end(); it_user++) {
-		std::map<std::string, std::string>::iterator it_chan = userChannel.find(it_user);
-		if (it_chan != userChannel.end()) {
+	std::map<std::string, std::string> tmp;
+	std::map<std::string, User *>::iterator it_chan = userChannel.begin();
+	for (; it_chan != userChannel.end(); it_chan++) {
+		if (tmp.find(it_chan->second->getNickname()) == tmp.end()) {
 			std::string msg = RPL_WHOREPLY352(	user.getNickname(), \
-												tmp_channel, \
-												it_user->second.getNickname(), it_user->second.getUsername(), \
-												it_user->second.getIp(), tmp_chan, \
-												it_user->second.getHostname(), it_user->second.getFullName());
+												it_chan->first, \
+												it_chan->second->getUsername(), \
+												it_chan->second->getIp(), it_chan->second->getNickname(), tmp_chan, \
+												it_chan->second->getHostname(), it_chan->second->getFullName());
 			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			tmp[it_chan->second->getNickname()] = it_chan->first;
 		}
-		else {
+	}
+	tmp_chan = "";
+	std::map<const int, User>::iterator it_user = serv->_users.begin();
+	for (;it_user != serv->_users.end(); it_user++) {
+		if (tmp.find(it_user->second.getNickname()) == tmp.end()) {
 			std::string msg = RPL_WHOREPLY352(	user.getNickname(), \
 												tmp_channel, \
-												it_user->second.getNickname(), it_user->second.getUsername(), \
-												it_user->second.getIp(), tmp_chan, \
+												it_user->second.getUsername(), \
+												it_user->second.getIp(), it_user->second.getNickname(), tmp_chan, \
 												it_user->second.getHostname(), it_user->second.getFullName());
 			send(user.getFd(), msg.c_str(), msg.length(), 0);
 		}

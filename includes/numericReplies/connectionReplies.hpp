@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 21:31:00 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/12 20:35:28 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
-# define RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname) (NAME + " 352 " + nick + " " + channel + " " + user + " " + username + " " + ip + " " + NAME_V + " H" + chan + " :" \
+# define RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname) (NAME + " 352 " + nick + " " + channel + " " + user + " " + username + " " + NAME_V + " " + ip + " H" + chan + " :" \
                             + hostname + " " + fullname + "\r\n")
 // <channel> <user> <host> <server> <nick> <H|G>[*][@|+] :<hopcount> <real name>")
 // "<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
