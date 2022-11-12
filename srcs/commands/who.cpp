@@ -6,16 +6,11 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:39:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/12 20:37:27 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/12 20:38:21 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Server.hpp>
-
-// "<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
-// :irc.local 352 qq * 1 172.17.0.1 irc.local qq H :0 4
-// :irc.local 315 qq qq :End of /WHO list.
-// RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname)
 
 static void recordAdminChannel(Server *serv, std::map<std::string, User *> & userChannel) {
 	std::map<std::string, Channel *>::iterator it_chan = serv->_channels.begin();
@@ -31,8 +26,6 @@ static void	printAllUser(Server *serv, User user) {
 	std::string tmp_channel = "*";
 	std::string tmp_chan 	= "@";
 
-	// Prendre la clefs nickname user valeur map de user * et channel
-	// Nickname et name channel !
 	std::map<std::string, User *> userChannel;
 	recordAdminChannel(serv, userChannel);
 
