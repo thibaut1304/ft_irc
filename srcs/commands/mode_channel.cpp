@@ -71,6 +71,34 @@ static char set_arg_modes(Channel* channel, char mode, std::string arg, bool tog
 	return modified ? mode : char(0);
 }
 
+
+static bool mode_channel_log(Channel * channel, User user, size_t buffer_size)
+{
+	if (buffer_size != 2)
+		return false;
+
+	std::string msg = "";
+
+	msg += ":" + NAME_V;
+	msg += " 324 ";
+	msg += user.getNickname() + " " ;
+	msg += channel->getName();
+	msg += " :+";
+	
+	msg += channel->get_is_private()                                ? 'p' : char(0);
+	msg += channel->get_is_secret()                                 ? 's' : char(0);
+	msg += channel->get_is_invite_only()                            ? 'i' : char(0);
+	msg += channel->get_is_topic_unlocked()                         ? 't' : char(0);
+	msg += channel->get_is_moderated()                              ? 'm' : char(0);
+	msg += channel->get_is_accepting_messages_from_outside_client() ? 'n' : char(0);
+	msg += channel->get_mute_non_moderators()                       ? 'v' : char(0);
+
+	msg += "\r\n";
+
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
+	return true;
+}
+
 /* ...................................................... */
 /* ............. CHANNEL MODE MAIN FUNCTION ............. */
 /* ...................................................... */
@@ -89,6 +117,10 @@ void mode_channel(Server* server, User user, std::string target)
 	char mode;
 
 	modes = mode_trim_sign(modes);
+
+
+	// NOTE code stops here if buffer.size() == 2
+	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 
 	/////////////////////// TODO delete
 	if (Debug) __debug_modes(channel, "Before");

@@ -12,8 +12,5 @@
 
 bool check_ERR_BADCHANMASK(Server *server, User user)
 {
-    	    std::string msg = ERR_BADCHANMASK(user->getNickname());
-
-    if ()
 
 }
