@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 22:48:19 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 14:19:25 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) :
 	_is_accepting_messages_from_outside_client (true)
 
 {
+	std::cout << ChannelName << std::endl;
 	_channelAdmin.insert(std::make_pair(channelAdmin->getNickname(), channelAdmin));
 	addUser(channelAdmin);
 }
@@ -86,7 +87,6 @@ void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg
 
 void Channel::addUser(UserPtr user)
 {
-
 	_users.insert(std::make_pair(user->getNickname(), user));
 	sendToAll(user, "JOIN");
 	_nbUsers++;

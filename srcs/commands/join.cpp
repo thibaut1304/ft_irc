@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 13:58:09 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:23:56 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void join(Server *serv, User user)
 		if (_it->second.getNickname().compare(user.getNickname()) == 0)
 			break;
 
-	if (!check_ERR_NEEDMOREPARAMS(serv, user))
+	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
 		return;
 	std::vector<std::string> channels, passwords;
 	split(channels, serv->_allBuff[1], ",");
@@ -44,11 +44,15 @@ void join(Server *serv, User user)
 		}
 		else if (serv->does_channel_exist(channels[i]))
 		{
-			std::cout << "ici 1" << std::endl;
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
-			if (!it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
+			if (it->second->isInChannel(user.getNickname()))
 			{
-			std::cout << "ici 2" << std::endl;
+				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
+				continue ;
+			}
+			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
+			{
+			std::cout << "ici 3" << std::endl;
 				std::cout << "check channel" << std::endl;
 				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
@@ -56,22 +60,25 @@ void join(Server *serv, User user)
 			}
 			else if (it->second->is_password_only_channel() && it->second->checkPassword(passwords[i]))
 			{
-			std::cout << "ici 3" << std::endl;
+			std::cout << "ici 4" << std::endl;
 				std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
 					perror_and_exit("475");
 			}
 			else
 			{
-			std::cout << "ici 4" << std::endl;
+			std::cout << "ici 5" << std::endl;
 				it->second->addUser(&(_it->second));
 				names(serv, (_it->second));
 			}
+			std::cout << "ici no" << std::endl;
 		}
 		else
 		{
+			std::cout << "ici 6" << std::endl;	
 			serv->addChannel(channels[i], &(_it->second));
 			names(serv, (_it->second));
+			
 		}
 	}
 }

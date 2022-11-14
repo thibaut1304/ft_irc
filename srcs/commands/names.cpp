@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:47:14 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 16:42:32 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:19:25 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void names(Server *serv, User user)
             }
             else
             {
-
                 std::string users;
                 std::map<std::string, User *> tmp = serv->getChannel(channels[i])->getAdmin();
                 std::map<std::string, User *>::iterator it = tmp.begin();
