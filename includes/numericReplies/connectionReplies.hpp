@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connectionReplies.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 22:31:29 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:49:12 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,15 @@
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
+# define RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname) (NAME + " 352 " + nick + " " + channel + " " + user + " " + username + " " + NAME_V + " " + ip + " H" + chan + ":" \
+                            + hostname + " " + fullname + "\r\n")
+// <channel> <user> <host> <server> <nick> <H|G>[*][@|+] :<hopcount> <real name>")
+// "<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
+
+
 #define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
 # define ERR_CANNOTSENDTOCHAN(nick, channel_name) (NAME + " 404 " + nick + " " + channel_name + " :Cannot send to channel\r\n")
+# define RPL_ENDOFWHO(nick, user) (NAME + " 315 " + nick + " " + user + " :End of /WHO list\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"

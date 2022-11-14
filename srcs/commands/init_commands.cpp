@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/10 15:21:39 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:41:46 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	Server::initCmd() {
 	_listCmd["NOTICE"]        = &notice;
 
 	// # USER BASED QUERIES
-	//_listCmd["WHO"]           = &who;      // TODO
+	_listCmd["WHO"]           = &who;      // TODO
 
 	// # MISC MESSAGES
 	_listCmd["KILL"]          = &kill;
