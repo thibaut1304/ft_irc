@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:38:45 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 16:17:15 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:53:43 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #define MSG8 (ERR_NOSUCHCHANNEL(user.getNickname(), serv->_allBuff[1]))
 #define MSG9 (ERR_NOTONCHANNEL(user.getNickname(), serv->_allBuff[2]))
 #define MSG10 (ERR_CHANOPRIVSNEEDED(user.getNickname(), serv->_allBuff[2]))
+#define MSG11 (RPL_INVITING(user.getNickname(), serv->_allBuff[2], serv->_allBuff[1]))
+#define MSG12 (user.getNickname() + "!" + user.getUsername() + "@" + user.getIp() + " INVITE :" + serv->_allBuff[2] + "\r\n")
+
 void invite(Server *serv, User user)
 {
   	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
@@ -49,6 +52,10 @@ void invite(Server *serv, User user)
         else
           {
             serv->getChannel(serv->_allBuff[2])->inviteUser(serv->getUser(serv->_allBuff[1]));
+            if (send(user.getFd(), MSG11.c_str(), MSG11.length(), 0) < 0)
+                perror_and_exit("341");
+            if (send(serv->getUser(serv->_allBuff[1])->getFd(), MSG12.c_str(), MSG12.length(), 0) < 0)
+                perror_and_exit("341");
           }
     }
 }

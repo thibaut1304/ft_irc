@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connectionReplies.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/14 15:49:12 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:41:13 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@
 #define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n")
 #define RPL_LIST(nick, channel, usernumber, flags) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + "\r\n")
 #define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
+#define RPL_INVITING(nick, channel, invited) (NAME + " 341 " + nick + " " + invited + " :" + channel + "\r\n")
 // #define ERR_NOSUCHNICK(nick, nickname) (NAME + " 402 " + nick + " :You must be a channel operator\r\n") 
 /* ...................................................... */
 
