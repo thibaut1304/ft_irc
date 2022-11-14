@@ -42,7 +42,6 @@ int	main(int argc, char **argv) {
 	server.init(); // Init server : create sockets, set socket options
 	server.launch();
 
-
 	Server::map_channels ch = server.getChannels();
 	Server::map_channels::iterator it = ch.begin();
 	Server::map_channels::iterator ite = ch.end();

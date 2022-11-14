@@ -62,11 +62,12 @@ bool mode_check_arg_error(Server *server, int arg_index, bool toggle)
 	BUFFER_::iterator it              = buffer.begin();
 	BUFFER_::iterator first_arg = it + 3;
 	int arg_count = 0;
+	(void)toggle;
 
 	while (first_arg + arg_count < buffer.end())
 		arg_count++;
 
-	if (arg_count < arg_index || (arg_count == 0 && toggle == true))
+	if (arg_count < arg_index || (arg_count == 0))
 	{
 		std::cout << "ERROR" << std::endl;
 		return NOT_OK_; // TODO error

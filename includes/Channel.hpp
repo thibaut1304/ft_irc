@@ -64,7 +64,7 @@ private:
 		int isInvited(std::string nickname);
 		int numberOfUsers();
 
-			std::string getName();
+		std::string getName();
 
 		bool is_invite_only_channel();
 		bool is_password_only_channel();

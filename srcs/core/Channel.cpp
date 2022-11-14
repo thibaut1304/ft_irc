@@ -29,7 +29,7 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) :
 	_is_topic_unlocked   (true),
 	_is_moderated        (false),
 	_mute_non_moderators (false),
-	_user_limit          (25),
+	_user_limit          (0),
 	_ban_mask            (""),
 	_channel_key         (""),
 	_is_accepting_messages_from_outside_client (true)
