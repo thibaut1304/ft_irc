@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Channel.hpp"
 #include "Server.hpp"
 #include "Mode.hpp"
 
@@ -113,43 +114,16 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 	bool        modified = false;
 	std::string num_arg  = toggle ? arg : "0";
 
-	std::string password = arg;
 	std::string msg;
 
 	if (mode == 'b') modified = channel_mode_b(arg, channel);
 	if (mode == 'l') modified = channel_mode_l(mode_str_to_num(num_arg), channel);
 	if (mode == 'k')
 	{
-		if (password.size() == 0)
-		{
-			msg += ":" + NAME_V;
-			msg += " 696 ";
-			msg += user.getNickname() + " ";
-			msg += channel->getName() + " ";
-			msg += "k * :You must specify a parameter for the key mode. Syntax: <key>.";
-			msg += "\r\n";
-			send(user.getFd(), msg.c_str(), msg.length(), 0);
-			return char(0);
-		}
-		if (toggle && channel->get_channel_key().size() == 0)
-			modified = channel_mode_k(arg, channel);
-		else if (toggle == false && channel->get_channel_key() == password)
-			modified = channel_mode_k("", channel);
-		else if (
-				toggle == false &&
-				channel->get_channel_key() != password &&
-				channel->get_channel_key().size() > 0
-				)
-		{
-			msg += ":" + NAME_V;
-			msg += " 467 ";
-			msg += user.getNickname() + " " ;
-			msg += channel->getName();
-			msg += " :Channel key already set";
-			msg += "\r\n";
-			send(user.getFd(), msg.c_str(), msg.length(), 0);
-			return char(0);
-		}
+		if (mode_is_missing_password(channel, user, arg)         == true) return char(0);
+		if (mode_is_invalid_password(channel, user, arg, toggle) == true) return char(0);
+		if      (toggle == true  && channel->get_channel_key().size() == 0) modified = channel_mode_k(arg, channel);
+		else if (toggle == false && channel->get_channel_key() == arg)      modified = channel_mode_k("",  channel);
 	}
 	return modified ? mode : char(0);
 }
@@ -180,7 +154,7 @@ void mode_channel(Server* server, User user, std::string target)
 	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 
 	/////////////////////// TODO delete
-	if (Debug) __debug_modes(channel, "Before");
+	//if (Debug) __debug_modes(channel, "Before");
 	/////////////////////// TODO delete
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
@@ -196,10 +170,9 @@ void mode_channel(Server* server, User user, std::string target)
 		/* .......................... */
 		else if (mode_is_in_charset("lbk", mode) == true)
 		{
-			//if (mode_check_arg_error(server, arg_index, toggle) == false)
-				//return ; // TODO error msg;
-			arg = first_arg == buffer.end()? "":first_arg[arg_index++];
+			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
 			msg += set_arg_modes(channel, user, mode, arg, toggle);
+			arg_index++;
 		}
 
 		/* MODE NOT FOUND ........... */
@@ -215,7 +188,7 @@ void mode_channel(Server* server, User user, std::string target)
 		channel->sendToAll(&user, "MODE", msg);
 
 	/////////////////////// TODO delete
-	if (Debug) __debug_modes(channel, "After");
+	//if (Debug) __debug_modes(channel, "After");
 	/////////////////////// TODO delete
 }
 
