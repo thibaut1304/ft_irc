@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 22:01:38 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:05:27 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,14 +163,12 @@ void Server::killUserClient(int fd)
 bool Server::does_channel_exist(string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false : true; }
 
 Channel* Server::getChannel(string ch_name) { 
-	
 	return _channels.find(ch_name)->second;
-	
 	}
-	 
-
-
-void Server::removeChannel(string ch_name) { _channels.erase(ch_name); }
+void Server::deleteChannel(string ch_name)
+{
+	_channels.erase(ch_name);
+}
 void Server::addChannel(string ch_name, Channel::UserPtr user)
 {
 	std::cout << "--addChannel--" << std::endl;

@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 22:21:19 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:02:12 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ public:
 	std::map<std::string, Channel *> getChannels();
 	std::map<const int, User> getUsers();
 	User *getUser(std::string nickname);
-
-	void removeChannel(string ch_name);
+	void deleteChannel(string ch_name);
 	void addChannel(string ch_name, Channel::UserPtr user);
 
 

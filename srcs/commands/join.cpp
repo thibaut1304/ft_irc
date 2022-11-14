@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 15:23:56 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:25:10 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int charset(std::string charset, std::string str)
 			return (1);
 	return 0;
 }
-
 void join(Server *serv, User user)
 {
 	Server::map_users::iterator _it = serv->_users.begin();
@@ -28,7 +27,6 @@ void join(Server *serv, User user)
 	for (; _it != _ite; _it++)
 		if (_it->second.getNickname().compare(user.getNickname()) == 0)
 			break;
-
 	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
 		return;
 	std::vector<std::string> channels, passwords;
@@ -52,33 +50,26 @@ void join(Server *serv, User user)
 			}
 			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
 			{
-			std::cout << "ici 3" << std::endl;
-				std::cout << "check channel" << std::endl;
 				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
 					perror_and_exit("473");
 			}
 			else if (it->second->is_password_only_channel() && it->second->checkPassword(passwords[i]))
 			{
-			std::cout << "ici 4" << std::endl;
 				std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
 					perror_and_exit("475");
 			}
 			else
 			{
-			std::cout << "ici 5" << std::endl;
 				it->second->addUser(&(_it->second));
 				names(serv, (_it->second));
 			}
-			std::cout << "ici no" << std::endl;
 		}
 		else
 		{
-			std::cout << "ici 6" << std::endl;	
 			serv->addChannel(channels[i], &(_it->second));
 			names(serv, (_it->second));
-			
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 14:19:25 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:07:00 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,13 @@ std::string Channel::getName()
 };
 void Channel::removeUser(UserPtr user)
 {
-	(_users.erase(user->getNickname()));
 	sendToAll(user, "PART");
+	(_users.erase(user->getNickname()));
 	_nbUsers--;
+	std::cout << "new number = " << _nbUsers << std::endl;
+	if (_nbUsers == 0)
+		delete(this);
+	
 }
 
 void Channel::banUser(std::string nickname)
