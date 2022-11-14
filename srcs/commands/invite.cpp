@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:38:45 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 22:50:17 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:17:15 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #define MSG10 (ERR_CHANOPRIVSNEEDED(user.getNickname(), serv->_allBuff[2]))
 void invite(Server *serv, User user)
 {
-  	if (!check_ERR_NEEDMOREPARAMS(serv, user))
+  	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
 		return;
     else if (serv->_allBuff.size() == 2)
         return;
@@ -38,7 +38,6 @@ void invite(Server *serv, User user)
         }
         else if (!serv->getChannel(serv->_allBuff[2])->isInChannel(user.getNickname()))
         {
-
             if (send(user.getFd(), MSG9.c_str(), MSG9.length(), 0) < 0)
                 perror_and_exit("401");
         }

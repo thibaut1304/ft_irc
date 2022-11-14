@@ -51,14 +51,14 @@ PASS <pass>
 
 ## Channel Operations
 - [X] JOIN
-- [A] PART
+- [X] PART
 - [A] MODE
 	- [A] CHANNEL MODES
 	- [A] USER MODES
 - [A] TOPIC
 - [X] NAMES
 - [X] LIST
-- [A] INVITES
+- [X] INVITES
 - [A] KICK
 
 ## Server queries and commands
