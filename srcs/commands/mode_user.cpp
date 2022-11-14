@@ -13,6 +13,31 @@
 #include "Server.hpp"
 #include "Mode.hpp"
 
+/* ========================================================================== */
+/* ------------------------------- MODE QUERY ------------------------------- */
+/* ========================================================================== */
+static bool mode_user_log(User user, size_t buffer_size)
+{
+	if (buffer_size != 2)
+		return false;
+
+	std::string msg = "";
+
+	msg += ":" + NAME_V;
+	msg += " 221";
+	msg += user.getNickname() + " " ;
+	msg += " :+";
+
+	msg += user.get_is_invisible()          ? 'i' : char(0);
+	msg += user.get_receive_server_notice() ? 's' : char(0);
+	msg += user.get_receive_wallops()       ? 'w' : char(0);
+	msg += user.get_is_operator()           ? 'o' : char(0);
+	msg += "\r\n";
+
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
+	return true;
+}
+
 #define GET_SET(a, b) if(a == toggle) return false; else return (b, true)
 
 static bool user_mode_w(bool toggle, User * U_) { GET_SET(U_->get_receive_wallops(),       U_->set_receive_wallops       (toggle) ); }
@@ -34,26 +59,42 @@ static char set_bool_modes(User * user, char mode, bool toggle)
 }
 
 
+static User * mode_get_user_ptr(Server *server, User user)
+{
+	Server::map_users users     = server->get_users();
+	Server::map_users::iterator  users_it  = users.begin();
+	Server::map_users::iterator  users_ite = users.end();
+
+	while (users_it++ != users_ite)
+		if (user.getNickname() == users_it->second.getNickname())
+			return &users_it->second;
+	return NULL;
+}
+
 void mode_user(Server* server, User user, std::string target)
 {
 	BUFFER_           buffer    = server->_allBuff;
 	BUFFER_::iterator it        = buffer.begin();
-	std::string       modes     = it[2];           // NOTE : Cannot segault because checked above/
+	std::string       modes     = buffer.size() > 3 ? "" : it[2];           // NOTE : Cannot segault because checked above/
 	bool              toggle    = mode_get_sign(modes); // Set ADD or REMOVE mode
 	std::string       msg       = toggle           ? "+" : "-"; // Message to send to clients
 	std::string       err_msg   = "";              // Error Message to send to clients
 	std::string       arg       = "";              // Current argument
 	char mode;
+	User * userPtr = mode_get_user_ptr(server, user);
 
 	(void)target;
 	modes = mode_trim_sign(modes);
+
+	if (mode_user_log(*userPtr, buffer.size()) == true)
+		return;
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
 	{
 		mode = modes[mode_index];
 
 		if (mode_is_in_charset("iwso", mode) == true)
-			msg += set_bool_modes(&user, mode, toggle);
+			msg += set_bool_modes(userPtr, mode, toggle);
 		else
 		{
 			err_msg = ERR_UNKNOWNMODE(user.getNickname(), mode);
@@ -61,8 +102,7 @@ void mode_user(Server* server, User user, std::string target)
 			return ;
 		}
 	}
-
 	//if (mode_is_in_charset("iwso", msg[1]) == true)
-		//channel->sendToAll(&user, "MODE", msg);
-
+		//;
+	//send (&user, "MODE", msg);
 }
