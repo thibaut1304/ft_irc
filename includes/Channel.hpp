@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/12 19:16:04 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/14 14:52:54 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ public:
 
 	// typedef std::vector<UserPtr> vector_of_users;
 
-	std::map<std::string, UserPtr> _users, _users_banned, _users_invited, _channelAdmin;
 private:
+	std::map<std::string, UserPtr> _users, _users_banned, _users_invited, _channelAdmin;
 	string _name;
 	string _passwd;
 	string _topic;
