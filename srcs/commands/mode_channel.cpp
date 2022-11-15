@@ -13,6 +13,7 @@
 #include "Channel.hpp"
 #include "Server.hpp"
 #include "Mode.hpp"
+#include "connectionReplies.hpp"
 
 /* ========================================================================== */
 /* ------------------------------- MODE QUERY ------------------------------- */
@@ -76,28 +77,66 @@ static bool channel_mode_n(bool toggle, Channel * C_) { GET_SET(C_->G_ISAMFOC(),
 
 
 /* ...................................................... */
-/* .................BOOL EXEC MODES ..................... */
+/* ................. SET/UNSET OPERATOR ................. */
 /* ...................................................... */
-static char set_bool_modes(Server * server, Channel * channel, User user, char mode, bool toggle)
+
+static char set_operator(Server * server, Channel *channel, User user,char mode, bool toggle, std::string user_target)
 {
-	bool modified = false;
+	std::string msg;
 
+	if (user_target.size() == 0)
+	{
+		msg += ERR_NEEDMOREOPPARAMS(user.getNickname(), channel->getName());
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return char(0);
+	}
 
-	if (mode == 'o' && toggle == true)
+	if (channel->does_user_exist(user_target) == false)
+	{
+		msg += ERR_NOSUCHNICK(user.getNickname(), user_target);
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return char(0);
+	}
+
+	if (toggle == true)
 	{
 		if (channel->isAdmin(user.getNickname()) == false)
-			return char(0); // TODO
+		{
+			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
 		else
 		{
-			User * u = server->getUser(user.getNickname());
+			User * u = server->getUser(user_target);
 			channel->addAdmin(u);
 			return mode;
 		}
 	}
-	if (mode == 'o' && toggle == false)
+
+
+	if (toggle == false)
 	{
-		channel->removeAdmin(user.getNickname());
+		channel->removeAdmin(user_target);
 		return mode;
+	}
+
+	return char(0);
+}
+
+/* ...................................................... */
+/* .................BOOL EXEC MODES ..................... */
+/* ...................................................... */
+static char set_bool_modes(Channel * channel, User user, char mode, bool toggle)
+{
+	bool modified = false;
+	std::string msg;
+
+	if (channel->isAdmin(user.getNickname()) == false)
+	{
+		msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return char(0);
 	}
 
 	if (mode == 'i') modified = channel_mode_i(toggle, channel);
@@ -132,6 +171,12 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 	std::string num_arg  = toggle ? arg : "0";
 
 	std::string msg;
+	if (channel->isAdmin(user.getNickname()) == false)
+	{
+		msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return char(0);
+	}
 
 	if (mode == 'b') modified = channel_mode_b(arg, channel);
 	if (mode == 'l') modified = channel_mode_l(mode_str_to_num(num_arg), channel);
@@ -178,10 +223,19 @@ void mode_channel(Server* server, User user, std::string target)
 	{
 		mode = modes[mode_index];
 
+		/* SET UNSET OPERATOR ............. */
+		/* ................................ */
+		if (mode_is_in_charset("o", mode) == true)
+		{
+			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+			msg += set_operator(server, channel, user, mode, toggle, arg);
+			arg_index++;
+		}
+
 		/* BOOL MODES ............... */
 		/* .......................... */
-		if (mode_is_in_charset("opsitnvm", mode) == true)
-			msg += set_bool_modes(server, channel, user,  mode, toggle);
+		else if (mode_is_in_charset("psitnvm", mode) == true)
+			msg += set_bool_modes(channel, user, mode, toggle);
 
 		/* DATA MODES ............... */
 		/* .......................... */

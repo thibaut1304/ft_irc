@@ -104,7 +104,8 @@
 #define ERR_NOSUCHCHANNEL_THH(server_name, nick) (NAME + " 403 " + nick + " " + server_name + " :No such channel\r\n")
 #define ERR_NOTONCHANNEL(nick, channel)      ERR_TEMPLATE("442", nick, channel       + " :You are not on that channel")
 #define ERR_UNKNOWNMODE(nick,mode)           ERR_TEMPLATE("472", nick, mode          + " :Is an unknown mode or character")
-#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You're not a channel operator")
+#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You must have channel op access or above to set channel mode o")
+#define ERR_NEEDMOREOPPARAMS(nick, channel)  ERR_TEMPLATE("696", nick, channel       + " o * :You must specify a parameter for the op mode. Syntax: <nick>")
 
 /* ...................................................... */
 /* ....................... MOTD ......................... */
