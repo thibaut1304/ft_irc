@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/14 15:48:19 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/15 18:21:53 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRCS		:=  \
 				commands/mode_user.cpp   		\
 				commands/mode_utils.cpp 		\
 				commands/who.cpp 			    \
+				commands/pong.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -102,7 +103,6 @@ SRCS		:=  \
 				# commands/connect.cpp   \
 				# commands/whois.cpp     \
 				# commands/whowas.cpp    \
-				# commands/pong.cpp      \
 				# commands/error.cpp     \
 				# commands/away.cpp      \
 				# commands/rehash.cpp    \

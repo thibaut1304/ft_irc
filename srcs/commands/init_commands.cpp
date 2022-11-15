@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/10 19:41:46 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:21:38 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	Server::initCmd() {
 	// # MISC MESSAGES
 	_listCmd["KILL"]          = &kill;
 	_listCmd["PING"]          = &ping;
-	//_listCmd["PONG"]          = &pong;
+	_listCmd["PONG"]          = &pong;
 	//_listCmd["ERROR"]         = &error;
 
 	/* ====================================================================== */
