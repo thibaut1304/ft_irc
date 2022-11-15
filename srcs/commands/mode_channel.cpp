@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   modes_channels.cpp                                 :+:      :+:    :+:   */
+/*   mode_channel.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 06:08:41 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/11 06:17:54 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:16:35 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static char set_bool_modes(Channel * channel, char mode, bool toggle)
 /* ...................................................... */
 /* .................... ARG SETTERS ..................... */
 /* ...................................................... */
-static bool channel_mode_b(std::string new_ban_mask, Channel * C_) { if (C_->get_ban_mask()    == new_ban_mask) return false; else return (C_->set_ban_mask    (new_ban_mask), true); }
+static bool channel_mode_b(std::string new_ban_mask, Channel * C_) { if (C_->does_ban_mask_exist(new_ban_mask)) return false; else return (C_->set_ban_mask    (new_ban_mask), true); }
 static bool channel_mode_k(std::string new_key,      Channel * C_) { if (C_->get_channel_key() == new_key)      return false; else return (C_->set_channel_key (new_key),      true); }
 static bool channel_mode_l(size_t      new_limit,    Channel * C_) { if (C_->get_user_limit()  == new_limit)    return false; else return (C_->set_user_limit  (new_limit),    true); }
 
@@ -154,7 +154,7 @@ void mode_channel(Server* server, User user, std::string target)
 	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 
 	/////////////////////// TODO delete
-	//if (Debug) __debug_modes(channel, "Before");
+	if (Debug) __debug_modes(channel, "Before");
 	/////////////////////// TODO delete
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
@@ -188,7 +188,7 @@ void mode_channel(Server* server, User user, std::string target)
 		channel->sendToAll(&user, "MODE", msg);
 
 	/////////////////////// TODO delete
-	//if (Debug) __debug_modes(channel, "After");
+	if (Debug) __debug_modes(channel, "After");
 	/////////////////////// TODO delete
 }
 
