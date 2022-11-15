@@ -139,4 +139,6 @@ public:
 
 	bool does_user_exist(std::string user_name);
 	bool does_ban_mask_exist(std::string);
+
+	map_users get_banned_users();
 };

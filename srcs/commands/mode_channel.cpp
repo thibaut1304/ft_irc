@@ -157,9 +157,85 @@ static char set_bool_modes(Channel * channel, User user, char mode, bool toggle)
 /* ...................................................... */
 /* .................... ARG SETTERS ..................... */
 /* ...................................................... */
-static bool channel_mode_b(std::string new_ban_mask, Channel * C_) { if (C_->does_ban_mask_exist(new_ban_mask)) return false; else return (C_->set_ban_mask    (new_ban_mask), true); }
+//static bool channel_mode_b(std::string new_ban_mask, Channel * C_) { if (C_->does_ban_mask_exist(new_ban_mask)) return false; else return (C_->set_ban_mask    (new_ban_mask), true); }
 static bool channel_mode_k(std::string new_key,      Channel * C_) { if (C_->get_channel_key() == new_key)      return false; else return (C_->set_channel_key (new_key),      true); }
 static bool channel_mode_l(size_t      new_limit,    Channel * C_) { if (C_->get_user_limit()  == new_limit)    return false; else return (C_->set_user_limit  (new_limit),    true); }
+
+/* ...................................................... */
+/* .................. BAN / UNBAN USER .................. */
+/* ...................................................... */
+static char ban_unban_user(Channel* channel, User user, char mode, std::string user_target, bool toggle)
+{
+	std::string msg;
+	if (toggle == false && user_target == "")
+		return char(0);
+
+	if (toggle == true && user_target == "")
+	{
+		Channel::map_users banned = channel->get_banned_users();
+		Channel::map_users::iterator it = banned.begin();
+		Channel::map_users::iterator ite = banned.end();
+		while (it != ite)
+		{
+			msg = ":" + NAME_V + " 367 ";
+			msg += user.getNickname() + " ";
+			msg += channel->getName() + " ";
+			msg += it->first + "!*@* " + user.getNickname();
+			msg += "\r\n";
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			it++;
+		}
+		msg = ":" + NAME_V + " 368 ";
+		msg += user.getNickname() + " ";
+		msg += channel->getName() + " ";
+		msg += ":End of channel ban list \r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return (char(0));
+	}
+
+	if (channel->isAdmin(user.getNickname()) == false)
+	{
+		msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return char(0);
+	}
+
+	if (toggle == false)
+		if (channel->isBanned(user_target) == false)
+		{
+			msg = ":" + NAME_V + " 698 ";
+			msg += user.getNickname() + " ";
+			msg += channel->getName() + " ";
+			msg += user_target + " b ";
+			msg += ":Channel ban list does not contain ";
+			msg += user_target;
+			msg += "\r\n";
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
+
+	if (toggle == true)
+	{
+		if (channel->isBanned(user_target) == true)
+		{
+			msg = ":" + NAME_V + " 697 ";
+			msg += user.getNickname() + " ";
+			msg += channel->getName() + " ";
+			msg += user_target + "!*@*" " b ";
+			msg += ":Channel ban list already contains ";
+			msg += user_target + "!*@*";
+			msg += "\r\n";
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
+		if (channel->isBanned(user_target) == false)
+		{
+			channel->banUser(user_target);
+			return mode;
+		}
+	}
+	return (char(0));
+}
 
 /* ..................................................... */
 /* .................. ARG EXEC MODES ................... */
@@ -178,7 +254,6 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 		return char(0);
 	}
 
-	if (mode == 'b') modified = channel_mode_b(arg, channel);
 	if (mode == 'l') modified = channel_mode_l(mode_str_to_num(num_arg), channel);
 	if (mode == 'k')
 	{
@@ -239,7 +314,13 @@ void mode_channel(Server* server, User user, std::string target)
 
 		/* DATA MODES ............... */
 		/* .......................... */
-		else if (mode_is_in_charset("lbk", mode) == true)
+		else if (mode_is_in_charset("b", mode) == true)
+		{
+			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+			msg += ban_unban_user(channel, user, mode, arg, toggle);
+			arg_index++;
+		}
+		else if (mode_is_in_charset("lk", mode) == true)
 		{
 			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
 			msg += set_arg_modes(channel, user, mode, arg, toggle);
@@ -254,10 +335,20 @@ void mode_channel(Server* server, User user, std::string target)
 			return ;
 		}
 	}
-
 	if (mode_is_in_charset("opsitnvmlbk", msg[1]) == true)
+	{
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
+		// TODO SEGFAULT HERE IF BAN USER
 		channel->sendToAll(&user, "MODE", msg);
-
+	}
 	/////////////////////// TODO delete
 	if (Debug) __debug_modes(channel, "After");
 	/////////////////////// TODO delete
