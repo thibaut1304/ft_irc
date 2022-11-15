@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 16:09:15 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:07:03 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) :
 	_is_moderated        (false),
 	_mute_non_moderators (false),
 	_user_limit          (0),
-	_ban_mask            (""),
+	_ban_mask            (),
 	_channel_key         (""),
 	_is_accepting_messages_from_outside_client (true)
 
@@ -172,7 +172,7 @@ void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   =
 void Channel::set_is_moderated        (bool b)          { _is_moderated        = b;   };   // m - moderated channel;
 void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators = b;   };   // v - give/take the ability to speak on a moderated channel;
 void Channel::set_user_limit          (size_t s)        { _user_limit          = s;   }; // l - set the user limit to channel;
-void Channel::set_ban_mask            (std::string str) { _ban_mask            = str; }; // b - set a ban mask to keep users out;
+void Channel::set_ban_mask            (std::string str) { _ban_mask.push_back(str); }; // b - set a ban mask to keep users out;
 void Channel::set_channel_key         (std::string str) { _channel_key         = str; }; // k - set a channel key (password).
 																						 //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 void Channel::set_is_accepting_messages_from_outside_client(bool b) {_is_accepting_messages_from_outside_client = b;}
@@ -185,7 +185,7 @@ bool        Channel::get_is_topic_unlocked   (void) { return _is_topic_unlocked 
 bool        Channel::get_is_moderated        (void) { return _is_moderated        ; }; // m - moderated channel;
 bool        Channel::get_mute_non_moderators (void) { return _mute_non_moderators ; }; // v - give/take the ability to speak on a moderated channel;
 size_t      Channel::get_user_limit          (void) { return _user_limit          ; }; // l - set the user limit to channel;
-std::string Channel::get_ban_mask            (void) { return _ban_mask            ; }; // b - set a ban mask to keep users out;
+std::vector<std::string> Channel::get_ban_mask(void) { return _ban_mask			  ; }; // b - set a ban mask to keep users out;
 std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
 																					   //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
@@ -199,6 +199,16 @@ bool Channel::does_user_exist(std::string user_name)
 		if (user_name == it->second->getNickname())
 			return (true);
 		it++;
+	}
+	return (false);
+}
+
+bool Channel::does_ban_mask_exist(std::string ban_mask) {
+	std::vector<std::string>::iterator it = _ban_mask.begin();
+
+	for(;it != _ban_mask.end();it++) {
+		if (*it == ban_mask)
+			return (true);
 	}
 	return (false);
 }

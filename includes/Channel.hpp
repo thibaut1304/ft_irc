@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 00:17:42 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/14 15:48:49 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:05:43 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ private:
 		bool        _is_moderated;                              // m - moderated channel;
 		bool        _mute_non_moderators;                       // v - give/take the ability to speak on a moderated channel;
 		size_t      _user_limit;                                // l - set the user limit to channel;
-		std::string _ban_mask;                                  // b - set a ban mask to keep users out;
+		std::vector<std::string> _ban_mask;                     // b - set a ban mask to keep users out;
 		std::string _channel_key;                               // k - set a channel key (password).
 		bool _is_accepting_messages_from_outside_client;		// n - no messages to channel from clients on the outside;
 																////
@@ -133,9 +133,10 @@ public:
 		bool   get_is_moderated        (void); // m - moderated channel;
 		bool   get_mute_non_moderators (void); // v - give/take the ability to speak on a moderated channel;
 		size_t get_user_limit          (void); // l - set the user limit to channel;
-		string get_ban_mask            (void); // b - set a ban mask to keep users out;
+		std::vector<string> get_ban_mask(void); // b - set a ban mask to keep users out;
 		string get_channel_key         (void); // k - set a channel key (password).
 		bool get_is_accepting_messages_from_outside_client(void); // n - no messages to channel from clients on the outside;
 
 	bool does_user_exist(std::string user_name);
+	bool does_ban_mask_exist(std::string);
 };
