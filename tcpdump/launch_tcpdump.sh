@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-IMAGE_NAME="tcp"
+IMAGE_NAME="tcpi"
 CONTAINER_NAME=$IMAGE_NAME
 
 docker build ./ -t $IMAGE_NAME

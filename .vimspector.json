@@ -1,0 +1,14 @@
+
+	{
+		"configurations": {
+		"Launch": {
+		"adapter": "vscode-cpptools",
+		"configuration": {
+		"request": "launch",
+		"program": "./ft_irc",
+		"args" : ["2000", "1234"],
+		"externalConsole": true
+	}
+}
+}
+}

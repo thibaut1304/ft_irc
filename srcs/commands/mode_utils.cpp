@@ -35,6 +35,14 @@ void __debug_modes(Channel *channel, std::string str)
 }
 
 //static bool is_channel_name(std::string str) {	return (str[0] == '#'); }
+size_t mode_str_to_num(std::string arg)
+{
+	size_t limit;
+	std::stringstream ss;
+	ss << arg;
+	ss >> limit;
+	return limit;
+}
 
 bool mode_is_in_charset(std::string charset, char c)
 {
@@ -62,11 +70,12 @@ bool mode_check_arg_error(Server *server, int arg_index, bool toggle)
 	BUFFER_::iterator it              = buffer.begin();
 	BUFFER_::iterator first_arg = it + 3;
 	int arg_count = 0;
+	(void)toggle;
 
 	while (first_arg + arg_count < buffer.end())
 		arg_count++;
 
-	if (arg_count < arg_index || (arg_count == 0 && toggle == true))
+	if (arg_count < arg_index || (arg_count == 0))
 	{
 		std::cout << "ERROR" << std::endl;
 		return NOT_OK_; // TODO error
@@ -74,13 +83,44 @@ bool mode_check_arg_error(Server *server, int arg_index, bool toggle)
 	return OK_;
 }
 
-size_t mode_str_to_num(std::string arg)
+bool mode_is_missing_password(Channel * channel, User user, std::string password)
 {
-	size_t limit;
-	std::stringstream ss;
-	ss << arg;
-	ss >> limit;
-	return limit;
+	std::string msg;
+	if (password.size() == 0)
+	{
+		msg += ":" + NAME_V;
+		msg += " 696 ";
+		msg += user.getNickname() + " ";
+		msg += channel->getName() + " ";
+		msg += "k * :You must specify a parameter for the key mode. Syntax: <key>.";
+		msg += "\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return true;
+	}
+	return false;
+}
+
+bool mode_is_invalid_password(Channel * channel, User user, std::string password, bool toggle)
+{
+	// NOTE only gets triggered with removal of key (-)
+	std::string msg;
+
+	if (
+			toggle == false &&
+			channel->get_channel_key() != password &&
+			channel->get_channel_key().size() > 0
+	   )
+	{
+		msg += ":" + NAME_V;
+		msg += " 467 ";
+		msg += user.getNickname() + " " ;
+		msg += channel->getName();
+		msg += " :Channel key already set";
+		msg += "\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return true;
+	}
+	return false;
 }
 
 
