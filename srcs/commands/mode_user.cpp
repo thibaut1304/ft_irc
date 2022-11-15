@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Commands.hpp"
 #include "Server.hpp"
 #include "Mode.hpp"
 
@@ -129,6 +130,8 @@ void mode_user(Server* server, User user, std::string target)
 		}
 	}
 
+	server->_buff= "bisou\r\n";
+	notice(server , user);
 	// TODO need notice
 	//if (mode_is_in_charset("iwso", msg[1]) == true)
 	//send(user.getFd(), msg.c_str(), msg.length(), 0);
