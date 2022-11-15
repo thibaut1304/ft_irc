@@ -18,9 +18,8 @@
 /* ========================================================================== */
 static User * mode_get_user_ptr(Server *server, User user)
 {
-	Server::map_users users     = server->get_users();
-	Server::map_users::iterator  users_it  = users.begin();
-	Server::map_users::iterator  users_ite = users.end();
+	Server::map_users::iterator  users_it  = server->_users.begin();
+	Server::map_users::iterator  users_ite = server->_users.end();
 
 	while (users_it != users_ite)
 	{
@@ -120,10 +119,7 @@ void mode_user(Server* server, User user, std::string target)
 		}
 	}
 	if (mode_is_in_charset("iwso", msg[1]) == true)
-	{
-		msg += " ok"; //  TODO delete
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
-	}
 	//;
 	//send (&user, "MODE", msg);
 }
