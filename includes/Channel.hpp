@@ -81,6 +81,11 @@ public:
 		std::map<std::string, Channel::UserPtr> getUsersBanned(void);
 		std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 
+
+	void addAdmin(UserPtr user);
+	void removeAdmin(std::string nick);
+
+
 	public:
 
 public:

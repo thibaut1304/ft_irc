@@ -91,6 +91,15 @@ void Channel::addUser(UserPtr user)
 	sendToAll(user, "JOIN");
 	_nbUsers++;
 }
+
+void Channel::addAdmin(UserPtr user)
+{
+	_channelAdmin.insert(std::make_pair(user->getNickname(), user));
+}
+
+void Channel::removeAdmin(std::string nick) { _channelAdmin.erase(nick);}
+
+
 void Channel::inviteUser(UserPtr user)
 {
 	_users_invited.insert(std::make_pair(user->getNickname(), user));
@@ -111,7 +120,7 @@ void Channel::removeUser(UserPtr user)
 	std::cout << "new number = " << _nbUsers << std::endl;
 	if (_nbUsers == 0)
 		delete(this);
-	
+
 }
 
 void Channel::banUser(std::string nickname)
@@ -155,9 +164,9 @@ std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return 
 void Channel::set_is_private          (bool b)          { _is_private          = b;   };   // p - private channel flag;
 void Channel::set_is_secret           (bool b)          { _is_secret           = b;   };   // s - secret channel flag;
 void Channel::set_is_invite_only      (bool b)          {
-	 _is_invite_only      = b; 
+	 _is_invite_only      = b;
 	std::cout << "set invite only" << std::endl;
-	 
+
 	   };   // i - invite-only channel flag;
 void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   = b;   };   // t - topic settable by channel operator only flag;
 void Channel::set_is_moderated        (bool b)          { _is_moderated        = b;   };   // m - moderated channel;

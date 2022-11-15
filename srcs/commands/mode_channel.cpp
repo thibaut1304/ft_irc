@@ -78,14 +78,31 @@ static bool channel_mode_n(bool toggle, Channel * C_) { GET_SET(C_->G_ISAMFOC(),
 /* ...................................................... */
 /* .................BOOL EXEC MODES ..................... */
 /* ...................................................... */
-static char set_bool_modes(Channel * channel, char mode, bool toggle)
+static char set_bool_modes(Server * server, Channel * channel, User user, char mode, bool toggle)
 {
 	bool modified = false;
+
+
+	if (mode == 'o' && toggle == true)
+	{
+		if (channel->isAdmin(user.getNickname()) == false)
+			return char(0); // TODO
+		else
+		{
+			User * u = server->getUser(user.getNickname());
+			channel->addAdmin(u);
+			return mode;
+		}
+	}
+	if (mode == 'o' && toggle == false)
+	{
+		channel->removeAdmin(user.getNickname());
+		return mode;
+	}
 
 	if (mode == 'i') modified = channel_mode_i(toggle, channel);
 	if (mode == 'm') modified = channel_mode_m(toggle, channel);
 	if (mode == 'n') modified = channel_mode_n(toggle, channel);
-	//if (mode == 'o') channel_mode_o(toggle, channel); // TODO
 	if (mode == 'p') modified = channel_mode_p(toggle, channel);
 	if (mode == 's') modified = channel_mode_s(toggle, channel);
 	if (mode == 't') modified = channel_mode_t(toggle, channel);
@@ -164,7 +181,7 @@ void mode_channel(Server* server, User user, std::string target)
 		/* BOOL MODES ............... */
 		/* .......................... */
 		if (mode_is_in_charset("opsitnvm", mode) == true)
-			msg += set_bool_modes(channel, mode, toggle);
+			msg += set_bool_modes(server, channel, user,  mode, toggle);
 
 		/* DATA MODES ............... */
 		/* .......................... */

@@ -105,6 +105,7 @@ void mode_user(Server* server, User user, std::string target)
 
 	if (mode_user_log(server, user, buffer.size()) == true)
 		return;
+
 	BUFFER_::iterator it      = buffer.begin();
 	std::string       modes   = it[2];                // NOTE : Cannot segault because checked above/
 	bool              toggle  = mode_get_sign(modes); // Set ADD or REMOVE mode
@@ -129,12 +130,5 @@ void mode_user(Server* server, User user, std::string target)
 			return ;
 		}
 	}
-
-	server->_buff= "bisou\r\n";
 	notice(server , user);
-	// TODO need notice
-	//if (mode_is_in_charset("iwso", msg[1]) == true)
-	//send(user.getFd(), msg.c_str(), msg.length(), 0);
-	//;
-	//send (&user, "MODE", msg);
 }
