@@ -73,7 +73,19 @@ static char set_bool_modes(Server * server, User user, char mode, bool toggle)
 	bool modified = false;
 	User * userptr = mode_get_user_ptr(server, user);
 
-	//if (mode == 'o') channel_mode_o(toggle, channel); // TODO
+	if (mode == 'o' && toggle == true)
+		if (server->is_server_operator(user.getNickname()) == false)
+		{
+			std::string msg = "";
+			msg += ":" + NAME_V;
+			msg += " 481 ";
+			msg += user.getNickname() + " " ;
+			msg += ":Permission Denied - Only operators may set user mode o";
+			msg += "\r\n";
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
+
 	if (mode == 'w') modified = user_mode_w(toggle, userptr);
 	if (mode == 's') modified = user_mode_s(toggle, userptr);
 	if (mode == 'i') modified = user_mode_i(toggle, userptr);
@@ -92,7 +104,6 @@ void mode_user(Server* server, User user, std::string target)
 
 	if (mode_user_log(server, user, buffer.size()) == true)
 		return;
-
 	BUFFER_::iterator it      = buffer.begin();
 	std::string       modes   = it[2];                // NOTE : Cannot segault because checked above/
 	bool              toggle  = mode_get_sign(modes); // Set ADD or REMOVE mode
@@ -101,7 +112,6 @@ void mode_user(Server* server, User user, std::string target)
 	std::string       arg     = "";                   // Current argument
 	char mode;
 
-	//(void)target;
 	modes = mode_trim_sign(modes);
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
@@ -118,8 +128,10 @@ void mode_user(Server* server, User user, std::string target)
 			return ;
 		}
 	}
-	if (mode_is_in_charset("iwso", msg[1]) == true)
-		send(user.getFd(), msg.c_str(), msg.length(), 0);
+
+	// TODO need notice
+	//if (mode_is_in_charset("iwso", msg[1]) == true)
+	//send(user.getFd(), msg.c_str(), msg.length(), 0);
 	//;
 	//send (&user, "MODE", msg);
 }
