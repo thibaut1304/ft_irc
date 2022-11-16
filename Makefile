@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
+#    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/15 18:21:53 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/16 16:56:27 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ SRCS		:=  \
 				commands/mode_utils.cpp 		\
 				commands/who.cpp 			    \
 				commands/pong.cpp      			\
+				commands/kick.cpp      			\
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -98,7 +99,6 @@ SRCS		:=  \
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# commands/kick.cpp      \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
 				# commands/whois.cpp     \
