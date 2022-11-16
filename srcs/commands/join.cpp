@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 15:25:10 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:29:51 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void join(Server *serv, User user)
 	split(passwords, serv->_allBuff[2], ",");
 	for (size_t i = 0; i < channels.size(); i++)
 	{
+		
 		if (!charset("&#", channels[i]) || channels[i].size() > 50)
 		{
 			std::string msg = NAME + ERR_BADCHANMASK(user.getNickname(), channels[i]);
@@ -44,17 +45,14 @@ void join(Server *serv, User user)
 		{
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
 			if (it->second->isInChannel(user.getNickname()))
-			{
 				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
-				continue ;
-			}
 			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
 			{
 				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
 					perror_and_exit("473");
 			}
-			else if (it->second->is_password_only_channel() && it->second->checkPassword(passwords[i]))
+			else if (it->second->is_password_only_channel() && !it->second->checkPassword(passwords[i]))
 			{
 				std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)

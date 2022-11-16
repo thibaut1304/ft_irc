@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/15 19:07:03 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:29:41 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 Channel::Channel(std::string ChannelName, User *channelAdmin) :
 	_name                (ChannelName),
 	_passwd              (""),
-	_invite_only         (false),
 	_passwd_required     (false),
 	_is_private          (false),
 	_is_secret           (false),
@@ -35,7 +34,6 @@ Channel::Channel(std::string ChannelName, User *channelAdmin) :
 	_is_accepting_messages_from_outside_client (true)
 
 {
-	std::cout << ChannelName << std::endl;
 	_channelAdmin.insert(std::make_pair(channelAdmin->getNickname(), channelAdmin));
 	addUser(channelAdmin);
 }
@@ -46,7 +44,6 @@ Channel::Channel(Channel const &other)
 	_name                = other._name;
 	_passwd              = other._passwd;
 	_channelAdmin        = other._channelAdmin;
-	_invite_only         = other._invite_only;
 	_passwd_required     = other._passwd_required;
 	_is_private          = other._is_private;
 	_is_secret           = other._is_secret;
@@ -68,10 +65,13 @@ Channel::~Channel()
 /* ---------------------------- CHANNEL METHODS ----------------------------- */
 /* ========================================================================== */
 
-bool Channel::is_invite_only_channel() { return _invite_only;}
+bool Channel::is_invite_only_channel() { return _is_invite_only;}
 
 bool Channel::is_password_only_channel() { return _passwd_required; }
-bool Channel::checkPassword(std::string password) { return password == this->_passwd; }
+bool Channel::checkPassword(std::string password) { 
+	return password == this->_channel_key; 
+
+	}
 
 void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg = "")
 {
@@ -117,7 +117,6 @@ void Channel::removeUser(UserPtr user)
 	sendToAll(user, "PART");
 	(_users.erase(user->getNickname()));
 	_nbUsers--;
-	std::cout << "new number = " << _nbUsers << std::endl;
 	if (_nbUsers == 0)
 		delete(this);
 
@@ -163,17 +162,15 @@ std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return 
 
 void Channel::set_is_private          (bool b)          { _is_private          = b;   };   // p - private channel flag;
 void Channel::set_is_secret           (bool b)          { _is_secret           = b;   };   // s - secret channel flag;
-void Channel::set_is_invite_only      (bool b)          {
-	 _is_invite_only      = b;
-	std::cout << "set invite only" << std::endl;
-
-	   };   // i - invite-only channel flag;
+void Channel::set_is_invite_only      (bool b)          { _is_invite_only      = b;};   // i - invite-only channel flag;
 void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   = b;   };   // t - topic settable by channel operator only flag;
 void Channel::set_is_moderated        (bool b)          { _is_moderated        = b;   };   // m - moderated channel;
 void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators = b;   };   // v - give/take the ability to speak on a moderated channel;
 void Channel::set_user_limit          (size_t s)        { _user_limit          = s;   }; // l - set the user limit to channel;
 void Channel::set_ban_mask            (std::string str) { _ban_mask.push_back(str); }; // b - set a ban mask to keep users out;
-void Channel::set_channel_key         (std::string str) { _channel_key         = str; }; // k - set a channel key (password).
+void Channel::set_channel_key         (std::string str) { _channel_key         = str;
+													  	  _passwd_required = true;
+	 }; // k - set a channel key (password).
 																						 //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 void Channel::set_is_accepting_messages_from_outside_client(bool b) {_is_accepting_messages_from_outside_client = b;}
 bool Channel::get_is_accepting_messages_from_outside_client(void  ) {return _is_accepting_messages_from_outside_client;}
