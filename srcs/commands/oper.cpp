@@ -31,8 +31,8 @@ void oper(Server *server, User user)
 
 	std::string msg;
 	msg = ":" + NAME_V + " 381 " + user.getNickname() +  " :You are now an IRC operator\r\n";
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
 }
-
 
 //4.1.5 Oper
 //

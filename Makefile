@@ -82,6 +82,7 @@ SRCS		:=  \
 				commands/mode_utils.cpp 		\
 				commands/who.cpp 			    \
 				commands/pong.cpp      			\
+				commands/oper.cpp               \
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
@@ -96,7 +97,6 @@ SRCS		:=  \
 				# commands/stats.cpp     \
 				# commands/trace.cpp     \
 				# commands/server.cpp    \
-				# commands/oper.cpp      \
 				# commands/squit.cpp     \
 				# commands/kick.cpp      \
 				# commands/links.cpp     \
