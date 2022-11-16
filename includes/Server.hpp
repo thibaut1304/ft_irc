@@ -47,7 +47,7 @@ class Server
 		// int					_nbUers;
 		std::map<int, std::string> _buffUsers;
 
-		typedef void (*cmdFunc)(Server *, User);
+		typedef void (*cmdFunc)(Server *, User );
 		std::map<std::string, cmdFunc> _listCmd;
 
 	public:
@@ -59,7 +59,7 @@ class Server
 		typedef std::pair<string, Channel *> pair;
 		typedef std::vector<string> vector_string;
 		typedef std::map<const int, User> map_users;
-		typedef std::map<const int, User *> map_operators;
+		typedef std::map<std::string, User *> map_operators;
 
 		/* .............................................. */
 		/* ................ MEMBER VARS ................. */
@@ -117,7 +117,7 @@ class Server
 		{
 			User * user = getUser(nickname);
 			map_operators * operators = get_server_operators();
-			std::pair<int, User *> p(user->getFd(), user);
+			std::pair<std::string, User *> p(nickname, user);
 			operators->insert(p);
 		}
 
@@ -130,7 +130,7 @@ class Server
 
 			while (it != ite)
 			{
-				if (it->first == user->getFd())
+				if (it->second == user)
 					return (true);
 				it++;
 			}

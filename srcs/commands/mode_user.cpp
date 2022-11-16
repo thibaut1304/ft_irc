@@ -66,13 +66,10 @@ bool mode_user_log(Server *server, User user, size_t buffer_size)
 static bool user_mode_w(bool toggle, User * U_) { GET_SET(U_->get_receive_wallops(),       U_->set_receive_wallops       (toggle) ); }
 static bool user_mode_s(bool toggle, User * U_) { GET_SET(U_->get_receive_server_notice(), U_->set_receive_server_notice (toggle) ); }
 static bool user_mode_i(bool toggle, User * U_) { GET_SET(U_->get_is_invisible(),          U_->set_is_invisible          (toggle) ); }
-static bool user_mode_o(bool toggle, User * U_) { GET_SET(U_->get_is_operator(),           U_->set_is_operator           (toggle) ); }
+//static bool user_mode_o(bool toggle, User * U_) { GET_SET(U_->get_is_operator(),           U_->set_is_operator           (toggle) ); }
 
-
-static char set_bool_modes(Server * server, User user, char mode, bool toggle)
+static char set_op(Server * server, User user, char mode, bool toggle)
 {
-	bool modified = false;
-	User * userptr = mode_get_user_ptr(server, user);
 
 	if (mode == 'o' && toggle == true)
 		if (server->is_server_operator(user.getNickname()) == false)
@@ -87,10 +84,17 @@ static char set_bool_modes(Server * server, User user, char mode, bool toggle)
 			return char(0);
 		}
 
+	return mode;
+}
+
+static char set_bool_modes(Server * server, User user, char mode, bool toggle)
+{
+	bool modified = false;
+	User * userptr = mode_get_user_ptr(server, user);
+
 	if (mode == 'w') modified = user_mode_w(toggle, userptr);
 	if (mode == 's') modified = user_mode_s(toggle, userptr);
 	if (mode == 'i') modified = user_mode_i(toggle, userptr);
-	if (mode == 'o') modified = user_mode_o(toggle, userptr);
 
 	return modified ? mode : char(0);
 }
@@ -120,7 +124,11 @@ void mode_user(Server* server, User user, std::string target)
 	{
 		mode = modes[mode_index];
 
-		if (mode_is_in_charset("iwso", mode) == true)
+		if (mode_is_in_charset("o", mode) == true)
+		{
+			msg += set_op(server, user, mode, toggle);
+		}
+		else if (mode_is_in_charset("o", mode) == true)
 			msg += set_bool_modes(server, user, mode, toggle);
 
 		else

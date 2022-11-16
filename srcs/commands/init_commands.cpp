@@ -54,7 +54,7 @@ void	Server::initCmd() {
 	/* ====================================================================== */
 	// # REGISTRATION
 	//_listCmd["SERVER"]        = &server; // TODO ?  The server message is used to tell a server that the other end of a new connection is a server.
-	//_listCmd["OPER"]          = &oper;
+	_listCmd["OPER"]          = &oper;
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS
