@@ -172,15 +172,15 @@ static char ban_unban_user(Channel* channel, User user, char mode, std::string u
 
 	if (toggle == true && user_target == "")
 	{
-		Channel::map_users banned = channel->get_banned_users();
-		Channel::map_users::iterator it = banned.begin();
-		Channel::map_users::iterator ite = banned.end();
+		Channel::vector_banned_users banned = channel->get_banned_users();
+		Channel::vector_banned_users::iterator it = banned.begin();
+		Channel::vector_banned_users::iterator ite = banned.end();
 		while (it != ite)
 		{
 			msg = ":" + NAME_V + " 367 ";
 			msg += user.getNickname() + " ";
 			msg += channel->getName() + " ";
-			msg += it->first + "!*@* " + user.getNickname();
+			msg += *it + "!*@* " + user.getNickname();
 			msg += "\r\n";
 			send(user.getFd(), msg.c_str(), msg.length(), 0);
 			it++;
@@ -337,17 +337,12 @@ void mode_channel(Server* server, User user, std::string target)
 	}
 	if (mode_is_in_charset("opsitnvmlbk", msg[1]) == true)
 	{
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		// TODO SEGFAULT HERE IF BAN USER
-		channel->sendToAll(&user, "MODE", msg);
+		Server::map_users::iterator it =  server->_users.begin();
+		Server::map_users::iterator ite = server->_users.end();
+		while (it != ite)
+			if (it->second.getNickname() == user.getNickname())
+				break ;
+		channel->sendToAll(&(it->second), "MODE", msg);
 	}
 	/////////////////////// TODO delete
 	if (Debug) __debug_modes(channel, "After");

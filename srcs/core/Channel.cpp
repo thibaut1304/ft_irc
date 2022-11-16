@@ -73,7 +73,7 @@ bool Channel::is_invite_only_channel() { return _invite_only;}
 bool Channel::is_password_only_channel() { return _passwd_required; }
 bool Channel::checkPassword(std::string password) { return password == this->_passwd; }
 
-void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg = "")
+void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg )
 {
 	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " ";
 
@@ -81,8 +81,9 @@ void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg
 		msg += command + " :" + this->_name + "\r\n";
 	else
 		msg += command + " " + this->_name + " :" + other_msg + "\r\n";
+
 	for (map_users::iterator it = _users.begin(); it != _users.end(); it++)
-		send((*it).second->getFd(), msg.c_str(), msg.length(), 0);
+		send(it->second->getFd(), msg.c_str(), msg.length(), 0);
 }
 
 void Channel::addUser(UserPtr user)
@@ -125,11 +126,20 @@ void Channel::removeUser(UserPtr user)
 
 void Channel::banUser(std::string nickname)
 {
-	(_users_banned.insert(std::make_pair(nickname, _users[nickname])));
+	_users_banned.push_back(nickname);
 }
 void Channel::unbanUser(std::string nickname)
 {
-	(_users_banned.erase(nickname));
+	vector_banned_users::iterator it  = _users_banned.begin();
+	vector_banned_users::iterator ite =  _users_banned.end();
+	while (it != ite)
+	{
+		if (*it == nickname)
+			break;
+		it++;
+	}
+	if (it != ite)
+		_users_banned.erase(it);
 }
 
 int Channel::isInChannel(std::string nickname)
@@ -138,7 +148,17 @@ int Channel::isInChannel(std::string nickname)
 }
 int Channel::isBanned(std::string nickname)
 {
-	return (_users_banned.find(nickname) == _users_banned.end() ? false : true);
+	vector_banned_users::iterator it  = _users_banned.begin();
+	vector_banned_users::iterator ite =  _users_banned.end();
+	while (it != ite)
+	{
+		if (*it == nickname)
+			break;
+		it++;
+	}
+	if (it != ite)
+		return true;
+	return false;
 }
 int Channel::isInvited(std::string nickname)
 {
@@ -158,16 +178,16 @@ Channel::string Channel::getTopic(void) { return _topic; }
 
 std::map<std::string, Channel::UserPtr> Channel::getAdmin(void) { return _channelAdmin; }
 std::map<std::string, Channel::UserPtr> Channel::getUsers(void) { return _users; }
-std::map<std::string, Channel::UserPtr> Channel::getUsersBanned(void) { return _users_banned; }
+Channel::vector_banned_users Channel::getUsersBanned(void) { return _users_banned; }
 std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return _users_invited; }
 
 void Channel::set_is_private          (bool b)          { _is_private          = b;   };   // p - private channel flag;
 void Channel::set_is_secret           (bool b)          { _is_secret           = b;   };   // s - secret channel flag;
 void Channel::set_is_invite_only      (bool b)          {
-	 _is_invite_only      = b;
+	_is_invite_only      = b;
 	std::cout << "set invite only" << std::endl;
 
-	   };   // i - invite-only channel flag;
+};   // i - invite-only channel flag;
 void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   = b;   };   // t - topic settable by channel operator only flag;
 void Channel::set_is_moderated        (bool b)          { _is_moderated        = b;   };   // m - moderated channel;
 void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators = b;   };   // v - give/take the ability to speak on a moderated channel;
@@ -189,7 +209,7 @@ std::vector<std::string> Channel::get_ban_mask(void) { return _ban_mask			  ; };
 std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
 																					   //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
-Channel::map_users Channel::get_banned_users() { return _users_banned; }
+Channel::vector_banned_users Channel::get_banned_users() { return _users_banned; }
 
 bool Channel::does_user_exist(std::string user_name)
 {

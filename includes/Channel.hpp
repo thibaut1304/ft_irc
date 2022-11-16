@@ -21,6 +21,7 @@ public:
 	typedef User *UserPtr;
 	typedef std::string string;
 	typedef std::map<string, UserPtr> map_users;
+	typedef std::vector<std::string> vector_banned_users;
 
 	// typedef std::vector<UserPtr> vector_of_users;
 
@@ -28,7 +29,8 @@ private:
 	string _name;
 	string _passwd;
 	string _topic;
-	std::map<std::string, UserPtr> _users, _users_banned, _users_invited, _channelAdmin;
+	std::map<std::string, UserPtr> _users, _users_invited, _channelAdmin;
+	vector_banned_users _users_banned;
 	int _nbUsers;
 	bool _invite_only;
 	bool _passwd_required;
@@ -71,14 +73,14 @@ public:
 	bool is_invite_only_channel();
 	bool is_password_only_channel();
 	bool checkPassword(std::string password);
-	void sendToAll(UserPtr user, std::string command, std::string other_msg);
+	void sendToAll(UserPtr user, std::string command, std::string other_msg = "");
 
 	void setTopic(string str);
 	string getTopic(void);
 
 		std::map<std::string, Channel::UserPtr> getAdmin(void);
 		std::map<std::string, Channel::UserPtr> getUsers(void);
-		std::map<std::string, Channel::UserPtr> getUsersBanned(void);
+		vector_banned_users getUsersBanned(void);
 		std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 
 
@@ -140,5 +142,5 @@ public:
 	bool does_user_exist(std::string user_name);
 	bool does_ban_mask_exist(std::string);
 
-	map_users get_banned_users();
+	vector_banned_users get_banned_users();
 };
