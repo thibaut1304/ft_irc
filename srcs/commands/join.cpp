@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/16 14:29:51 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:50:33 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,12 @@ void join(Server *serv, User user)
 					perror_and_exit("475");
 			}
 			else
-			{
 				it->second->addUser(&(_it->second));
-				names(serv, (_it->second));
-			}
 		}
 		else
 		{
 			serv->addChannel(channels[i], &(_it->second));
-			names(serv, (_it->second));
 		}
 	}
+	names(serv, (_it->second));
 }

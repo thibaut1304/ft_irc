@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/14 16:02:12 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:52:12 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class Server
 
 		int _fdServer;
 		int _fdPoll;
-
+		
 		struct sockaddr_in _serverAddress;
 		struct sockaddr_in _clientAddress;
 
@@ -106,7 +106,6 @@ class Server
 		User *getUser(std::string nickname);
 		void deleteChannel(string ch_name);
 		void addChannel(string ch_name, Channel::UserPtr user);
-
 
 		/* .............................................. */
 		/* .................... wsz ..................... */
