@@ -6,21 +6,24 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:47:14 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/16 15:51:58 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:20:38 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
 #include <Server.hpp>
 
+#define NAMES_MSG1 (RPL_ENDOFNAMES(user.getNickname(), "*"))
+#define NAMES_MSG2 (ERR_NOSUCHCHANNEL(user.getNickname(), channels[i]))
+#define NAMES_MSG3 (RPL_NAMREPLY(user.getNickname(), channels[i], users))
+#define NAMES_MSG4 (RPL_ENDOFNAMES(user.getNickname(), channels[i]))
+
 void names(Server *serv, User user)
 {
-    std::string msg;
     if (serv->_allBuff.size() == 1)
-    {
-        std::string msg = RPL_ENDOFNAMES(user.getNickname(), "*");
-        send(user.getFd(), msg.c_str(), msg.length(), 0);
-    }
+        send(user.getFd(), NAMES_MSG1.c_str(), NAMES_MSG1.length(), 0);
+    else if (!check_ERR_NOTREGISTERED(serv, user))
+        return;
     else
     {
         std::vector<std::string> channels;
@@ -29,10 +32,7 @@ void names(Server *serv, User user)
         for (size_t i = 0; i < channels.size(); i++)
         {
             if (!serv->does_channel_exist(channels[i]))
-            {
-                msg = ERR_NOSUCHCHANNEL(user.getNickname(), channels[i]);
-                send(user.getFd(), msg.c_str(), msg.length(), 0);
-            }
+                send(user.getFd(), NAMES_MSG2.c_str(), NAMES_MSG2.length(), 0);
             else
             {
                 std::string users;
@@ -53,15 +53,13 @@ void names(Server *serv, User user)
                         itu++;
                     else
                     {
-                        users.append(" ");
                         users.append(itu->first);
+                        users.append(" ");
                         itu++;
                     }
                 }
-                msg = RPL_NAMREPLY(user.getNickname(), channels[i], users);
-                send(user.getFd(), msg.c_str(), msg.length(), 0);
-                std::string msg = RPL_ENDOFNAMES(user.getNickname(), channels[i]);
-                send(user.getFd(), msg.c_str(), msg.length(), 0);
+                send(user.getFd(), NAMES_MSG3.c_str(), NAMES_MSG3.length(), 0);
+                send(user.getFd(), NAMES_MSG4.c_str(), NAMES_MSG4.length(), 0);
             }
         }
     }

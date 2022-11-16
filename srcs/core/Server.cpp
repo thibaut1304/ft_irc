@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/16 15:45:08 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:01:50 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,15 +189,6 @@ for(std::map<const int, User>::iterator it = _users.begin(); it != _users.end();
 	}
 return NULL;	
 }
-void Server::set_chan_index(int i)
-{
-chan_index = i;
-}
-int	 Server::get_chan_index()
-{
-	return (chan_index);
-}
-
 
 //bool Server::is_user_registered(string user_name)
 //{

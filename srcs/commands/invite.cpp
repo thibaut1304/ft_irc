@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:38:45 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 16:53:43 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:31:18 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,18 @@ void invite(Server *serv, User user)
     else
     {
         if (!serv->getUser(serv->_allBuff[1]))
-        {
-            if (send(user.getFd(), MSG7.c_str(), MSG7.length(), 0) < 0)
-                perror_and_exit("401");
-        }
+           send(user.getFd(), MSG7.c_str(), MSG7.length(), 0);
         else if (!serv->does_channel_exist(serv->_allBuff[2]))
-        {
-            if (send(user.getFd(), MSG8.c_str(), MSG8.length(), 0) < 0)
-                perror_and_exit("401");
-        }
+           send(user.getFd(), MSG8.c_str(), MSG8.length(), 0);
         else if (!serv->getChannel(serv->_allBuff[2])->isInChannel(user.getNickname()))
-        {
-            if (send(user.getFd(), MSG9.c_str(), MSG9.length(), 0) < 0)
-                perror_and_exit("401");
-        }
+           send(user.getFd(), MSG9.c_str(), MSG9.length(), 0);
         else if (!serv->getChannel(serv->_allBuff[2])->isAdmin(user.getNickname()))
-        {
-            if (send(user.getFd(), MSG10.c_str(), MSG10.length(), 0) < 0)
-                perror_and_exit("401");
-        }
+           send(user.getFd(), MSG10.c_str(), MSG10.length(), 0);
         else
           {
             serv->getChannel(serv->_allBuff[2])->inviteUser(serv->getUser(serv->_allBuff[1]));
-            if (send(user.getFd(), MSG11.c_str(), MSG11.length(), 0) < 0)
-                perror_and_exit("341");
-            if (send(serv->getUser(serv->_allBuff[1])->getFd(), MSG12.c_str(), MSG12.length(), 0) < 0)
-                perror_and_exit("341");
+           send(user.getFd(), MSG11.c_str(), MSG11.length(), 0);
+           send(serv->getUser(serv->_allBuff[1])->getFd(), MSG12.c_str(), MSG12.length(), 0);
           }
     }
 }
