@@ -363,3 +363,18 @@ void Server::pingTime(void)
 	}
 	vecFd.clear();
 }
+
+bool Server::does_operator_name_exist(std::string name)
+{
+	map_operators::iterator it = _operators.begin();
+	map_operators::iterator ite = _operators.end();
+
+	while (it != ite)
+		if (it->first == name)
+			break;
+
+	if (it == ite)
+		return false;
+	return true;
+}
+

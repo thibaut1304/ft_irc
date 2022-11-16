@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "connectionReplies.hpp"
 
 void oper(Server *server, User user)
 {
-	if (check_ERR_NEEDMOREPARAMS (server, user)         == NOT_OK_) return ;
+	std::string msg;
+	BUFFER_ buffer = server->_allBuff;
+	BUFFER_::iterator bit = buffer.begin();
 
 
 	Server::map_users::iterator it = server->_users.begin();
@@ -23,15 +26,35 @@ void oper(Server *server, User user)
 		if (it->second.getNickname() == user.getNickname())
 			break;
 
-	// Invalid pass
-	//        464     ERR_PASSWDMISMATCH
-	//                        ":Password incorrect"
+	if (buffer.size() < 3)
+	{
+		msg = ":" + NAME_V + " 461 " + user.getNickname() + " OPER " + ":Not enough parameters.\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return ;
+	}
 
-	server->add_server_operator("TEST");
+	std::string server_key = bit[2];
+	if (server_key != SERVER_PASSWORD)
+	{
+		msg = ":" + NAME_V + " 491 " + user.getNickname() + " :Invalid oper credentials.\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return ;
+	}
 
-	std::string msg;
+	std::string operator_name = bit[1];
+	if (server->does_operator_name_exist(operator_name) == true)
+	{
+		// NOTE 492 does not exist in rfc
+		msg = ":" + NAME_V + " 492 " + user.getNickname() + " :Operator username already in use.\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return ;
+	}
+	server->add_server_operator(operator_name);
+
 	msg = ":" + NAME_V + " 381 " + user.getNickname() +  " :You are now an IRC operator\r\n";
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
+
+	// TODO add notice
 }
 
 //4.1.5 Oper
@@ -52,7 +75,7 @@ void oper(Server *server, User user)
 //Numeric Replies:
 //
 //ERR_NEEDMOREPARAMS              RPL_YOUREOPER
-//ERR_NOOPERHOST                  ERR_PASSWDMISMATCH
+//ERR_NOOPERHOST // TODO? not in rfc                 ERR_PASSWDMISMATCH // TODO? not in rfc
 //
 //Example:
 //

@@ -37,7 +37,7 @@ class Server
 
 		int _fdServer;
 		int _fdPoll;
-		
+
 		struct sockaddr_in _serverAddress;
 		struct sockaddr_in _clientAddress;
 
@@ -112,6 +112,7 @@ class Server
 		/* .............................................. */
 
 		map_operators * get_server_operators(void) {return &_operators; }
+		bool does_operator_name_exist(std::string name);
 
 		void add_server_operator(std::string nickname)
 		{
@@ -206,5 +207,6 @@ void __debug_newConnection(std::string ip);
 void __debug_requestClient(char *buff);
 void __debug_exploreCmd(void);
 void __debug_unknown(Server &serv); // TODO find corresponding method to debug
+
 
 #endif
