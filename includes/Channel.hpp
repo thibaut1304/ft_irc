@@ -120,7 +120,7 @@ public:
 		void set_is_private          (bool);   // p - private channel flag;
 		void set_is_secret           (bool);   // s - secret channel flag;
 		void set_is_invite_only      (bool);   // i - invite-only channel flag;
-		void set_is_topic_unlocked     (bool);   // t - topic settable by channel operator only flag;
+		void set_is_topic_unlocked   (bool);   // t - topic settable by channel operator only flag;
 		void set_is_moderated        (bool);   // m - moderated channel;
 		void set_mute_non_moderators (bool);   // v - give/take the ability to speak on a moderated channel;
 		void set_user_limit          (size_t); // l - set the user limit to channel;
@@ -131,7 +131,7 @@ public:
 		bool   get_is_private          (void); // p - private channel flag;
 		bool   get_is_secret           (void); // s - secret channel flag;
 		bool   get_is_invite_only      (void); // i - invite-only channel flag;
-		bool   get_is_topic_unlocked     (void); // t - topic settable by channel operator only flag;
+		bool   get_is_topic_unlocked   (void); // t - topic settable by channel operator only flag;
 		bool   get_is_moderated        (void); // m - moderated channel;
 		bool   get_mute_non_moderators (void); // v - give/take the ability to speak on a moderated channel;
 		size_t get_user_limit          (void); // l - set the user limit to channel;
