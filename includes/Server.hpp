@@ -112,7 +112,27 @@ class Server
 		/* .............................................. */
 
 		map_operators * get_server_operators(void) {return &_operators; }
+
 		bool does_operator_name_exist(std::string name);
+
+
+		std::string is_this_user_an_operator(std::string user_name)
+		{
+			User * user = getUser(user_name);
+
+			map_operators * operators = get_server_operators();
+			map_operators::iterator it = operators->begin();
+			map_operators::iterator ite = operators->end();
+			while (it != ite)
+			{
+				if (user == it->second)
+					return it->first;
+				it++;
+			}
+			return "";
+		}
+
+
 
 		void add_server_operator(std::string nickname)
 		{

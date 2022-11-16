@@ -23,8 +23,11 @@ void oper(Server *server, User user)
 	Server::map_users::iterator it = server->_users.begin();
 	Server::map_users::iterator ite = server->_users.end();
 	while (it != ite)
+	{
 		if (it->second.getNickname() == user.getNickname())
 			break;
+		it++;
+	}
 
 	if (buffer.size() < 3)
 	{
@@ -49,8 +52,16 @@ void oper(Server *server, User user)
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}
+
+
+	std::string username = server->is_this_user_an_operator(user.getNickname());
+
+	std::cout << "------------------" << username << std::endl;
+
+
 	server->add_server_operator(operator_name);
 
+	std::cout << "------------------" << username << std::endl;
 	msg = ":" + NAME_V + " 381 " + user.getNickname() +  " :You are now an IRC operator\r\n";
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 
