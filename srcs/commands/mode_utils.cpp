@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode_utils.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 06:10:02 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/11 06:16:42 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:15:09 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,14 @@ void __debug_modes(Channel *channel, std::string str)
 	std::cout << "============================================" << std::endl;
 	std::cout << str << std::endl;
 	std::cout << "chan key              :"<< channel->get_channel_key()                               << std::endl;
-	std::cout << "ban mask              :"<< channel->get_ban_mask()                                  << std::endl;
+
+	std::vector<std::string> cpy = channel->get_ban_mask();
+	std::vector<std::string>::iterator it = cpy.begin();
+	std::vector<std::string>::iterator ite = cpy.end();
+	int i = 1;
+	for (; it != ite; it++, i++)
+		std::cout << "ban mask : " << i << "            :"<< *it<< std::endl;
+	
 	std::cout << "accept outside client :"<< channel->get_is_accepting_messages_from_outside_client() << std::endl;
 	std::cout << "inv only              :"<< channel->get_is_invite_only()                            << std::endl;
 	std::cout << "moderated             :"<< channel->get_is_moderated()                              << std::endl;

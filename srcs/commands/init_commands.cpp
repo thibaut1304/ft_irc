@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/10 19:41:46 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:54:47 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	Server::initCmd() {
 	//_listCmd["USER MODES"]    = &;        // TODO
 	_listCmd["TOPIC"]         = &topic;   // TODO
 	_listCmd["INVITE"]       = &invite; // TODO
-	//_listCmd["KICK"]          = &kick;    // TODO
+	_listCmd["KICK"]          = &kick;    // TODO
 
 	// # SENDING MESSAGES
 	_listCmd["PRIVMSG"]       = &privmsg;
@@ -46,7 +46,7 @@ void	Server::initCmd() {
 	// # MISC MESSAGES
 	_listCmd["KILL"]          = &kill;
 	_listCmd["PING"]          = &ping;
-	//_listCmd["PONG"]          = &pong;
+	_listCmd["PONG"]          = &pong;
 	//_listCmd["ERROR"]         = &error;
 
 	/* ====================================================================== */
@@ -54,7 +54,7 @@ void	Server::initCmd() {
 	/* ====================================================================== */
 	// # REGISTRATION
 	//_listCmd["SERVER"]        = &server; // TODO ?  The server message is used to tell a server that the other end of a new connection is a server.
-	//_listCmd["OPER"]          = &oper;
+	_listCmd["OPER"]          = &oper;
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS

@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:13:56 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/02 19:37:18 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:18:47 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ping(Server *serv, User user) {
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
-		std::string msg = NAME + " PONG " + secondParam(serv->_allBuff) + " :" + thirdParam(serv->_allBuff) + "\r\n";
+		std::string msg = NAME + " PONG " + thirdParam(serv->_allBuff) + " :" + secondParam(serv->_allBuff) + "\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 }

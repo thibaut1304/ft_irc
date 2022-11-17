@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Header_wsz.hpp"
 #include "Server.hpp"
-#include "connectionReplies.hpp"
 
 bool check_ERR_NOSUCHNICK(Server * server, User user)
 {

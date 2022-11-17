@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Commands.hpp"
 #include "Server.hpp"
 #include "Mode.hpp"
 
@@ -18,9 +19,8 @@
 /* ========================================================================== */
 static User * mode_get_user_ptr(Server *server, User user)
 {
-	Server::map_users users     = server->get_users();
-	Server::map_users::iterator  users_it  = users.begin();
-	Server::map_users::iterator  users_ite = users.end();
+	Server::map_users::iterator  users_it  = server->_users.begin();
+	Server::map_users::iterator  users_ite = server->_users.end();
 
 	while (users_it != users_ite)
 	{
@@ -66,19 +66,35 @@ bool mode_user_log(Server *server, User user, size_t buffer_size)
 static bool user_mode_w(bool toggle, User * U_) { GET_SET(U_->get_receive_wallops(),       U_->set_receive_wallops       (toggle) ); }
 static bool user_mode_s(bool toggle, User * U_) { GET_SET(U_->get_receive_server_notice(), U_->set_receive_server_notice (toggle) ); }
 static bool user_mode_i(bool toggle, User * U_) { GET_SET(U_->get_is_invisible(),          U_->set_is_invisible          (toggle) ); }
-static bool user_mode_o(bool toggle, User * U_) { GET_SET(U_->get_is_operator(),           U_->set_is_operator           (toggle) ); }
+//static bool user_mode_o(bool toggle, User * U_) { GET_SET(U_->get_is_operator(),           U_->set_is_operator           (toggle) ); }
 
+static char set_op(Server * server, User user, char mode, bool toggle)
+{
+
+	if (mode == 'o' && toggle == true)
+		if (server->is_server_operator(user.getNickname()) == false)
+		{
+			std::string msg = "";
+			msg += ":" + NAME_V;
+			msg += " 481 ";
+			msg += user.getNickname() + " " ;
+			msg += ":Permission Denied - Only operators may set user mode o";
+			msg += "\r\n";
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
+
+	return mode;
+}
 
 static char set_bool_modes(Server * server, User user, char mode, bool toggle)
 {
 	bool modified = false;
 	User * userptr = mode_get_user_ptr(server, user);
 
-	//if (mode == 'o') channel_mode_o(toggle, channel); // TODO
 	if (mode == 'w') modified = user_mode_w(toggle, userptr);
 	if (mode == 's') modified = user_mode_s(toggle, userptr);
 	if (mode == 'i') modified = user_mode_i(toggle, userptr);
-	if (mode == 'o') modified = user_mode_o(toggle, userptr);
 
 	return modified ? mode : char(0);
 }
@@ -102,14 +118,17 @@ void mode_user(Server* server, User user, std::string target)
 	std::string       arg     = "";                   // Current argument
 	char mode;
 
-	//(void)target;
 	modes = mode_trim_sign(modes);
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
 	{
 		mode = modes[mode_index];
 
-		if (mode_is_in_charset("iwso", mode) == true)
+		if (mode_is_in_charset("o", mode) == true)
+		{
+			msg += set_op(server, user, mode, toggle);
+		}
+		else if (mode_is_in_charset("o", mode) == true)
 			msg += set_bool_modes(server, user, mode, toggle);
 
 		else
@@ -119,11 +138,5 @@ void mode_user(Server* server, User user, std::string target)
 			return ;
 		}
 	}
-	if (mode_is_in_charset("iwso", msg[1]) == true)
-	{
-		msg += " ok"; //  TODO delete
-		send(user.getFd(), msg.c_str(), msg.length(), 0);
-	}
-	//;
-	//send (&user, "MODE", msg);
+	notice(server , user);
 }

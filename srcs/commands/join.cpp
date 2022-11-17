@@ -6,12 +6,16 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/14 15:25:10 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:15:33 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
 #include <Server.hpp>
+
+#define JOIN_MSG1 ( NAME + ERR_BADCHANMASK(user.getNickname(), channels[i]))
+#define JOIN_MSG2 ( NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]))
+#define JOIN_MSG3 ( NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]))
 
 static int charset(std::string charset, std::string str)
 {
@@ -34,42 +38,23 @@ void join(Server *serv, User user)
 	split(passwords, serv->_allBuff[2], ",");
 	for (size_t i = 0; i < channels.size(); i++)
 	{
+		
 		if (!charset("&#", channels[i]) || channels[i].size() > 50)
-		{
-			std::string msg = NAME + ERR_BADCHANMASK(user.getNickname(), channels[i]);
-			if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-				perror_and_exit("476");
-		}
+			send(user.getFd(), JOIN_MSG1.c_str(), JOIN_MSG1.length(), 0);
 		else if (serv->does_channel_exist(channels[i]))
 		{
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
 			if (it->second->isInChannel(user.getNickname()))
-			{
 				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
-				continue ;
-			}
 			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
-			{
-				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
-				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-					perror_and_exit("473");
-			}
-			else if (it->second->is_password_only_channel() && it->second->checkPassword(passwords[i]))
-			{
-				std::string msg = NAME + ERR_BADCHANNELKEY(user.getNickname(), channels[i]);
-				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
-					perror_and_exit("475");
-			}
+				send(user.getFd(), JOIN_MSG2.c_str(), JOIN_MSG2.length(), 0);
+			else if (it->second->is_password_only_channel() && !it->second->checkPassword(passwords[i]))
+				send(user.getFd(), JOIN_MSG3.c_str(), JOIN_MSG3.length(), 0);
 			else
-			{
 				it->second->addUser(&(_it->second));
-				names(serv, (_it->second));
-			}
 		}
 		else
-		{
 			serv->addChannel(channels[i], &(_it->second));
-			names(serv, (_it->second));
-		}
 	}
+	names(serv, (_it->second));
 }

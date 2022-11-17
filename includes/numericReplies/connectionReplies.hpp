@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/14 16:41:13 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:19:23 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@
 /* ................. Replies Channel .................... */
 /* ...................................................... */
 #define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks + "\r\n")
-#define RPL_ENDOFNAMES(nick, channel) (NAME + " 366 " + nick + " " + channel + ": END of / NAMES list.\r\n");
+#define RPL_ENDOFNAMES(nick, channel) (NAME + " 366 " + nick + " " + channel + ": END of / NAMES list.\r\n")
 #define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n")
 #define RPL_LIST(nick, channel, usernumber, flags) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + "\r\n")
 #define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
@@ -89,9 +89,9 @@
 /* ...................................................... */
 /* .................. Error join ........................ */
 /* ...................................................... */
-#define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel (invite only)" + "\r\n");
-#define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n");
-#define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n");
+#define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel (invite only)" + "\r\n")
+#define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n")
+#define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n")
 /* ...................................................... */
 /* ........................ wsz ......................... */
 /* ...................................................... */
@@ -104,7 +104,8 @@
 #define ERR_NOSUCHCHANNEL_THH(server_name, nick) (NAME + " 403 " + nick + " " + server_name + " :No such channel\r\n")
 #define ERR_NOTONCHANNEL(nick, channel)      ERR_TEMPLATE("442", nick, channel       + " :You are not on that channel")
 #define ERR_UNKNOWNMODE(nick,mode)           ERR_TEMPLATE("472", nick, mode          + " :Is an unknown mode or character")
-#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You're not a channel operator")
+#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You must have channel op access or above to set channel mode o")
+#define ERR_NEEDMOREOPPARAMS(nick, channel)  ERR_TEMPLATE("696", nick, channel       + " o * :You must specify a parameter for the op mode. Syntax: <nick>")
 
 /* ...................................................... */
 /* ....................... MOTD ......................... */

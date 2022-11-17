@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/17 20:19:20 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/17 20:24:35 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,31 +28,33 @@ FLAGS   = -Wall -Wextra -Werror -std=c++98 -g
 DIR_INC = -I ./includes/
 DIR_INC += -I ./includes/numericReplies/
 
-SRCS		:=  \
-				main.cpp                        \
-				core/Server.cpp                 \
-				core/Channel.cpp                 \
-				core/User.cpp                   \
-				core/server/server_init.cpp           \
-				core/server/server_launch.cpp         \
-				core/server/server_new_connection.cpp \
+SRCS		:=                                                \
+				main.cpp                                      \
+				core/Server.cpp                               \
+				core/Channel.cpp                              \
+				core/User.cpp                                 \
+				core/server/server_init.cpp                   \
+				core/server/server_launch.cpp                 \
+				core/server/server_new_connection.cpp         \
 				\
-				utils/basic/perror_and_exit.cpp \
-				utils/basic/myToupper.cpp       \
+				utils/basic/perror_and_exit.cpp               \
+				utils/basic/myToupper.cpp                     \
 				utils/basic/find_char_string.cpp\
-				utils/basic/get_local_time.cpp  \
-				utils/basic/send_to_client.cpp  \
+				utils/basic/get_local_time.cpp                \
+				utils/basic/send_to_client.cpp                \
 				\
-				utils/print/print_buff.cpp      \
-				utils/print/print_cmd.cpp       \
-				utils/print/print_allBuff.cpp   \
+				utils/print/print_buff.cpp                    \
+				utils/print/print_cmd.cpp                     \
+				utils/print/print_allBuff.cpp                 \
+				utils/print/print_server_users.cpp            \
+				utils/print/print_users.cpp                   \
 				\
-				utils/split/splitCmdIrssi.cpp   \
-				utils/split/splitCmdUser.cpp    \
-				utils/split/splitCmd.cpp        \
-				utils/split/split_classic.cpp   \
+				utils/split/splitCmdIrssi.cpp                 \
+				utils/split/splitCmdUser.cpp                  \
+				utils/split/splitCmd.cpp                      \
+				utils/split/split_classic.cpp                 \
 				\
-				utils/debug/debug.cpp           \
+				utils/debug/debug.cpp                         \
 				\
 				commands/connection.cpp         \
 				commands/init_commands.cpp      \
@@ -82,28 +84,27 @@ SRCS		:=  \
 				commands/mode_user.cpp   		\
 				commands/mode_utils.cpp 		\
 				commands/who.cpp 			    \
+				commands/pong.cpp                             \
+				commands/kick.cpp                             \
+				commands/oper.cpp                             \
 				\
-				commands/checks/check_ERR_NOSUCHSERVER.cpp \
-				commands/checks/check_ERR_NOTREGISTERED.cpp \
-				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
-				commands/checks/check_ERR_NOTONCHANNEL.cpp \
-				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
-				commands/checks/check_ERR_NOSUCHNICK.cpp \
+				commands/checks/check_ERR_NOSUCHSERVER.cpp    \
+				commands/checks/check_ERR_NOTREGISTERED.cpp   \
+				commands/checks/check_ERR_NEEDMOREPARAMS.cpp  \
+				commands/checks/check_ERR_NOTONCHANNEL.cpp    \
+				commands/checks/check_ERR_NOSUCHCHANNEL.cpp   \
+				commands/checks/check_ERR_NOSUCHNICK.cpp      \
 				commands/checks/check_ERR_NONICKNAMEGIVEN.cpp \
 
-				# TODO
-				#commands/admin.cpp              \
+				# commands/admin.cpp     \
 				# commands/stats.cpp     \
 				# commands/trace.cpp     \
 				# commands/server.cpp    \
-				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# commands/kick.cpp      \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
 				# commands/whois.cpp     \
 				# commands/whowas.cpp    \
-				# commands/pong.cpp      \
 				# commands/error.cpp     \
 				# commands/away.cpp      \
 				# commands/rehash.cpp    \

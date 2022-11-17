@@ -25,6 +25,13 @@ static void get_topic(Server * server, User user)
 		std::string topic    = channel->getTopic();
 		std::string msg;
 
+		if (channel->isAdmin(user.getNickname()) == false)
+		{
+			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return;
+		}
+
 		if (topic.size() == 0)
 		{
 			msg = ch_name + " :No topic is set\r\n";
@@ -40,6 +47,7 @@ static void set_topic(Server * server, User user)
 {
 	BUFFER_           buffer = server->_allBuff;
 	BUFFER_::iterator it     = buffer.begin();
+	std::string msg;
 
 	if (buffer.size() == 3)
 	{
@@ -47,9 +55,16 @@ static void set_topic(Server * server, User user)
 		std::string new_topic = it[2];
 		Channel     *channel   = server->getChannel(ch_name);
 
-			channel->setTopic(new_topic);
-			std::string msg = "Topic set : " + new_topic;
-			channel->sendToAll(&user, "TOPIC", new_topic);
+		if (channel->isAdmin(user.getNickname()) == false)
+		{
+			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return;
+		}
+
+		channel->setTopic(new_topic);
+		std::string msg = "Topic set : " + new_topic;
+		channel->sendToAll(&user, "TOPIC", new_topic);
 	}
 }
 
@@ -59,7 +74,6 @@ void topic(Server * server, User user)
 	if (check_ERR_NOTREGISTERED  (server, user) == NOT_OK_) return ;
 	if (check_ERR_NOSUCHCHANNEL  (server, user) == NOT_OK_) return ;
 	if (check_ERR_NOTONCHANNEL   (server, user) == NOT_OK_) return ;
-	//if (check_ERR_CHANOPRIVSNEEDED(server, user) == NOT_OK_) return ; // TODO
 
 	get_topic(server, user);
 	set_topic(server, user);

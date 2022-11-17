@@ -41,8 +41,8 @@ void mode(Server *server, User  user)
 	if (check_ERR_NOTREGISTERED  (server, user)         == NOT_OK_) return ;
 	if (check_CHANNELS           (server, user, target) == NOT_OK_) return ;
 	if (check_USERS              (server, user, target) == NOT_OK_) return ;
-	//if (check_ERR_CHANOPRIVSNEEDED (server, user) == NOT_OK_) return ; // TODO
-	//if (check_ERR_KEYSET           (server, user) == NOT_OK_) return ; // TODO
+	//if (check_ERR_CHANOPRIVSNEEDED (server, user) == NOT_OK_) return ;
+	//if (check_ERR_KEYSET           (server, user) == NOT_OK_) return ;
 	if (target[0] == '#') mode_channel(server, user, target);
 	else                  mode_user   (server, user, target);
 }
