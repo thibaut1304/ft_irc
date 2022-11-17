@@ -370,8 +370,11 @@ bool Server::does_operator_name_exist(std::string name)
 	map_operators::iterator ite = _operators.end();
 
 	while (it != ite)
+	{
 		if (it->first == name)
 			break;
+		it++;
+	}
 
 	if (it == ite)
 		return false;
