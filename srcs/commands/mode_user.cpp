@@ -70,22 +70,6 @@ static bool mode_check_operator_set_rights(Server *server, User user, std::strin
 	return OK_;
 }
 
-static void mode_send_to_all(Server *server, User user, std::string msg, std::string target_user)
-{
-	Server::map_users users = server->get_users();
-	Server::map_users::iterator it = users.begin();
-	Server::map_users::iterator ite = users.end();
-	while (it != ite)
-	{
-		msg = ":" + user.getNickname() + "!" + user.getHostname() + "@" + user.getIp() + " :";
-		msg += target_user + " ";
-		msg += "has been promoted to server operator\r\n";
-		if (it->second.getNickname() != user.getNickname())
-			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
-		it++;
-	}
-}
-
 /* ========================================================================== */
 /* ------------------------------- MODE QUERY ------------------------------- */
 /* ========================================================================== */
@@ -103,10 +87,12 @@ bool mode_user_log(Server *server, User user, size_t buffer_size, std::string ta
 	msg += user.getNickname() + " " ;
 	msg += ":+";
 
-	msg += userptr->get_is_invisible()          ? 'i' : char(0);
-	msg += userptr->get_receive_server_notice() ? 's' : char(0);
-	msg += userptr->get_receive_wallops()       ? 'w' : char(0);
-	msg += userptr->get_is_operator()           ? 'o' : char(0);
+	msg += userptr->get_is_invisible()             ? 'i' : char(0);
+	msg += userptr->get_receive_server_notice()    ? 's' : char(0);
+	msg += userptr->get_receive_wallops()          ? 'w' : char(0);
+	msg += server->is_server_operator(target_user) ? 'o' : char(0);
+
+	//msg += userptr->get_is_operator()           ? 'o' : char(0);
 	msg += "\r\n";
 
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
@@ -123,9 +109,10 @@ static bool user_mode_s(bool toggle, User * U_) { GET_SET(U_->get_receive_server
 static bool user_mode_i(bool toggle, User * U_) { GET_SET(U_->get_is_invisible(),          U_->set_is_invisible          (toggle) ); }
 //static bool user_mode_o(bool toggle, User * U_) { GET_SET(U_->get_is_operator(),           U_->set_is_operator           (toggle) ); }
 
-static char set_op(Server * server, User user, char mode, bool toggle)
+static char set_op(Server * server, User user, char mode, bool toggle, std::string target_user)
 {
 	if (mode == 'o' && toggle == true)
+	{
 		if (server->is_server_operator(user.getNickname()) == false)
 		{
 			std::string msg = "";
@@ -137,13 +124,18 @@ static char set_op(Server * server, User user, char mode, bool toggle)
 			send(user.getFd(), msg.c_str(), msg.length(), 0);
 			return char(0);
 		}
-
-	if (mode == 'o' && toggle == false)
-	{
-		if (server->is_server_operator(user.getNickname()) == true)
-			server->_operators.erase(user.getNickname());
 		else
-			mode = char(0);
+		{
+			if (server->does_operator_name_exist(target_user) == false)
+				server->add_server_operator(user.getNickname(), target_user);
+			else mode = char(0);
+		}
+	}
+	else if (mode == 'o' && toggle == false)
+	{
+		if (server->is_server_operator(target_user) == true)
+			if (server->_operators.erase(target_user) == 0)
+				mode = char(0);
 	}
 	return mode;
 }
@@ -172,7 +164,7 @@ void mode_user(Server* server, User user, std::string target)
 	std::string       msg;
 
 	if (mode_check_operator_log_rights(server, user, target_user, buffer.size()) == NOT_OK_) { return;}
-	if (mode_user_log                 (server, user, buffer.size(), target_user) == true)                 { return; }
+	if (mode_user_log                 (server, user, buffer.size(), target_user) == true)    { return; }
 	if (mode_check_operator_set_rights(server, user, target_user, buffer.size()) == NOT_OK_) { return;}
 
 	std::string       modes   = it[2];                // NOTE : Cannot segault because checked above/
@@ -190,7 +182,7 @@ void mode_user(Server* server, User user, std::string target)
 
 		if (mode_is_in_charset("o", mode) == true)
 		{
-			msg += set_op(server, user, mode, toggle);
+			msg += set_op(server, user, mode, toggle, target_user);
 		}
 		else if (mode_is_in_charset("wsi", mode) == true)
 			msg += set_bool_modes(server, user, mode, toggle, target_user);
@@ -202,5 +194,16 @@ void mode_user(Server* server, User user, std::string target)
 			return ;
 		}
 	}
-	mode_send_to_all(server, user, msg, target_user);
+
+	if (mode_is_in_charset("owsi", msg[1]))
+	{
+		std::string msg_to_send = std::string(":") + user.getNickname() + "!" + user.getUsername() \
+								  + "@" + user.getIp() + " MODE " + target_user + " :" + msg + ("\r\n");
+		send(user.getFd(), msg_to_send.c_str(), msg_to_send.length(), 0);
+		if (user.getNickname() != target_user)
+		{
+			User * userptr = mode_get_user_ptr(server, user, target_user);
+			send(userptr->getFd(), msg_to_send.c_str(), msg_to_send.length(), 0);
+		}
+	}
 }
