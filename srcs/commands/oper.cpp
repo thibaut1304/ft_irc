@@ -72,6 +72,21 @@ static bool oper_check_ERR_ALREADYOPERATOR(Server * server, User user)
 	return OK_;
 }
 
+static void oper_send_to_all(Server *server, User user, std::string msg)
+{
+	Server::map_users users = server->get_users();
+	Server::map_users::iterator it = users.begin();
+	Server::map_users::iterator ite = users.end();
+	while (it != ite)
+	{
+		msg = ":" + user.getNickname() + "!" + user.getHostname() + "@" + user.getIp() + " :";
+		msg += user.getNickname() + " ";
+		msg += "has been promoted to server operator\r\n";
+		if (it->second.getNickname() != user.getNickname())
+			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
+		it++;
+	}
+}
 
 void oper(Server *server, User user)
 {
@@ -89,19 +104,7 @@ void oper(Server *server, User user)
 	msg = ":" + NAME_V + " 381 " + user.getNickname() +  " :You are now an IRC operator\r\n";
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 
-	Server::map_users users = server->get_users();
-	Server::map_users::iterator it = users.begin();
-	Server::map_users::iterator ite = users.end();
-
-	while (it != ite)
-	{
-		msg = ":" + user.getNickname() + "!" + user.getHostname() + "@" + user.getIp() + " :";
-		msg += user.getNickname() + " ";
-		msg += "has been promoted to server operator\r\n";
-		if (it->second.getNickname() != user.getNickname())
-			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
-		it++;
-	}
+	oper_send_to_all(server, user, msg);
 }
 
 //4.1.5 Oper
