@@ -12,13 +12,15 @@
 
 #include "Server.hpp"
 
+#define __USER__ (user.getNickname().size() > 0 ? user.getNickname() : "*")
+
 static bool oper_check_ERR_NEEDMOREPARAMS(Server *server, User user)
 {
 	std::string msg;
 	BUFFER_ buffer = server->_allBuff;
 	if (buffer.size() < 3)
 	{
-		msg = ":" + NAME_V + " 461 " + user.getNickname() + " OPER " + ":Not enough parameters.\r\n";
+		msg = ":" + NAME_V + " 461 " + __USER__ + " OPER " + ":Not enough parameters.\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return NOT_OK_ ;
 	}
@@ -33,7 +35,7 @@ static bool oper_check_ERR_PASSWDMISMATCH(Server *server, User user)
 	std::string server_key = bit[2];
 	if (server_key != SERVER_PASSWORD)
 	{
-		msg = ":" + NAME_V + " 491 " + user.getNickname() + " :Invalid oper credentials.\r\n";
+		msg = ":" + NAME_V + " 491 " + __USER__ + " :Invalid oper credentials.\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return NOT_OK_ ;
 	}
@@ -49,7 +51,7 @@ static bool oper_check_ERR_OPERNICKTAKEN(Server *server, User user)
 	if (server->does_operator_name_exist(operator_name) == true)
 	{
 		// NOTE 492 does not exist in rfc
-		msg = ":" + NAME_V + " 492 " + user.getNickname() + " :Operator username already in use.\r\n";
+		msg = ":" + NAME_V + " 492 " + __USER__ + " :Operator username already in use.\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return NOT_OK_;
 	}
@@ -63,7 +65,7 @@ static bool oper_check_ERR_ALREADYOPERATOR(Server * server, User user)
 	if (op_name.size() > 0)
 	{
 		// NOTE 493 does not exist in rfc
-		msg = ":" + NAME_V + " 493 " + user.getNickname() + " :User is already an operator.\r\n";
+		msg = ":" + NAME_V + " 493 " + __USER__ + " :User is already an operator.\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return NOT_OK_;
 	}
@@ -91,10 +93,11 @@ void oper(Server *server, User user)
 	Server::map_users::iterator it = users.begin();
 	Server::map_users::iterator ite = users.end();
 
-	// TODO Send notif to al users
 	while (it != ite)
 	{
-		msg = "Someone has been promoted to server operator";
+		msg = ":" + user.getNickname() + "!" + user.getHostname() + "@" + user.getIp() + " :";
+		msg += user.getNickname() + " ";
+		msg += "has been promoted to server operator\r\n";
 		if (it->second.getNickname() != user.getNickname())
 			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
 		it++;

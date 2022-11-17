@@ -66,12 +66,10 @@ Channel::~Channel()
 /* ========================================================================== */
 
 bool Channel::is_invite_only_channel() { return _is_invite_only;}
-
 bool Channel::is_password_only_channel() { return _passwd_required; }
-bool Channel::checkPassword(std::string password) { 
-	return password == this->_channel_key; 
-
-	}
+bool Channel::checkPassword(std::string password) {
+	return password == this->_channel_key;
+}
 
 void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg )
 {
@@ -189,9 +187,9 @@ void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators =
 void Channel::set_user_limit          (size_t s)        { _user_limit          = s;   }; // l - set the user limit to channel;
 void Channel::set_ban_mask            (std::string str) { _ban_mask.push_back(str); }; // b - set a ban mask to keep users out;
 void Channel::set_channel_key         (std::string str) { _channel_key         = str;
-													  	  _passwd_required = true;
-	 }; // k - set a channel key (password).
-																						 //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
+	_passwd_required = true;
+}; // k - set a channel key (password).
+   //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 void Channel::set_is_accepting_messages_from_outside_client(bool b) {_is_accepting_messages_from_outside_client = b;}
 bool Channel::get_is_accepting_messages_from_outside_client(void  ) {return _is_accepting_messages_from_outside_client;}
 
