@@ -38,6 +38,14 @@
 # define _CYAN   "\033[0;36m"
 # define _WHITE  "\033[0;37m"
 
+// WSZ
+# define STR_      std::string
+# define VEC_      std::vector
+# define BUFFER_   std::vector<std::string>
+# define OK_       1
+# define NOT_OK_   0
+// WSZ END
+
 # include <algorithm>    // std::transform
 # include <cctype>
 

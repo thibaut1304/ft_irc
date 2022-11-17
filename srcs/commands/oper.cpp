@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Header_wsz.hpp"
 #include "Server.hpp"
-#include "connectionReplies.hpp"
-
 
 static bool oper_check_ERR_NEEDMOREPARAMS(Server *server, User user)
 {

@@ -162,9 +162,9 @@ void Server::killUserClient(int fd)
 
 bool Server::does_channel_exist(string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false : true; }
 
-Channel* Server::getChannel(string ch_name) { 
+Channel* Server::getChannel(string ch_name) {
 	return _channels.find(ch_name)->second;
-	}
+}
 void Server::deleteChannel(string ch_name)
 {
 	_channels.erase(ch_name);
@@ -177,52 +177,93 @@ void Server::addChannel(string ch_name, Channel::UserPtr user)
 }
 std::map<const int, User> Server::getUsers()
 {
-	return _users;		
+	return _users;
 }
 User* Server::getUser(std::string nickname)
 {
-	
-for(std::map<const int, User>::iterator it = _users.begin(); it != _users.end(); it++)
+
+	for(std::map<const int, User>::iterator it = _users.begin(); it != _users.end(); it++)
 	{
 		if (it->second.getNickname() == nickname)
-		return (&it->second);
+			return (&it->second);
 	}
-return NULL;	
+	return NULL;
 }
 
-//bool Server::is_user_registered(string user_name)
-//{
-	//if (_users.find(user_name) == _users.end())
-		//return false;
-	//User user = _users.find(user_name)->second;
-	//return (user.getValidUser());
-//}
+/* ========================================================================== */
+/* ------------------------------- OPERATORS -------------------------------- */
+/* ========================================================================== */
 
-//void Server::remove_user_from_channel(string user_name, string ch_name)
-//{
-	//if (does_channel_exist (ch_name) == false) return ;
-	//Channel ch = getChannel(ch_name);
-	//ch.removeUser(user_name);
-//}
+Server::map_operators* Server::get_server_operators(void) { return &_operators; }
 
-//void Server::add_user_to_channel(string user_name, string ch_name)
-//{
-	//if (does_channel_exist (ch_name) == false) return ;
-	//Channel ch = getChannel(ch_name);
-	//ch.addUser(user_name);
-//}
+bool Server::does_operator_name_exist(std::string name)
+{
+	map_operators::iterator it = _operators.begin();
+	map_operators::iterator ite = _operators.end();
 
-//bool Server::is_user_in_channel(string user_name, string channel_name)
-//{
-	//if (does_channel_exist (channel_name) == false) return false;
-	//Channel ch = getChannel(channel_name);
-	//if (ch.isInChannel (user_name)        == false) return false; // TODO
-	//return (true);
-//}
+	while (it != ite)
+	{
+		if (it->first == name)
+			break;
+		it++;
+	}
 
+	if (it == ite)
+		return false;
+	return true;
+}
+
+std::string Server::is_this_user_an_operator(std::string user_name)
+{
+	map_users::iterator bit = _users.begin();
+	map_users::iterator bite = _users.end();
+	while (bit != bite)
+	{
+		if (bit->second.getNickname() == user_name)
+			break ;
+		bit++;
+	}
+	if (bit == bite)
+		return "";
+
+	map_operators * operators = get_server_operators();
+	map_operators::iterator it = operators->begin();
+	map_operators::iterator ite = operators->end();
+	while (it != ite)
+	{
+		if (&(bit->second) == it->second)
+			return it->first;
+		it++;
+	}
+	return "";
+}
+
+void Server::add_server_operator(std::string user_nickname, std::string op_nickname)
+{
+	map_users::iterator it = _users.begin();
+	map_users::iterator ite = _users.end();
+	while (it != ite)
+	{
+		if (it->second.getNickname() == user_nickname)
+			break ;
+		it++;
+	}
+	if (it == ite)
+		return;
+	std::pair<std::string, User *> p(op_nickname, &(it->second));
+	std::cout<<"inserted"<<std::endl;
+	_operators.insert(p);
+}
+
+bool Server::is_server_operator(std::string nick)
+{
+	if (is_this_user_an_operator(nick).size())
+		return true;
+	return false;
+}
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-/* ------------------------- TODO WORK IN PROGRESS -------------------------- */
+/* ------------------------- TODO CLEANUP          -------------------------- */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 void parse_prefix(std::string &buff)
@@ -364,20 +405,4 @@ void Server::pingTime(void)
 	vecFd.clear();
 }
 
-bool Server::does_operator_name_exist(std::string name)
-{
-	map_operators::iterator it = _operators.begin();
-	map_operators::iterator ite = _operators.end();
-
-	while (it != ite)
-	{
-		if (it->first == name)
-			break;
-		it++;
-	}
-
-	if (it == ite)
-		return false;
-	return true;
-}
 

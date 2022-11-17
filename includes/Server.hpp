@@ -23,8 +23,6 @@
 #include <serverQueries.hpp>
 #include <cerrno>
 
-#include "Header_wsz.hpp"
-
 /* ========================================================================== */
 /* --------------------------------- SERVER --------------------------------- */
 /* ========================================================================== */
@@ -54,142 +52,77 @@ class Server
 		/* .............................................. */
 		/* .................. TYPEDEFS .................. */
 		/* .............................................. */
-		typedef std::string string;
-		typedef std::map<string, Channel *> map_channels;
-		typedef std::pair<string, Channel *> pair;
-		typedef std::vector<string> vector_string;
-		typedef std::map<const int, User> map_users;
+		typedef std::string                   string;
+		typedef std::map<string,Channel *>    map_channels;
+		typedef std::pair<string,Channel *>   pair;
+		typedef std::vector<string>           vector_string;
+		typedef std::map<const int, User>     map_users;
 		typedef std::map<std::string, User *> map_operators;
 
 		/* .............................................. */
 		/* ................ MEMBER VARS ................. */
 		/* .............................................. */
-		map_users _users; // --> creer classe user pour ajouter les infos pour les connections
+		map_users     _users; // --> creer classe user pour ajouter les infos pour les connections
 		map_operators _operators;
-		map_channels _channels;
+		map_channels  _channels;
 		vector_string _allBuff;
-		string _buff;
+		string        _buff;
 
 		/* .............................................. */
 		/* .................. METHODS ................... */
 		/* .............................................. */
+
+		/* CONSTRUCT / DESTRUCT ..... */
+		/* .......................... */
 		Server(string, string);
 		~Server(void);
 
-		map_users get_users(void) const;
-		string getPasswd() const;
-		string getPort() const;
-		void setPasswd(string);
-		void setPort(string);
+		/* CORE ..................... */
+		/* .......................... */
+		void init           (void);
+		void launch         (void);
+		int  newConnection  (void);
+		void requestClient  (struct epoll_event);
+		void pingTime       (void);
+		void cmdPing        (User,  string);
+		void parse          (int);
+		void killUserClient (int);
+		void initCmd        (void);
+		void acceptUser     (User);
+		void exploreCmd     (int, std::string);
 
-		void init(void);
-		void launch(void);
-		int newConnection(void);
-		void requestClient(struct epoll_event);
-		void pingTime(void);
-		void server_launch_start(int fdServer, int fdPoll, Server &server);
-		void cmdPing(User, string);
-		void parse(int);
-		void killUserClient(int);
+		void server_launch_start (int fdServer, int fdPoll, Server &server);
 
-		void initCmd();
-		void acceptUser(User);
-		void exploreCmd(int, std::string);
+		/* USERS .................... */
+		/* .......................... */
+		map_users get_users (void) const;
+		string    getPasswd ()     const;
+		string    getPort   ()     const;
+		void      setPasswd (string);
+		void      setPort   (string);
 
-		/* .............................................. */
-		/* .............. CHANNEL REQUESTS .............. */
-		/* .............................................. */
-		bool does_channel_exist(string ch_name);
-		Channel *getChannel(string ch_name);
-		std::map<std::string, Channel *> getChannels();
-		std::map<const int, User> getUsers();
-		User *getUser(std::string nickname);
-		void deleteChannel(string ch_name);
-		void addChannel(string ch_name, Channel::UserPtr user);
+		/* CHANNEL REQUESTS ......... */
+		/* .......................... */
+		map_channels getChannels        (void);
+		map_users    getUsers           (void);
+		User*        getUser            (string nickname);
+		bool         does_channel_exist (string ch_name);
+		Channel*     getChannel         (string ch_name);
+		void         deleteChannel      (string ch_name);
+		void         addChannel         (string ch_name, Channel::UserPtr user);
 
-		/* .............................................. */
-		/* .................... wsz ..................... */
-		/* .............................................. */
+		/* OPERATORS ................ */
+		/* .......................... */
 
-		map_operators * get_server_operators(void) {return &_operators; }
+		void           add_server_operator      (string user_nickname, string op_nickname);
+		map_operators* get_server_operators     (void);
+		bool           does_operator_name_exist (string name);
+		bool           is_server_operator       (string nick);
+		string         is_this_user_an_operator (string user_name);
 
-		bool does_operator_name_exist(std::string name);
-
-
-		std::string is_this_user_an_operator(std::string user_name)
-		{
-			map_users::iterator bit = _users.begin();
-			map_users::iterator bite = _users.end();
-			while (bit != bite)
-			{
-				if (bit->second.getNickname() == user_name)
-					break ;
-				bit++;
-			}
-			if (bit == bite)
-				return "";
-
-			map_operators * operators = get_server_operators();
-			map_operators::iterator it = operators->begin();
-			map_operators::iterator ite = operators->end();
-			while (it != ite)
-			{
-				if (&(bit->second) == it->second)
-					return it->first;
-				it++;
-			}
-			return "";
-		}
-
-
-
-		void add_server_operator(std::string user_nickname, std::string op_nickname)
-		{
-			map_users::iterator it = _users.begin();
-			map_users::iterator ite = _users.end();
-			while (it != ite)
-			{
-				if (it->second.getNickname() == user_nickname)
-					break ;
-				it++;
-			}
-			if (it == ite)
-				return;
-			std::pair<std::string, User *> p(op_nickname, &(it->second));
-			std::cout<<"inserted"<<std::endl;
-			_operators.insert(p);
-		}
-
-		bool is_server_operator(std::string nick)
-		{
-			User * user = getUser(nick);
-			map_operators * operators = get_server_operators();
-			map_operators::iterator it = operators->begin();
-			map_operators::iterator ite = operators->end();
-
-			while (it != ite)
-			{
-				if (it->second == user)
-					return (true);
-				it++;
-			}
-			return false;
-		}
-
-		void print_server_users(void)
-		{
-			map_users::iterator it = _users.begin();
-			map_users::iterator ite = _users.end();
-			int fd;
-			while (it != ite)
-			{
-				fd = (*it).second.getFd();
-				std::cout << "+ FD OF SERVER USER IS : " << fd << std::endl;
-				std::cout << "- FD OF SERVER USER IS : " << (*it).first << std::endl;
-				it++;
-			}
-		}
-
+		/* UTILS .................... */
+		/* .......................... */
+		void print_server_users(void);
 };
 
 /* ========================================================================== */
@@ -199,23 +132,23 @@ class Server
 /* ...................................................... */
 /* .................... SERVER INIT ..................... */
 /* ...................................................... */
-void server_init_socket_fd(int *fd);
-void server_init_socket_struct(int fd, sockaddr_in &server_sock_struct, std::string port);
-void server_init_bind_fd_to_socket(int fd, sockaddr_in &server_sock_struct);
-void server_init_check(int fd);
+void server_init_socket_fd         (int *fd);
+void server_init_socket_struct     (int fd, sockaddr_in &server_sock_struct, std::string port);
+void server_init_bind_fd_to_socket (int fd, sockaddr_in &server_sock_struct);
+void server_init_check             (int fd);
 
 /* ...................................................... */
 /* ................... SERVER LAUNCH .................... */
 /* ...................................................... */
-void server_launch_epoll_init(int &fdPoll);
-void server_launch_epoll_struct_init(int fdServer, int fdPoll);
-void server_launch_start(int fdServer, int fdPoll, Server &server);
+void server_launch_epoll_init        (int &fdPoll);
+void server_launch_epoll_struct_init (int fdServer, int fdPoll);
+void server_launch_start             (int fdServer, int fdPoll, Server &server);
 
 /* ...................................................... */
 /* ............... SERVER NEW CONNECTION ................ */
 /* ...................................................... */
-int server_new_connection_accept(int fdServer, sockaddr_in &clientAddress, int size);
-void server_new_connection_epoll_ctl(int fdNew, int fdPoll);
+int  server_new_connection_accept    (int fdServer, sockaddr_in &clientAddress, int size);
+void server_new_connection_epoll_ctl (int fdNew,    int fdPoll);
 
 /* ...................................................... */
 /* ....................... UTILS ........................ */
@@ -228,23 +161,38 @@ void print_buff(std::vector<std::string> buff);
 void myToupper(std::string &emma);
 void perror_and_exit(std::string code);
 int findCharParsing(std::string buff);
+void send_to_client(int fd, std::string msg, std::string err_code = "");
 
 
-int get_year(void);
-int get_month(void);
-int get_day(void);
-int get_hour(void);
-int get_minute(void);
-int get_seconds(void);
-std::string get_charday(void);
+int         get_year    (void);
+int         get_month   (void);
+int         get_day     (void);
+int         get_hour    (void);
+int         get_minute  (void);
+int         get_seconds (void);
+std::string get_charday (void);
 
 /* ...................................................... */
 /* ....................... DEBUG ........................ */
 /* ...................................................... */
-void __debug_newConnection(std::string ip);
-void __debug_requestClient(char *buff);
-void __debug_exploreCmd(void);
-void __debug_unknown(Server &serv); // TODO find corresponding method to debug
+void __debug_newConnection (std::string ip);
+void __debug_requestClient (char *buff);
+void __debug_exploreCmd    (void);
+void __debug_unknown       (Server &serv); // TODO find corresponding method to debug
+
+/* ------------------------------------------------------ */
+/* -------------------- ERROR CHECKS -------------------- */
+/* ------------------------------------------------------ */
+bool check_ERR_NOSUCHSERVER   (Server * server, User user);
+bool check_ERR_NOSUCHSERVER   (Server * server, User user);
+bool check_ERR_NEEDMOREPARAMS (Server * server, User user);
+bool check_ERR_NOTONCHANNEL   (Server * server, User user);
+bool check_ERR_NOSUCHCHANNEL  (Server * server, User user);
+bool check_ERR_NOTREGISTERED  (Server * server, User user);
+bool check_ERR_NONICKNAMEGIVEN(Server * server, User user);
+bool check_ERR_NOSUCHNICK     (Server * server, User user);
+
+
 
 
 #endif

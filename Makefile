@@ -46,6 +46,7 @@ SRCS		:=  \
 				utils/print/print_buff.cpp      \
 				utils/print/print_cmd.cpp       \
 				utils/print/print_allBuff.cpp   \
+				utils/print/print_server_users.cpp \
 				\
 				utils/split/splitCmdIrssi.cpp   \
 				utils/split/splitCmdUser.cpp    \
@@ -62,7 +63,7 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
-				 commands/topic.cpp     \
+				commands/topic.cpp              \
 				\
 				commands/version.cpp            \
 				commands/time.cpp               \
