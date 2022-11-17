@@ -22,7 +22,6 @@ std::string print_cmd(std::vector<std::string> buff);
 
 void cap          (Server *, User);
 
-
 // # REGISTRATION
 void pass          (Server *, User);
 void nick          (Server *, User);
@@ -36,8 +35,8 @@ void squit         (Server *, User);
 void join          (Server *, User);
 void part          (Server *, User);
 void mode          (Server *, User);
-void channel_modes (Server *, User); // TODO wtf?
-void user_modes    (Server *, User); // TODO wtf?
+void channel_modes (Server *, User);
+void user_modes    (Server *, User);
 void topic         (Server *, User);
 void names         (Server *, User);
 void list          (Server *, User);

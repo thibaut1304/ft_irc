@@ -56,7 +56,6 @@ static bool oper_check_ERR_OPERNICKTAKEN(Server *server, User user)
 	return OK_;
 }
 
-
 static bool oper_check_ERR_ALREADYOPERATOR(Server * server, User user)
 {
 	std::string op_name = server->is_this_user_an_operator(user.getNickname());
@@ -88,7 +87,18 @@ void oper(Server *server, User user)
 	msg = ":" + NAME_V + " 381 " + user.getNickname() +  " :You are now an IRC operator\r\n";
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 
-	// TODO add notice
+	Server::map_users users = server->get_users();
+	Server::map_users::iterator it = users.begin();
+	Server::map_users::iterator ite = users.end();
+
+	// TODO Send notif to al users
+	while (it != ite)
+	{
+		msg = "Someone has been promoted to server operator";
+		if (it->second.getNickname() != user.getNickname())
+			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
+		it++;
+	}
 }
 
 //4.1.5 Oper
