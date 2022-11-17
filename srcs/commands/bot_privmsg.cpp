@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:51:14 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 13:03:58 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/17 20:11:28 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void cmdHelp(Server *serv, User user, std::vector<std::string> cmd) {
 void cmdMetro(Server *serv, User user, std::vector<std::string> cmd) {
 	(void)cmd;
 	(void)serv;
-	std::string msg = "Look your phone !\r\n";
+	std::string msg = "Look your phone ! 📱\r\n";
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 }
 
@@ -46,7 +46,7 @@ void bot(Server *serv, User user, std::vector<std::string> cmd) {
 void cmdWeather(Server *serv, User user, std::vector<std::string> cmd) {
 	(void)cmd;
 	(void)serv;
-	std::string msg = "-- > shorturl.at/dhrsW\r\n";
+	std::string msg = "About 25 degrees 🌞\r\n";
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 }
 

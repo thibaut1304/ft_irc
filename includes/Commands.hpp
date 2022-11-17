@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:29:55 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 12:20:22 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/17 20:17:01 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void user_modes    (Server *, User); // TODO wtf?
 void topic         (Server *, User);
 void names         (Server *, User);
 void list          (Server *, User);
-void invites       (Server *, User);
+void invite       (Server *, User);
 void kick          (Server *, User);
 
 // # SERVER QUERIES AND COMM,NDS

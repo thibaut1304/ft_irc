@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:06:44 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/09 15:58:54 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:25:10 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ static int charset(std::string charset, std::string str)
 			return (1);
 	return 0;
 }
-void perror_and_exit(std::string code)
-{
-	std::string error = "Error send msg ";
-	error.append(code);
-	perror(error.c_str());
-	exit(errno);
-}
 void join(Server *serv, User user)
 {
 	Server::map_users::iterator _it = serv->_users.begin();
@@ -34,8 +27,7 @@ void join(Server *serv, User user)
 	for (; _it != _ite; _it++)
 		if (_it->second.getNickname().compare(user.getNickname()) == 0)
 			break;
-
-	if (!check_ERR_NEEDMOREPARAMS(serv, user))
+	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
 		return;
 	std::vector<std::string> channels, passwords;
 	split(channels, serv->_allBuff[1], ",");
@@ -51,7 +43,12 @@ void join(Server *serv, User user)
 		else if (serv->does_channel_exist(channels[i]))
 		{
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
-			if (it->second->is_invite_only_channel() && it->second->isInvited(user.getNickname()))
+			if (it->second->isInChannel(user.getNickname()))
+			{
+				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
+				continue ;
+			}
+			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
 			{
 				std::string msg = NAME + ERR_INVITEONLYCHAN(user.getNickname(), channels[i]);
 				if (send(user.getFd(), msg.c_str(), msg.length(), 0) < 0)
@@ -64,9 +61,15 @@ void join(Server *serv, User user)
 					perror_and_exit("475");
 			}
 			else
+			{
 				it->second->addUser(&(_it->second));
+				names(serv, (_it->second));
+			}
 		}
 		else
+		{
 			serv->addChannel(channels[i], &(_it->second));
+			names(serv, (_it->second));
+		}
 	}
 }

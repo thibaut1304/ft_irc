@@ -24,7 +24,7 @@ bool check_ERR_NEEDMOREPARAMS(Server *server, User user)
 
 	if (buffer.size() < 2)
 	{
-		msg = NAME_V;
+		msg = NAME;
 		msg += ERR_NEEDMOREPARAMS(*it, username);
 		send(destination, msg.c_str(), msg.length(), 0);
 		return NOT_OK_;

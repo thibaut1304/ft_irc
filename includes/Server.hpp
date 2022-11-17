@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 12:53:38 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/17 20:16:16 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ public:
 	Server(string, string);
 	~Server(void);
 
+	map_users get_users(void) const;
 	string getPasswd() const;
 	string getPort() const;
 	void setPasswd(string);
@@ -99,7 +100,9 @@ public:
 	bool does_channel_exist(string ch_name);
 	Channel *getChannel(string ch_name);
 	std::map<std::string, Channel *> getChannels();
-	void removeChannel(string ch_name);
+	std::map<const int, User> getUsers();
+	User *getUser(std::string nickname);
+	void deleteChannel(string ch_name);
 	void addChannel(string ch_name, Channel::UserPtr user);
 
 
@@ -159,7 +162,9 @@ void splitCmd(std::vector<std::string> &sCmd, std::string cmd);
 void split(std::vector<std::string> &sCmd, std::string cmd, std::string delimiter);
 void print_buff(std::vector<std::string> buff);
 void myToupper(std::string &emma);
+void perror_and_exit(std::string code);
 int findCharParsing(std::string buff);
+
 
 int get_year(void);
 int get_month(void);

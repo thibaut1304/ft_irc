@@ -35,6 +35,7 @@ bool check_ERR_NOTONCHANNEL   (Server *server, User user);
 bool check_ERR_NOSUCHCHANNEL  (Server *server, User user);
 bool check_ERR_NOTREGISTERED  (Server *server, User user);
 bool check_ERR_NONICKNAMEGIVEN(Server *server, User user);
+bool check_ERR_NOSUCHNICK(Server * server, User user);
 
 void send_to_client(int fd, std::string msg, std::string err_code = "");
 

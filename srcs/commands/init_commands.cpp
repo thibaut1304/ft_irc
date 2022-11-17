@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:27:15 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/05 01:42:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:41:46 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	Server::initCmd() {
 
 	// # CHANNEL OPERATIONS
 	_listCmd["JOIN"]          = &join;
-	//_listCmd["PART"]          = &part;    // TODO
+	_listCmd["PART"]          = &part;    // TODO
 	_listCmd["MODE"]          = &mode;    // TODO
 	//_listCmd["CHANNEL MODES"] = &;        // TODO
 	//_listCmd["USER MODES"]    = &;        // TODO
 	_listCmd["TOPIC"]         = &topic;   // TODO
-	//_listCmd["INVITES"]       = &invites; // TODO
+	_listCmd["INVITE"]       = &invite; // TODO
 	//_listCmd["KICK"]          = &kick;    // TODO
 
 	// # SENDING MESSAGES
@@ -41,7 +41,7 @@ void	Server::initCmd() {
 	_listCmd["NOTICE"]        = &notice;
 
 	// # USER BASED QUERIES
-	//_listCmd["WHO"]           = &who;      // TODO
+	_listCmd["WHO"]           = &who;      // TODO
 
 	// # MISC MESSAGES
 	_listCmd["KILL"]          = &kill;
@@ -58,8 +58,8 @@ void	Server::initCmd() {
 	//_listCmd["SQUIT"]         = &squit;
 
 	// # CHANNEL OPERATIONS
-	//_listCmd["NAMES"]         = &names;
-	//_listCmd["LIST"]          = &list;
+	_listCmd["NAMES"] = &names;
+	_listCmd["LIST"] = &list;
 
 	// # SERVER QUERIES AND COMMANDS
 	_listCmd["VERSION"]       = &version;

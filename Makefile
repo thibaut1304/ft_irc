@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/10 11:57:15 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/17 20:19:20 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS		:=  \
 				core/server/server_launch.cpp         \
 				core/server/server_new_connection.cpp \
 				\
+				utils/basic/perror_and_exit.cpp \
 				utils/basic/myToupper.cpp       \
 				utils/basic/find_char_string.cpp\
 				utils/basic/get_local_time.cpp  \
@@ -61,7 +62,7 @@ SRCS		:=  \
 				commands/pass.cpp     			\
 				commands/user.cpp			    \
 				commands/cap.cpp			    \
-				 commands/topic.cpp     \
+				commands/topic.cpp     \
 				\
 				commands/version.cpp            \
 				commands/time.cpp               \
@@ -72,13 +73,22 @@ SRCS		:=  \
 				commands/join.cpp     			\
 				commands/privmsg.cpp   			\
 				commands/bot_privmsg.cpp   		\
-				commands/mode.cpp      			\
+				commands/names.cpp 			    \
+				commands/list.cpp      			\
+				commands/mode.cpp 			    \
+				commands/invite.cpp		    	\
+				commands/part.cpp      			\
+				commands/mode_channel.cpp 		\
+				commands/mode_user.cpp   		\
+				commands/mode_utils.cpp 		\
+				commands/who.cpp 			    \
 				\
 				commands/checks/check_ERR_NOSUCHSERVER.cpp \
 				commands/checks/check_ERR_NOTREGISTERED.cpp \
 				commands/checks/check_ERR_NEEDMOREPARAMS.cpp \
 				commands/checks/check_ERR_NOTONCHANNEL.cpp \
 				commands/checks/check_ERR_NOSUCHCHANNEL.cpp \
+				commands/checks/check_ERR_NOSUCHNICK.cpp \
 				commands/checks/check_ERR_NONICKNAMEGIVEN.cpp \
 
 				# TODO
@@ -88,15 +98,9 @@ SRCS		:=  \
 				# commands/server.cpp    \
 				# commands/oper.cpp      \
 				# commands/squit.cpp     \
-				# commands/join.cpp      \
-				# commands/part.cpp      \
-				# commands/names.cpp     \
-				# commands/list.cpp      \
-				# commands/invites.cpp   \
 				# commands/kick.cpp      \
 				# commands/links.cpp     \
 				# commands/connect.cpp   \
-				# commands/who.cpp       \
 				# commands/whois.cpp     \
 				# commands/whowas.cpp    \
 				# commands/pong.cpp      \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connectionReplies.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:44:47 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/10 00:21:34 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:41:13 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 
 #define ERR_NOORIGIN "409 :No origin specified" + "\r\n"
 
-// # define ERR_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
+// # define ERRf_NOSUCHSERVER NAME + "402 :No origin specified" + "\r\n"
 
 #define ERR_NOTREGISTERED(cmd) (NAME + " 451 * " + cmd + " :You have not registered" + "\r\n")
 
@@ -77,8 +77,14 @@
 /* ...................................................... */
 /* ................. Replies Channel .................... */
 /* ...................................................... */
-#define RPL_NAMREPLY(nick, channel, nicks) (" 353 " + nick + " = " + channel + " :" + nicks)
-// #define RPL_NAMREPLY(nick, channel, nicks) (" 366 " + nick + " " + channel + " :End of /NAMES list." + "\r\n");
+#define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks + "\r\n")
+#define RPL_ENDOFNAMES(nick, channel) (NAME + " 366 " + nick + " " + channel + ": END of / NAMES list.\r\n");
+#define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n")
+#define RPL_LIST(nick, channel, usernumber, flags) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + "\r\n")
+#define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
+#define RPL_INVITING(nick, channel, invited) (NAME + " 341 " + nick + " " + invited + " :" + channel + "\r\n")
+// #define ERR_NOSUCHNICK(nick, nickname) (NAME + " 402 " + nick + " :You must be a channel operator\r\n") 
+/* ...................................................... */
 
 /* ...................................................... */
 /* .................. Error join ........................ */
@@ -86,19 +92,19 @@
 #define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel (invite only)" + "\r\n");
 #define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n");
 #define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n");
-
 /* ...................................................... */
 /* ........................ wsz ......................... */
 /* ...................................................... */
 
-#define ERR_TEMPLATE(ERR_CODE, MSG) (std::string() + NAME + " " + ERR_CODE + " " + MSG + "\r\n")
+#define n(nick) (nick == "" ? "*" : nick)
+#define ERR_TEMPLATE(ERR_CODE, NICK, MSG) (std::string() + NAME + " " + ERR_CODE + " " + n(NICK) + " " + MSG + "\r\n")
 
-#define ERR_NOSUCHSERVER(server_name)  ERR_TEMPLATE("402", server_name   + " :No such server")
-#define ERR_NOSUCHCHANNEL(server_name) ERR_TEMPLATE("403", server_name   + " :No such channel")
+#define ERR_NOSUCHSERVER(nick, server_name)  ERR_TEMPLATE("402", nick, server_name   + " :No such server")
+#define ERR_NOSUCHCHANNEL(nick, server_name) ERR_TEMPLATE("403", nick, server_name   + " :No such channel")
 #define ERR_NOSUCHCHANNEL_THH(server_name, nick) (NAME + " 403 " + nick + " " + server_name + " :No such channel\r\n")
-#define ERR_NOTONCHANNEL(channel)      ERR_TEMPLATE("442", channel       + " :You are not on that channel")
-#define ERR_UNKNOWNMODE(user,mode)     ERR_TEMPLATE("472", user+" "+mode + " :Is an unknown mode or character")
-#define ERR_CHANOPRIVSNEEDED(channel)  ERR_TEMPLATE("482", channel       + " :You're not a channel operator")
+#define ERR_NOTONCHANNEL(nick, channel)      ERR_TEMPLATE("442", nick, channel       + " :You are not on that channel")
+#define ERR_UNKNOWNMODE(nick,mode)           ERR_TEMPLATE("472", nick, mode          + " :Is an unknown mode or character")
+#define ERR_CHANOPRIVSNEEDED(nick, channel)  ERR_TEMPLATE("482", nick, channel       + " :You're not a channel operator")
 
 /* ...................................................... */
 /* ....................... MOTD ......................... */
@@ -118,8 +124,15 @@
 /* ..................... PRIVMSG ........................ */
 /* ...................................................... */
 
+# define RPL_WHOREPLY352(nick, channel, user, username, ip, chan, hostname, fullname) (NAME + " 352 " + nick + " " + channel + " " + user + " " + username + " " + NAME_V + " " + ip + " H" + chan + ":" \
+                            + hostname + " " + fullname + "\r\n")
+// <channel> <user> <host> <server> <nick> <H|G>[*][@|+] :<hopcount> <real name>")
+// "<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
+
+
 #define ERR_NOSUCHNICK(nick, client) (NAME + " 401 " + nick + " " + client + " :No such nick\r\n")
 # define ERR_CANNOTSENDTOCHAN(nick, channel_name) (NAME + " 404 " + nick + " " + channel_name + " :Cannot send to channel\r\n")
+# define RPL_ENDOFWHO(nick, user) (NAME + " 315 " + nick + " " + user + " :End of /WHO list\r\n")
 // 407     ERR_TOOMANYTARGETS "<target> :Duplicate recipients. No message
 // 412     ERR_NOTEXTTOSEND ":No text to send"
 // 301     RPL_AWAY "<nick> :<away message>"

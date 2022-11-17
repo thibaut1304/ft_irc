@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/09 23:46:56 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:19:49 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(pa
 }
 Server::~Server(void) {}
 
+Server::map_users Server::get_users() const { return _users ; }
 std::string Server::getPasswd(void) const { return (_passwd); }
 std::string Server::getPort(void) const { return (_port); }
 void Server::setPasswd(std::string pass) { _passwd = pass; }
@@ -160,15 +161,34 @@ void Server::killUserClient(int fd)
 /* ========================================================================== */
 
 bool Server::does_channel_exist(string ch_name) { return (_channels.find(ch_name) == _channels.end()) ? false : true; }
-Channel* Server::getChannel(string ch_name) { return _channels.find(ch_name)->second; }
-void Server::removeChannel(string ch_name) { _channels.erase(ch_name); }
+
+Channel* Server::getChannel(string ch_name) { 
+	return _channels.find(ch_name)->second;
+	}
+void Server::deleteChannel(string ch_name)
+{
+	_channels.erase(ch_name);
+}
 void Server::addChannel(string ch_name, Channel::UserPtr user)
 {
 	std::cout << "--addChannel--" << std::endl;
 	Channel *chan = new Channel(ch_name, user);
 	_channels.insert(std::make_pair<std::string, Channel *>(ch_name, chan));
 }
-
+std::map<const int, User> Server::getUsers()
+{
+	return _users;		
+}
+User* Server::getUser(std::string nickname)
+{
+	
+for(std::map<const int, User>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second.getNickname() == nickname)
+		return (&it->second);
+	}
+return NULL;	
+}
 //bool Server::is_user_registered(string user_name)
 //{
 	//if (_users.find(user_name) == _users.end())

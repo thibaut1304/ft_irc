@@ -11,122 +11,46 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "Mode.hpp"
 
-// TODO WIP
-// TODO WIP
-// TODO WIP
-// TODO WIP
-
-/* ========================================================================== */
-/* ------------------------------- USER MODES ------------------------------- */
-/* ========================================================================== */
-
-static void exec_user_modes(User user, std::string modes)
+static bool check_USERS(Server * server, User user, std::string target)
 {
-	bool toggle = true;
-	(void)user;
-	(void)modes;
-	(void)toggle;
-
-	if (modes[0] == '-')
+	if (target[0] != '#')
 	{
-		toggle = false;
-		modes = &modes[1];
+		if (check_ERR_NOSUCHNICK (server, user) == NOT_OK_) return NOT_OK_;
 	}
+	return OK_;
 }
 
-/* ========================================================================== */
-/* ----------------------------- CHANNEL MODES ------------------------------ */
-/* ========================================================================== */
-
-static bool is_channel_name(std::string str) {	return (str[0] == '#'); }
-
-
-static void channel_mode_p(bool toggle, Channel * channel) { channel->set_is_private          (toggle); };
-static void channel_mode_s(bool toggle, Channel * channel) { channel->set_is_secret           (toggle); };
-static void channel_mode_i(bool toggle, Channel * channel) { channel->set_is_invite_only      (toggle); };
-static void channel_mode_t(bool toggle, Channel * channel) { channel->set_is_topic_locked     (toggle); };
-static void channel_mode_m(bool toggle, Channel * channel) { channel->set_is_moderated        (toggle); };
-static void channel_mode_v(bool toggle, Channel * channel) { channel->set_mute_non_moderators (toggle); };
-
-static void exec_modes(User user, char mode, bool toggle, Channel * channel)
+static bool check_CHANNELS(Server * server, User user, std::string target)
 {
-	(void)user;
-	(void)mode;
-	(void)toggle;
-
-	//if (mode == 'o') channel_mode_o(toggle, channel);
-
-	if (mode == 'p') channel_mode_p(toggle, channel);
-	if (mode == 's') channel_mode_s(toggle, channel);
-	if (mode == 'i') channel_mode_i(toggle, channel);
-	if (mode == 't') channel_mode_t(toggle, channel);
-	if (mode == 'm') channel_mode_m(toggle, channel);
-	if (mode == 'v') channel_mode_v(toggle, channel);
-
-	//if (mode == 'l')
-	//if (mode == 'b')
-	//if (mode == 'k')
-}
-
-static void parse_modes(User user, char mode, bool toggle, Channel * channel)
-{
-	std::string msg;
-	std::string charset = "opsitnmlbvk";
-	for (size_t j = 0; j < charset.length(); j++)
-		if (mode == charset[j])
-		{
-			exec_modes(user, mode, toggle, channel);
-			return ;
-		}
-	msg = ERR_UNKNOWNMODE(user.getNickname(), mode);
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	return ;
-}
-
-static void exec_channel_modes(User user, std::string modes, Channel * channel)
-{
-	bool toggle = true;
-	if (modes[0] == '-')
+	if (target[0] == '#')
 	{
-		toggle = false;
-		modes = &modes[1];
+		if (check_ERR_NOSUCHCHANNEL (server, user) == NOT_OK_) return NOT_OK_;
+		if (check_ERR_NOTONCHANNEL  (server, user) == NOT_OK_) return NOT_OK_;
 	}
-	for (size_t i = 0; i < modes.length(); i++)
-		parse_modes(user, modes[i], toggle, channel);
+	return OK_;
 }
 
-/* ========================================================================== */
-/* ---------------------------------- MAIN ---------------------------------- */
-/* ========================================================================== */
-
-void   mode(Server               *server, User  user)
+void mode(Server *server, User  user)
 {
-	(void)user;
-	if (check_ERR_NEEDMOREPARAMS (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOTREGISTERED  (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOSUCHCHANNEL  (server, user) == NOT_OK_) return ;
-	if (check_ERR_NOTONCHANNEL   (server, user) == NOT_OK_) return ; // TODO
-	//if (check_ERR_NOSUCHNICK     (server, user)   == NOT_OK_) return ; // TODO
-	//if (check_ERR_CHANOPRIVSNEEDED (server, user)   == NOT_OK_) return ; // TODO
-	//if (check_ERR_KEYSET (server, user)   == NOT_OK_) return ; // TODO
-
-	BUFFER_           buffer          = server->_allBuff;
-	BUFFER_::iterator it              = buffer.begin();
-
-	std::string       command         = it[0];
-	std::string       channel_or_user = it[1];
-	std::string       modes           = it[2];
-
-	if (is_channel_name(channel_or_user) == true)
-	{
-		Channel *channel = server->getChannel(channel_or_user);
-		exec_channel_modes(user, modes, channel);
-	}
-	else
-		exec_user_modes(user, modes);
+	BUFFER_           buffer = server->_allBuff;
+	BUFFER_::iterator it     = buffer.begin();
+	std::string       target = buffer.size() > 1 ? it[1] : "";
+	if (check_ERR_NEEDMOREPARAMS (server, user)         == NOT_OK_) return ;
+	if (check_ERR_NOTREGISTERED  (server, user)         == NOT_OK_) return ;
+	if (check_CHANNELS           (server, user, target) == NOT_OK_) return ;
+	if (check_USERS              (server, user, target) == NOT_OK_) return ;
+	//if (check_ERR_CHANOPRIVSNEEDED (server, user) == NOT_OK_) return ; // TODO
+	//if (check_ERR_KEYSET           (server, user) == NOT_OK_) return ; // TODO
+	if (target[0] == '#') mode_channel(server, user, target);
+	else                  mode_user   (server, user, target);
 }
 
+
+/* ========================================================================== */
+/* ---------------------------------- INFO ---------------------------------- */
+/* ========================================================================== */
 
 // 4.2.3 Mode message
 //
