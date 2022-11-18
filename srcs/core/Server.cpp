@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 15:58:44 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:11:28 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,6 +379,19 @@ void Server::pingTime(void)
 			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
 			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
 			vecFd.push_back(it->second.getFd());
+			
+			std::vector<std::string> tmp_chan;
+			std::map<std::string, Channel *>::iterator it_c = _channels.begin();
+			for(; it_c != _channels.end();it_c++) {
+				if (it_c->second->does_user_exist(it->second.getNickname()))
+					tmp_chan.push_back(it_c->first);
+			}
+			for(std::vector<std::string>::iterator vit = tmp_chan.begin(); vit != tmp_chan.end(); vit++) {
+				getChannel(*vit)->removeUser(&it->second);
+				if (getChannel(*vit)->getSize() == 0)
+					deleteChannel(*vit);
+			}
+		
 			if (it->second.getIsKill() == false)
 				killUserClient(it->second.getFd());
 		}
