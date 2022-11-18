@@ -6,14 +6,14 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/05 13:15:15 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:08:46 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _HEADER_HPP
 # define _HEADER_HPP
 
-# define Debug     1
+# define Debug     0
 # define MAX_USERS 10
 # define BUFF_SIZE 4096
 

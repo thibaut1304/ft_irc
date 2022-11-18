@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:23:04 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/03 20:53:42 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:15:24 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void Server::server_launch_start(int fdServer, int fdPoll, Server & server)
 {
 	int	ready;
 	struct epoll_event	user[MAX_USERS];
+
+	std::cout << _GREEN << "Server launch" << _NC << std::endl;
+	
 	while (serverLife) {
 		if ((ready = epoll_wait   // epoll_wait returns the numbers of FDs ready for IO; 0 if none; -1 if error
 					(

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/16 16:01:50 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:11:34 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,8 @@ void Server::exploreCmd(int fd, std::string buff)
 		std::vector<std::string>::iterator cmdName = _allBuff.begin();
 		myToupper(*cmdName);
 		std::map<std::string, cmdFunc>::iterator itCmdList = _listCmd.find(*cmdName);
-		std::cout << _YELLOW << "|-|" << *cmdName << "|-|" << _NC << std::endl;
+		if (Debug)
+			std::cout << _YELLOW << "|-|" << *cmdName << "|-|" << _NC << std::endl;
 		if (itCmdList == _listCmd.end() && _users[fd].getValidUser() == false)
 		{
 			return;
@@ -334,9 +335,9 @@ void Server::exploreCmd(int fd, std::string buff)
 		}
 		const bool isValidUser = _users[fd].getValidUser();
 
-		if (isValidUser)
+		if (isValidUser && Debug)
 			std::cout << _GREEN << "USER OK" << _NC << std::endl;
-		else
+		else if (Debug)
 			std::cout << _RED << "USER NOK" << _NC << std::endl;
 	}
 	if (_users[fd].getValidUser() == true)
