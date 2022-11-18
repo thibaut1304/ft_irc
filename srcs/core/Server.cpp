@@ -167,6 +167,8 @@ Channel* Server::getChannel(string ch_name) {
 }
 void Server::deleteChannel(string ch_name)
 {
+	std::map<std::string, Channel*>::iterator it = _channels.find((ch_name));
+	delete (it->second);
 	_channels.erase(ch_name);
 }
 void Server::addChannel(string ch_name, Channel::UserPtr user)
