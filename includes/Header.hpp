@@ -22,10 +22,11 @@
 # define REGIS_TIME 60  // 60
 # define PING_TIME 120  // 120
 
+# define REFRESH_DELAY 128 // Refresh rate in ms
 
-# define NAME    std::string(":ft_irc.local")
-# define VERSION std::string("0.2")
-# define NAME_V  std::string("ft_irc.local")
+# define VERSION std::string("0.5")
+# define NAME_V  std::string("ircserv.local")
+# define NAME    std::string(":ircserv.local")
 # define DATE    std::string("30/10/2022")
 
 # define SERVER_LOGIN    "%"

@@ -201,6 +201,7 @@ static char ban_unban_user(Channel* channel, User user, char mode, std::string u
 	}
 
 	if (toggle == false)
+	{
 		if (channel->isBanned(user_target) == false)
 		{
 			msg = ":" + NAME_V + " 698 ";
@@ -213,6 +214,15 @@ static char ban_unban_user(Channel* channel, User user, char mode, std::string u
 			send(user.getFd(), msg.c_str(), msg.length(), 0);
 			return char(0);
 		}
+		Channel::vector_banned_users & banned_list = channel->get_banned_users();
+		Channel::vector_banned_users::iterator ban_it = banned_list.begin();
+		Channel::vector_banned_users::iterator ban_ite = banned_list.end();
+		for (; ban_it != ban_ite ; ban_ite++)
+			if (*ban_it == user_target)
+				break ;
+		banned_list.erase(ban_it);
+		return mode;
+	}
 
 	if (toggle == true)
 	{
@@ -273,14 +283,16 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 void mode_channel(Server* server, User user, std::string target)
 {
 	BUFFER_           buffer    = server->_allBuff;
+	Channel           *channel  = server->getChannel(target);
+	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 	BUFFER_::iterator it        = buffer.begin();
 	BUFFER_::iterator first_arg = it + 3;          // Pointer to the first argument, right after modes
 	std::string       modes     = it[2];           // NOTE : Cannot segault because checked above/
-	Channel           *channel  = server->getChannel(target);
 	bool              toggle    = mode_get_sign(modes); // Set ADD or REMOVE mode
 	std::string       msg       = toggle           ? "+" : "-"; // Message to send to clients
 	std::string       err_msg   = "";              // Error Message to send to clients
 	std::string       arg       = "";              // Current argument
+	std::string tmp;
 	int               arg_index = 0;               // Keeps track of arguments
 	char mode;
 
@@ -288,11 +300,14 @@ void mode_channel(Server* server, User user, std::string target)
 
 	// NOTE code stops here if buffer.size() == 2
 	// This prints all channel modes that are set to true
-	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 
 	/////////////////////// TODO delete
 	if (Debug) __debug_modes(channel, "Before");
 	/////////////////////// TODO delete
+
+	bool triggered_l = false;
+	bool triggered_k = false;
+	bool triggered_b = false;
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
 	{
@@ -316,15 +331,33 @@ void mode_channel(Server* server, User user, std::string target)
 		/* .......................... */
 		else if (mode_is_in_charset("b", mode) == true)
 		{
-			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
-			msg += ban_unban_user(channel, user, mode, arg, toggle);
-			arg_index++;
+			if (triggered_b == false)
+			{
+				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				msg += ban_unban_user(channel, user, mode, arg, toggle);
+				arg_index++;
+				triggered_b = true;
+			}
 		}
-		else if (mode_is_in_charset("lk", mode) == true)
+		else if (mode_is_in_charset("k", mode) == true)
 		{
-			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
-			msg += set_arg_modes(channel, user, mode, arg, toggle);
-			arg_index++;
+			if (triggered_k == false)
+			{
+				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				msg += set_arg_modes(channel, user, mode, arg, toggle);
+				arg_index++;
+				triggered_k = true;
+			}
+		}
+		else if (mode_is_in_charset("l", mode) == true) // i am lazy
+		{
+			if (triggered_l == false)
+			{
+				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				msg += set_arg_modes(channel, user, mode, arg, toggle);
+				arg_index++;
+				triggered_l = true;
+			}
 		}
 
 		/* MODE NOT FOUND ........... */
@@ -332,7 +365,7 @@ void mode_channel(Server* server, User user, std::string target)
 		else {
 			err_msg = ERR_UNKNOWNMODE(user.getNickname(), mode);
 			send(user.getFd(), err_msg.c_str(), err_msg.length(), 0);
-			return ;
+			//return ;
 		}
 	}
 	if (mode_is_in_charset("opsitnvmlbk", msg[1]) == true)

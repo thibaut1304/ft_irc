@@ -54,7 +54,6 @@ void Server::server_launch_start(int fdServer, int fdPoll, Server & server)
 	int	ready;
 	struct epoll_event	user[MAX_USERS];
 	while (serverLife) {
-		usleep(1);
 		if ((ready = epoll_wait   // epoll_wait returns the numbers of FDs ready for IO; 0 if none; -1 if error
 					(
 					 fdPoll,      // == EPOLL fd
@@ -78,6 +77,7 @@ void Server::server_launch_start(int fdServer, int fdPoll, Server & server)
 			}
 		}
 		pingTime();
+		usleep(REFRESH_DELAY);
 	}
 	__debug_unknown(server);
 }

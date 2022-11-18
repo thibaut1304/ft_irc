@@ -19,14 +19,14 @@ _PURPLE = \033[0;95m
 _CYAN   = \033[0;36m
 _WHITE  = \033[0;37m
 
-DEBUG   = 1
-NAME    = ircserv
-CLIENT  = client
-RM      = rm      -rf
-CC      = c++
-FLAGS   = -Wall -Wextra -Werror -std=c++98 -g
-DIR_INC = -I ./includes/
-DIR_INC += -I ./includes/numericReplies/
+DEBUG   =  1
+NAME    =  ircserv
+CLIENT  =  client
+RM      =  rm    -rf
+CC      =  c++
+FLAGS   =  -Wall -Wextra -Werror -std=c++98 -g
+DIR_INC =  -I    ./includes/
+DIR_INC += -I    ./includes/numericReplies/
 
 SRCS		:=                                                \
 				main.cpp                                      \
@@ -56,34 +56,34 @@ SRCS		:=                                                \
 				\
 				utils/debug/debug.cpp                         \
 				\
-				commands/connection.cpp         \
-				commands/init_commands.cpp      \
-				commands/nick.cpp               \
-				commands/kill.cpp               \
-				commands/ping.cpp               \
-				commands/pass.cpp     			\
-				commands/user.cpp			    \
-				commands/cap.cpp			    \
-				commands/topic.cpp     \
+				commands/connection.cpp                       \
+				commands/init_commands.cpp                    \
+				commands/nick.cpp                             \
+				commands/kill.cpp                             \
+				commands/ping.cpp                             \
+				commands/pass.cpp                             \
+				commands/user.cpp                             \
+				commands/cap.cpp                              \
+				commands/topic.cpp                            \
 				\
-				commands/version.cpp            \
-				commands/time.cpp               \
-				commands/info.cpp               \
-				commands/quit.cpp      			\
-				commands/motd.cpp      			\
-				commands/notice.cpp    			\
-				commands/join.cpp     			\
-				commands/privmsg.cpp   			\
-				commands/bot_privmsg.cpp   		\
-				commands/names.cpp 			    \
-				commands/list.cpp      			\
-				commands/mode.cpp 			    \
-				commands/invite.cpp		    	\
-				commands/part.cpp      			\
-				commands/mode_channel.cpp 		\
-				commands/mode_user.cpp   		\
-				commands/mode_utils.cpp 		\
-				commands/who.cpp 			    \
+				commands/version.cpp                          \
+				commands/time.cpp                             \
+				commands/info.cpp                             \
+				commands/quit.cpp                             \
+				commands/motd.cpp                             \
+				commands/notice.cpp                           \
+				commands/join.cpp                             \
+				commands/privmsg.cpp                          \
+				commands/bot_privmsg.cpp                      \
+				commands/names.cpp                            \
+				commands/list.cpp                             \
+				commands/mode.cpp                             \
+				commands/invite.cpp                           \
+				commands/part.cpp                             \
+				commands/mode_channel.cpp                     \
+				commands/mode_user.cpp                        \
+				commands/mode_utils.cpp                       \
+				commands/who.cpp                              \
 				commands/pong.cpp                             \
 				commands/kick.cpp                             \
 				commands/oper.cpp                             \
@@ -96,24 +96,6 @@ SRCS		:=                                                \
 				commands/checks/check_ERR_NOSUCHNICK.cpp      \
 				commands/checks/check_ERR_NONICKNAMEGIVEN.cpp \
 
-				# commands/admin.cpp     \
-				# commands/stats.cpp     \
-				# commands/trace.cpp     \
-				# commands/server.cpp    \
-				# commands/squit.cpp     \
-				# commands/links.cpp     \
-				# commands/connect.cpp   \
-				# commands/whois.cpp     \
-				# commands/whowas.cpp    \
-				# commands/error.cpp     \
-				# commands/away.cpp      \
-				# commands/rehash.cpp    \
-				# commands/restart.cpp   \
-				# commands/summon.cpp    \
-				# commands/users.cpp     \
-				# commands/wallops.cpp   \
-				# commands/userhost.cpp  \
-				# commands/ison.cpp      \
 
 # SRCS		+= SRCS_CMD
 SRCS_CLIENT := client.cpp

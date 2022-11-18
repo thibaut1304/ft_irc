@@ -204,7 +204,7 @@ std::vector<std::string> Channel::get_ban_mask(void) { return _ban_mask			  ; };
 std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
 																					   //void Channel::set_is_accepting_messages_from_outside_client(bool); // n - no messages to channel from clients on the outside;
 
-Channel::vector_banned_users Channel::get_banned_users() { return _users_banned; }
+Channel::vector_banned_users & Channel::get_banned_users() { return _users_banned; }
 
 bool Channel::does_user_exist(std::string user_name)
 {

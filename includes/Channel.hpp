@@ -103,7 +103,7 @@ class Channel
 		std::map<std::string, Channel::UserPtr> getUsers(void);
 		std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 		vector_banned_users getUsersBanned(void);
-		vector_banned_users get_banned_users(void);
+		vector_banned_users & get_banned_users(void);
 
 		/* WSZ ...................... */
 		/* .......................... */
