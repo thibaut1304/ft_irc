@@ -72,7 +72,7 @@ bool Channel::checkPassword(std::string password) {
 
 void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg )
 {
-	std::string msg = ":" + user->getNickname() + "!" + user->getHostname() + "@" + user->getIp() + " ";
+	std::string msg = ":" + user->getNickname() + "!" + user->getUsername() + "@" + user->getIp() + " ";
 
 	if (other_msg == "")
 		msg += command + " :" + this->_name + "\r\n";
