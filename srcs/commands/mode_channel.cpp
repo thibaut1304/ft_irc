@@ -86,14 +86,14 @@ static char set_operator(Server * server, Channel *channel, User user,char mode,
 
 	if (user_target.size() == 0)
 	{
-		msg += ERR_NEEDMOREOPPARAMS(user.getNickname(), channel->getName());
+		msg = ERR_NEEDMOREOPPARAMS(user.getNickname(), channel->getName());
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return char(0);
 	}
 
 	if (channel->does_user_exist(user_target) == false)
 	{
-		msg += ERR_NOSUCHNICK(user.getNickname(), user_target);
+		msg = ERR_NOSUCHNICK(user.getNickname(), user_target);
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return char(0);
 	}
@@ -102,9 +102,12 @@ static char set_operator(Server * server, Channel *channel, User user,char mode,
 	{
 		if (channel->isAdmin(user.getNickname()) == false)
 		{
-			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
-			send(user.getFd(), msg.c_str(), msg.length(), 0);
-			return char(0);
+			if (user.get_is_operator() == false)
+			{
+				msg = ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+				send(user.getFd(), msg.c_str(), msg.length(), 0);
+				return char(0);
+			}
 		}
 		else
 		{
@@ -133,11 +136,12 @@ static char set_bool_modes(Channel * channel, User user, char mode, bool toggle)
 	std::string msg;
 
 	if (channel->isAdmin(user.getNickname()) == false)
-	{
-		msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
-		send(user.getFd(), msg.c_str(), msg.length(), 0);
-		return char(0);
-	}
+		if (user.get_is_operator() == false)
+		{
+			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
 
 	if (mode == 'i') modified = channel_mode_i(toggle, channel);
 	if (mode == 'm') modified = channel_mode_m(toggle, channel);
@@ -194,11 +198,12 @@ static char ban_unban_user(Channel* channel, User user, char mode, std::string u
 	}
 
 	if (channel->isAdmin(user.getNickname()) == false)
-	{
-		msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
-		send(user.getFd(), msg.c_str(), msg.length(), 0);
-		return char(0);
-	}
+		if (user.get_is_operator() == false)
+		{
+			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
 
 	if (toggle == false)
 	{
@@ -258,11 +263,12 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 
 	std::string msg;
 	if (channel->isAdmin(user.getNickname()) == false)
-	{
-		msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
-		send(user.getFd(), msg.c_str(), msg.length(), 0);
-		return char(0);
-	}
+		if (user.get_is_operator() == false)
+		{
+			msg += ERR_CHANOPRIVSNEEDED(user.getNickname(), channel->getName());
+			send(user.getFd(), msg.c_str(), msg.length(), 0);
+			return char(0);
+		}
 
 	if (mode == 'l') modified = channel_mode_l(mode_str_to_num(num_arg), channel);
 	if (mode == 'k')
@@ -308,6 +314,7 @@ void mode_channel(Server* server, User user, std::string target)
 	bool triggered_l = false;
 	bool triggered_k = false;
 	bool triggered_b = false;
+	bool triggered_o = false;
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
 	{
@@ -317,11 +324,14 @@ void mode_channel(Server* server, User user, std::string target)
 		/* ................................ */
 		if (mode_is_in_charset("o", mode) == true)
 		{
-			arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
-			msg += set_operator(server, channel, user, mode, toggle, arg);
-			arg_index++;
+			if (triggered_o == false)
+			{
+				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				msg += set_operator(server, channel, user, mode, toggle, arg);
+				arg_index++;
+				triggered_o = true;
+			}
 		}
-
 		/* BOOL MODES ............... */
 		/* .......................... */
 		else if (mode_is_in_charset("psitnvm", mode) == true)
@@ -372,7 +382,7 @@ void mode_channel(Server* server, User user, std::string target)
 	{
 		Server::map_users::iterator it =  server->_users.begin();
 		Server::map_users::iterator ite = server->_users.end();
-		while (it != ite)
+		for (; it != ite; it++)
 			if (it->second.getNickname() == user.getNickname())
 				break ;
 		channel->sendToAll(&(it->second), "MODE", msg);

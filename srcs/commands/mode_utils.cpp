@@ -23,13 +23,13 @@ void __debug_modes(Channel *channel, std::string str)
 	std::cout << str << std::endl;
 	std::cout << "chan key              :"<< channel->get_channel_key()                               << std::endl;
 
-	std::vector<std::string> cpy = channel->get_ban_mask();
-	std::vector<std::string>::iterator it = cpy.begin();
-	std::vector<std::string>::iterator ite = cpy.end();
-	int i = 1;
-	for (; it != ite; it++, i++)
-		std::cout << "ban mask : " << i << "            :"<< *it<< std::endl;
-	
+	//std::vector<std::string> cpy = channel->get_ban_mask();
+	//std::vector<std::string>::iterator it = cpy.begin();
+	//std::vector<std::string>::iterator ite = cpy.end();
+	//int i = 1;
+	//for (; it != ite; it++, i++)
+		//std::cout << "ban mask : " << i << "            :"<< *it<< std::endl;
+
 	std::cout << "accept outside client :"<< channel->get_is_accepting_messages_from_outside_client() << std::endl;
 	std::cout << "inv only              :"<< channel->get_is_invite_only()                            << std::endl;
 	std::cout << "moderated             :"<< channel->get_is_moderated()                              << std::endl;
