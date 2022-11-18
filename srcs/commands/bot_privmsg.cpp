@@ -105,7 +105,7 @@ void executeBot(Server *serv, User user) {
 	std::vector<std::string> recordCmd;
 	initStringCmd(recordCmd);
 
-	std::vector<std::string> allBuff = serv->_allBuff;
+	std::vector<std::string> allBuff = serv->get_allBuff();
 	allBuff.erase(allBuff.begin());
 	std::string cmd = print_allBuff(allBuff);
 	myToupper(cmd);

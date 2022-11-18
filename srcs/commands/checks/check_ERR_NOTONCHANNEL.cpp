@@ -14,7 +14,7 @@
 
 static bool check(Server *server, User user)
 {
-	BUFFER_           buffer  = server->_allBuff;
+	BUFFER_           buffer  = server->get_allBuff();
 	BUFFER_::iterator it      = buffer.begin();
 	std::string       ch_name = *(it + 1);
 	std::string       user_name = user.getNickname();
@@ -28,7 +28,7 @@ static bool check(Server *server, User user)
 bool check_ERR_NOTONCHANNEL(Server *server, User user)
 {
 	int destination = user.getFd();
-	BUFFER_           buffer  = server->_allBuff;
+	BUFFER_           buffer  = server->get_allBuff();
 	BUFFER_::iterator it      = buffer.begin();
 	std::string       ch_name = *(it + 1);
 	std::string msg;

@@ -14,11 +14,11 @@
 
 static void recordAdminChannel(Server *serv, std::map<std::string, User *> & userChannel, std::string chan = "") {
 	userChannel.clear();
-	std::map<std::string, Channel *>::iterator it_chan = serv->_channels.begin();
+	std::map<std::string, Channel *>::iterator it_chan = serv->get_channels().begin();
 	bool test = false;
 	if (chan.compare("") != 0)
 		test = true;
-	for (; it_chan != serv->_channels.end() ; it_chan++) {
+	for (; it_chan != serv->get_channels().end() ; it_chan++) {
 		std::map<std::string, User *> admin = it_chan->second->getAdmin();
 		std::map<std::string, User *>::iterator it_admin = admin.begin();
 		for (;it_admin != admin.end();it_admin++) {
@@ -51,8 +51,8 @@ static void	printAllUser(Server *serv, User user) {
 		}
 	}
 	tmp_chan = " ";
-	std::map<const int, User>::iterator it_user = serv->_users.begin();
-	for (;it_user != serv->_users.end(); it_user++) {
+	std::map<const int, User>::iterator it_user = serv->get_users().begin();
+	for (;it_user != serv->get_users().end(); it_user++) {
 		if (tmp.find(it_user->second.getNickname()) == tmp.end()) {
 			std::string msg = RPL_WHOREPLY352(	user.getNickname(), \
 												tmp_channel, \
@@ -70,13 +70,13 @@ static void	printUser(Server *serv, User user, std::string nick) {
 	std::string tmp_channel = "*";
 	std::string tmp_chan 	= " ";
 
-	std::string arg = print_allBuff(serv->_allBuff);
+	std::string arg = print_allBuff(serv->get_allBuff());
 
 	std::map<const int, User>::iterator it;
-	for (it = serv->_users.begin() ; it != serv->_users.end(); it++)
+	for (it = serv->get_users().begin() ; it != serv->get_users().end(); it++)
 		if (it->second.getNickname().compare(nick) == 0)
 			break ;
-	if (it == serv->_users.end())
+	if (it == serv->get_users().end())
 		if (arg[0] != '#') {
 			std::string msg_315 = RPL_ENDOFWHO(user.getNickname(), nick);
 			send(user.getFd(), msg_315.c_str(), msg_315.length(), 0);
@@ -84,11 +84,11 @@ static void	printUser(Server *serv, User user, std::string nick) {
 		}
 	if (arg[0] == '#') {
 
-		std::map<std::string, Channel *>::iterator it_chan_name = serv->_channels.begin();
-		for (;it_chan_name != serv->_channels.end();it_chan_name++)
+		std::map<std::string, Channel *>::iterator it_chan_name = serv->get_channels().begin();
+		for (;it_chan_name != serv->get_channels().end();it_chan_name++)
 			if (it_chan_name->first.compare(arg) == 0)
 				break ;
-		if (it_chan_name == serv->_channels.end()) {
+		if (it_chan_name == serv->get_channels().end()) {
 			std::string msg_315 = RPL_ENDOFWHO(user.getNickname(), nick);
 			send(user.getFd(), msg_315.c_str(), msg_315.length(), 0);
 			return ;
@@ -98,7 +98,7 @@ static void	printUser(Server *serv, User user, std::string nick) {
 		std::map<std::string, User *>::iterator it_chan = userChannel.begin();
 		std::map<std::string, std::string> tmp;
 		for (; it_chan != userChannel.end(); it_chan++) {
-			std::map<std::string, Channel *>::iterator it_tmp_chan = serv->_channels.find(it_chan->first);
+			std::map<std::string, Channel *>::iterator it_tmp_chan = serv->get_channels().find(it_chan->first);
 			std::map<std::string, User *> user_in_chan = it_tmp_chan->second->getUsers();
 			std::map<std::string, User *>::iterator it_user_in_chan = user_in_chan.begin();
 			for (;it_user_in_chan != user_in_chan.end() ; it_user_in_chan++) {
@@ -139,20 +139,20 @@ static void	recupNick(std::string & nick, std::vector<std::string> buff) {
 }
 
 void	who(Server *serv, User user) {
-	if (serv->_allBuff.size() == 1) {
+	if (serv->get_allBuff().size() == 1) {
 		std::string nick = "*";
 		if (user.getValidUser() == true)
 			nick =	user.getNickname();
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), nick);
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_allBuff()), nick);
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (user.getValidUser() == false) {
-		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->get_allBuff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
 		std::string nick;
-		recupNick(nick, serv->_allBuff);
+		recupNick(nick, serv->get_allBuff());
 		if (!nick.compare("*") || !nick.compare("0"))
 			printAllUser(serv, user);
 		else

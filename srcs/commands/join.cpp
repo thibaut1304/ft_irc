@@ -26,16 +26,16 @@ static int charset(std::string charset, std::string str)
 }
 void join(Server *serv, User user)
 {
-	Server::map_users::iterator _it = serv->_users.begin();
-	Server::map_users::iterator _ite = serv->_users.end();
+	Server::map_users::iterator _it = serv->get_users().begin();
+	Server::map_users::iterator _ite = serv->get_users().end();
 	for (; _it != _ite; _it++)
 		if (_it->second.getNickname().compare(user.getNickname()) == 0)
 			break;
 	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
 		return;
 	std::vector<std::string> channels, passwords;
-	split(channels, serv->_allBuff[1], ",");
-	split(passwords, serv->_allBuff[2], ",");
+	split(channels, serv->get_allBuff()[1], ",");
+	split(passwords, serv->get_allBuff()[2], ",");
 	for (size_t i = 0; i < channels.size(); i++)
 	{
 		
@@ -43,9 +43,9 @@ void join(Server *serv, User user)
 			send(user.getFd(), JOIN_MSG1.c_str(), JOIN_MSG1.length(), 0);
 		else if (serv->does_channel_exist(channels[i]))
 		{
-			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
+			std::map<std::string, Channel *>::iterator it = serv->get_channels().find(channels[i]);
 			if (it->second->isInChannel(user.getNickname()))
-				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
+				serv->get_allBuff()[1].erase(serv->get_allBuff()[1].find(it->first),(it->first.size() + 1));
 			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()) && !serv->is_server_operator(user.getNickname())) 
 				send(user.getFd(), JOIN_MSG2.c_str(), JOIN_MSG2.length(), 0);
 			else if (it->second->is_password_only_channel() && !it->second->checkPassword(passwords[i]) && !serv->is_server_operator(user.getNickname())) 

@@ -34,12 +34,12 @@ static void	splitCmdClient(std::vector<std::string> & sCmd, std::string cmd) {
 
 static void	searchChannel(std::string nameChannel, Server *serv, User user, std::map<std::string, int> tmp) {
 	bool user_in = false;
-	std::vector<std::string> allBuff = serv->_allBuff;
+	std::vector<std::string> allBuff = serv->get_allBuff();
 	std::string cmd = *(allBuff.begin());
 	allBuff.erase(allBuff.begin());
 
 	if (serv->does_channel_exist(nameChannel)) {
-		std::map<std::string, Channel *>::iterator it_chan= serv->_channels.find(nameChannel);
+		std::map<std::string, Channel *>::iterator it_chan= serv->get_channels().find(nameChannel);
 		if (Debug)
 			std::cout << _GREEN << it_chan->first << _NC << std::endl;
 		std::map<std::string, User * > tabUser = it_chan->second->getUsers();
@@ -69,7 +69,7 @@ static void	searchChannel(std::string nameChannel, Server *serv, User user, std:
 }
 
 static void		search_clientRPL(std::vector<std::string> Client, std::map<const int, User> user, Server *serv, User user_send) {
-	std::vector<std::string> allBuff = serv->_allBuff;
+	std::vector<std::string> allBuff = serv->get_allBuff();
 	std::string cmd = *(allBuff.begin());
 	allBuff.erase(allBuff.begin());
 	std::map<std::string, int> tmp;
@@ -95,20 +95,20 @@ static void		search_clientRPL(std::vector<std::string> Client, std::map<const in
 
 
 void	notice(Server *serv, User user) {
-	if (serv->_allBuff.size() <= 2) {
+	if (serv->get_allBuff().size() <= 2) {
 		std::string nick;
 		if (user.getValidUser() == false) nick = "*"; else nick = user.getNickname();
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), nick);
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_allBuff()), nick);
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (serv->_allBuff.size() > 2 && user.getValidUser() == false) {
-		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+	else if (serv->get_allBuff().size() > 2 && user.getValidUser() == false) {
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->get_allBuff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
 		std::vector<std::string> client;
-		std::vector<std::string>::iterator it_buff = ++serv->_allBuff.begin();
+		std::vector<std::string>::iterator it_buff = ++serv->get_allBuff().begin();
 		splitCmdClient(client, *it_buff);
-		search_clientRPL(client, serv->_users, serv, user);
+		search_clientRPL(client, serv->get_users(), serv, user);
 	}
 }

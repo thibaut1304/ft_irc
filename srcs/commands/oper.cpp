@@ -20,8 +20,8 @@
 static User * oper_get_user_ptr(Server *server, User user)
 {
 	(void)user;
-	Server::map_users::iterator  users_it  = server->_users.begin();
-	Server::map_users::iterator  users_ite = server->_users.end();
+	Server::map_users::iterator  users_it  = server->get_users().begin();
+	Server::map_users::iterator  users_ite = server->get_users().end();
 
 	while (users_it != users_ite)
 	{
@@ -38,7 +38,7 @@ static User * oper_get_user_ptr(Server *server, User user)
 static bool oper_check_ERR_NEEDMOREPARAMS(Server *server, User user)
 {
 	std::string msg;
-	BUFFER_ buffer = server->_allBuff;
+	BUFFER_ buffer = server->get_allBuff();
 	if (buffer.size() < 3)
 	{
 		msg = ":" + NAME_V + " 461 " + __USER__ + " OPER " + ":Not enough parameters.\r\n";
@@ -50,7 +50,7 @@ static bool oper_check_ERR_NEEDMOREPARAMS(Server *server, User user)
 
 static bool oper_check_ERR_PASSWDMISMATCH(Server *server, User user)
 {
-	BUFFER_ buffer = server->_allBuff;
+	BUFFER_ buffer = server->get_allBuff();
 	BUFFER_::iterator bit = buffer.begin();
 	std::string msg;
 	std::string server_login = bit[1];

@@ -41,24 +41,24 @@ static std::string	findPoint(std::vector<std::string> & all) {
 void	user(Server *serv, User user) {
 	std::vector<std::string> all;
 	
-	std::string bis = findPoint(serv->_allBuff);
-	if (bis.empty() || serv->_allBuff.size() != 4) {
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), std::string("*"));
+	std::string bis = findPoint(serv->get_allBuff());
+	if (bis.empty() || serv->get_allBuff().size() != 4) {
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_allBuff()), std::string("*"));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (user.getValidUser() == true) {
 		std::string msg = NAME + ERR_ALREADYREGISTRED(user.getNickname());
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (findCharParsing(*(++serv->_allBuff.begin()))) {
-		std::string msg = NAME + ERR_USERNAMENOTVALID(print_cmd(serv->_allBuff), std::string("*"));
+	else if (findCharParsing(*(++serv->get_allBuff().begin()))) {
+		std::string msg = NAME + ERR_USERNAMENOTVALID(print_cmd(serv->get_allBuff()), std::string("*"));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
-		std::vector<std::string>::iterator it = ++serv->_allBuff.begin();
-		serv->_users[user.getFd()].setUsername(*it++);
-		serv->_users[user.getFd()].setHostname(*it++);
-		serv->_users[user.getFd()].setHostname(*it);
-		serv->_users[user.getFd()].setFullName(bis);
+		std::vector<std::string>::iterator it = ++serv->get_allBuff().begin();
+		serv->get_users()[user.getFd()].setUsername(*it++);
+		serv->get_users()[user.getFd()].setHostname(*it++);
+		serv->get_users()[user.getFd()].setHostname(*it);
+		serv->get_users()[user.getFd()].setFullName(bis);
 	}
 }

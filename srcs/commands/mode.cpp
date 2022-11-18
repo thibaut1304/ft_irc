@@ -35,7 +35,7 @@ static bool check_CHANNELS(Server * server, User user, std::string target)
 
 void mode(Server *server, User  user)
 {
-	BUFFER_           buffer = server->_allBuff;
+	BUFFER_           buffer = server->get_allBuff();
 	BUFFER_::iterator it     = buffer.begin();
 	std::string       target = buffer.size() > 1 ? it[1] : "";
 	if (check_ERR_NEEDMOREPARAMS (server, user)         == NOT_OK_) return ;

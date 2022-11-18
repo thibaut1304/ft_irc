@@ -22,8 +22,8 @@
 static User * mode_get_user_ptr(Server *server, User user, std::string target_user)
 {
 	(void)user;
-	Server::map_users::iterator  users_it  = server->_users.begin();
-	Server::map_users::iterator  users_ite = server->_users.end();
+	Server::map_users::iterator  users_it  = server->get_users().begin();
+	Server::map_users::iterator  users_ite = server->get_users().end();
 
 	while (users_it != users_ite)
 	{
@@ -154,7 +154,7 @@ static bool check_ERR_UNKNOWNMODE(User user, char mode)
 void mode_user(Server* server, User user, std::string target)
 {
 	(void)target;
-	BUFFER_           buffer      = server->_allBuff;
+	BUFFER_           buffer      = server->get_allBuff();
 	BUFFER_::iterator it          = buffer.begin();
 	std::string       target_user = it[1];
 	std::string       msg;

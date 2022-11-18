@@ -22,8 +22,8 @@
 // }
 
 static void	printChanOfUser(Server *serv, User user, std::vector<std::string> & tmp) {
-	std::map<std::string, Channel * >::iterator it = serv->_channels.begin();
-	for (;it != serv->_channels.end();it++) {
+	std::map<std::string, Channel * >::iterator it = serv->get_channels().begin();
+	for (;it != serv->get_channels().end();it++) {
 		std::map<std::string, User * > tabUser = it->second->getUsers();
 
 		std::map<std::string, User * >::iterator it_user = tabUser.begin();
@@ -56,7 +56,7 @@ static void sendOtherClient(Server *serv, User user, std::vector<std::string> tm
 	std::vector<std::string>::iterator it_tmp = tmp.begin();
 
 	for ( ; it_tmp != tmp.end() ; it_tmp++) {
-		std::map<std::string, Channel * >::iterator it = serv->_channels.find(*it_tmp);
+		std::map<std::string, Channel * >::iterator it = serv->get_channels().find(*it_tmp);
 		std::map<std::string, User * > tabUser = it->second->getUsers();
 
 		std::map<std::string, User * >::iterator it_user = tabUser.begin();
@@ -65,13 +65,13 @@ static void sendOtherClient(Server *serv, User user, std::vector<std::string> tm
 				otherClient[it_user->first] = it_user->second->getFd();
 		}
 	}
-	printOtherClient(otherClient, user, serv->_allBuff);
+	printOtherClient(otherClient, user, serv->get_allBuff());
 }
 
 void	quit(Server *serv, User user) {
 	std::vector<std::string> tmp_chan;
-	std::map<std::string, Channel *>::iterator it = serv->_channels.begin();
-	for(; it != serv->_channels.end();it++) {
+	std::map<std::string, Channel *>::iterator it = serv->get_channels().begin();
+	for(; it != serv->get_channels().end();it++) {
 		if (it->second->does_user_exist(user.getNickname()))
 			tmp_chan.push_back(it->first);
 	}
@@ -87,23 +87,23 @@ void	quit(Server *serv, User user) {
 	sendOtherClient(serv, user, tmp, otherClient);
 
 	std::string msg;
-	if (user.getValidUser() == false && serv->_allBuff.size() == 1) {
+	if (user.getValidUser() == false && serv->get_allBuff().size() == 1) {
 		msg = CLIENT_EXIT(NAME_V, user.getIp(), "Client exited");
 	}
 	else if (user.getValidUser() == false) {
-		std::string text = "Quit: " + print_allBuff(serv->_allBuff);
+		std::string text = "Quit: " + print_allBuff(serv->get_allBuff());
 		msg = CLIENT_EXIT(NAME_V, user.getIp(), text);
 	}
-	else if (user.getValidUser() == true && serv->_allBuff.size() == 1) {
+	else if (user.getValidUser() == true && serv->get_allBuff().size() == 1) {
 		msg = CLIENT_EXIT(user.getUsername(), user.getIp(), "Client exited");
 	}
 	else {
-		std::string text = "Quit: " + print_allBuff(serv->_allBuff);
+		std::string text = "Quit: " + print_allBuff(serv->get_allBuff());
 		msg = CLIENT_EXIT(user.getUsername(), user.getIp(), text);
 	}
 
 	
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	serv->_users[user.getFd()].setIsKill(true);
+	serv->get_users()[user.getFd()].setIsKill(true);
 	serv->killUserClient(user.getFd());
 }

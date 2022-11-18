@@ -288,7 +288,7 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 
 void mode_channel(Server* server, User user, std::string target)
 {
-	BUFFER_           buffer    = server->_allBuff;
+	BUFFER_           buffer    = server->get_allBuff();
 	Channel           *channel  = server->getChannel(target);
 	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 	BUFFER_::iterator it        = buffer.begin();
@@ -380,8 +380,8 @@ void mode_channel(Server* server, User user, std::string target)
 	}
 	if (mode_is_in_charset("opsitnvmlbk", msg[1]) == true)
 	{
-		Server::map_users::iterator it =  server->_users.begin();
-		Server::map_users::iterator ite = server->_users.end();
+		Server::map_users::iterator it =  server->get_users().begin();
+		Server::map_users::iterator ite = server->get_users().end();
 		for (; it != ite; it++)
 			if (it->second.getNickname() == user.getNickname())
 				break ;
