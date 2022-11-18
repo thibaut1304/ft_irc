@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_users.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 17:06:59 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/17 17:25:11 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:21:48 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void Channel::printUsers(void)
 
 	while (it != ite)
 	{
-		std::cout << "Username : " << (*it).first << std::endl;
-		std::cout << "FD : " << (*it).second->getFd() << std::endl;
+		if (Debug) {
+			std::cout << "Username : " << (*it).first << std::endl;
+			std::cout << "FD : " << (*it).second->getFd() << std::endl;
+		}
 		it++;
 	}
 }

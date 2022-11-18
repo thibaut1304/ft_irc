@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_server_users.cpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wszurkow <wszurkow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:32:51 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/17 16:33:11 by wszurkow         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:21:36 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void Server::print_server_users(void)
 	while (it != ite)
 	{
 		fd = (*it).second.getFd();
-		std::cout << "+ FD OF SERVER USER IS : " << fd << std::endl;
-		std::cout << "- FD OF SERVER USER IS : " << (*it).first << std::endl;
+		if (Debug) {
+			std::cout << "+ FD OF SERVER USER IS : " << fd << std::endl;
+			std::cout << "- FD OF SERVER USER IS : " << (*it).first << std::endl;
+		}
 		it++;
 	}
 }

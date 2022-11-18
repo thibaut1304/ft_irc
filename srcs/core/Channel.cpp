@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:38:53 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/16 14:29:41 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:20:18 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void Channel::inviteUser(UserPtr user)
 	_users_invited.insert(std::make_pair(user->getNickname(), user));
 	for (std::map<std::string, UserPtr>::iterator it = _users_invited.begin(); it != _users_invited.end(); it++)
 	{
-		std::cout << "user invited : " << it->second->getNickname() << std::endl;
+		if (Debug)
+			std::cout << "user invited : " << it->second->getNickname() << std::endl;
 	}
 }
 std::string Channel::getName()

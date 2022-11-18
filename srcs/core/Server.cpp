@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 11:11:34 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:20:41 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,8 @@ void Server::deleteChannel(string ch_name)
 }
 void Server::addChannel(string ch_name, Channel::UserPtr user)
 {
-	std::cout << "--addChannel--" << std::endl;
+	if (Debug)
+		std::cout << "--addChannel--" << std::endl;
 	Channel *chan = new Channel(ch_name, user);
 	_channels.insert(std::make_pair<std::string, Channel *>(ch_name, chan));
 }
@@ -232,7 +233,8 @@ void Server::add_server_operator(std::string user_nickname, std::string op_nickn
 	if (it == ite)
 		return;
 	std::pair<std::string, User *> p(op_nickname, &(it->second));
-	std::cout<<"inserted"<<std::endl;
+	if (Debug)
+		std::cout<<"inserted"<<std::endl;
 	_operators.insert(p);
 }
 

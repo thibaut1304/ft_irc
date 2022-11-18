@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:39:21 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/14 15:30:09 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:20:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	printAllUser(Server *serv, User user) {
 	std::map<std::string, std::string> tmp;
 	std::map<std::string, User *>::iterator it_chan = userChannel.begin();
 	for (; it_chan != userChannel.end(); it_chan++) {
-		std::cout << "HERE" << std::endl;
 		if (tmp.find(it_chan->second->getNickname()) == tmp.end()) {
 			std::string msg = RPL_WHOREPLY352(	user.getNickname(), \
 												it_chan->first, \
@@ -72,7 +71,7 @@ static void	printUser(Server *serv, User user, std::string nick) {
 	std::string tmp_chan 	= " ";
 
 	std::string arg = print_allBuff(serv->_allBuff);
-	
+
 	std::map<const int, User>::iterator it;
 	for (it = serv->_users.begin() ; it != serv->_users.end(); it++)
 		if (it->second.getNickname().compare(nick) == 0)
@@ -84,7 +83,7 @@ static void	printUser(Server *serv, User user, std::string nick) {
 			return ;
 		}
 	if (arg[0] == '#') {
-		
+
 		std::map<std::string, Channel *>::iterator it_chan_name = serv->_channels.begin();
 		for (;it_chan_name != serv->_channels.end();it_chan_name++)
 			if (it_chan_name->first.compare(arg) == 0)
@@ -108,7 +107,7 @@ static void	printUser(Server *serv, User user, std::string nick) {
 					std::map<std::string, User *>::iterator it_tmp_admin = tmp_admin.begin();
 					if (it_tmp_admin->first.compare(it_user_in_chan->first) == 0)
 						tmp_chan = "@";
-					else 
+					else
 						tmp_chan = " ";
 					std::string msg = RPL_WHOREPLY352(	user.getNickname(), \
 														it_chan->first, \

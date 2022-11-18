@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:45:49 by thhusser          #+#    #+#             */
-/*   Updated: 2022/10/17 09:15:18 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:18:06 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool serverLife = true;
 
 void	killCmd(int sig) {
 	(void)sig;
-	
+
 #if Debug
 	std::cout << _RED << "\nSignal : " << sig << _NC;
 #endif
@@ -27,7 +27,7 @@ void	killCmd(int sig) {
 
 int	main(int argc, char **argv) {
 	if (argc != 3) {
-		std::cout << _RED << "Error Usage : ./ft_irc <port> <password>" << _NC << std::endl;
+		std::cout << _RED << "Error Usage : ./ircserv <port> <password>" << _NC << std::endl;
 		return (1);
 	}
 	Server server(argv[2], argv[1]);

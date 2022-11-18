@@ -31,9 +31,9 @@ struct sockaddr_in {
 */
 
 int main() {
-	
+
 	if (TEST) {
-		
+
 		int fd = -1;
 		int new_socket = -1;
 		int valread = -1;
@@ -46,20 +46,20 @@ int main() {
 		// strcpy(hello, "Hello from server");
 		struct sockaddr_in address;
 		int addrlen = sizeof(address);
-		
+
 		/*
 			short            sin_family;   // e.g. AF_INET
     		unsigned short   sin_port;     // e.g. htons(3490)
     		struct in_addr   sin_addr;     // see struct in_addr, below
     		char             sin_zero[8];  // zero this if you want to
 		*/
-		
+
 		if ((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 			perror("Socket failled");
 			exit(EXIT_FAILURE);
 		}
 		std::cout << _CYAN << "File descriptor socket : " << fd << _NC << std::endl;
-		
+
 		if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
 			perror("Setsockopt failled");
 			exit(EXIT_FAILURE);
@@ -68,8 +68,8 @@ int main() {
 		address.sin_family = AF_INET;
 		address.sin_addr.s_addr = INADDR_ANY;
   		address.sin_port = htons(PORT);
-		
-		
+
+
 		// cast de sockaddr_in en sockaddr
 		if (bind(fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
 			perror("Bind failled");

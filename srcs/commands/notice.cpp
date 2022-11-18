@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 19:30:19 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/15 18:09:25 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:19:43 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void	searchChannel(std::string nameChannel, Server *serv, User user, std:
 
 	if (serv->does_channel_exist(nameChannel)) {
 		std::map<std::string, Channel *>::iterator it_chan= serv->_channels.find(nameChannel);
-		std::cout << _GREEN << it_chan->first << _NC << std::endl;
+		if (Debug)
+			std::cout << _GREEN << it_chan->first << _NC << std::endl;
 		std::map<std::string, User * > tabUser = it_chan->second->getUsers();
 		std::map<std::string, User * >::iterator it_user = tabUser.begin();
 		for (; it_user != tabUser.end();it_user++) {
