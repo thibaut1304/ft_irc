@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:23:04 by wszurkow          #+#    #+#             */
-/*   Updated: 2022/11/18 11:53:10 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 12:03:40 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void Server::server_launch_start(int fdServer, int fdPoll, Server & server)
 	struct epoll_event	user[MAX_USERS];
 
 	std::cout << _GREEN << "Server launch" << _NC << std::endl;
+	std::cout << _GREEN << "Talk to the bot when joining a #bot channel" << _NC << std::endl;
 	while (serverLife) {
 		if ((ready = epoll_wait   // epoll_wait returns the numbers of FDs ready for IO; 0 if none; -1 if error
 					(
