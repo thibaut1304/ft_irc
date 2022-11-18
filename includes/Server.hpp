@@ -26,8 +26,18 @@
 extern bool serverLife;
 class Server
 {
+	public :
+		/* .............................................. */
+		/* .................. TYPEDEFS .................. */
+		/* .............................................. */
+		typedef std::string                   string;
+		typedef std::map<string,Channel *>    map_channels;
+		typedef std::pair<string,Channel *>   pair;
+		typedef std::vector<string>           vector_string;
+		typedef std::map<const int, User>     map_users;
+		typedef std::map<std::string, User *> map_operators;
+
 	private:
-		Server(void);
 
 		int _fdServer;
 		int _fdPoll;
@@ -44,16 +54,6 @@ class Server
 		typedef void (*cmdFunc)(Server *, User );
 		std::map<std::string, cmdFunc> _listCmd;
 
-	public:
-		/* .............................................. */
-		/* .................. TYPEDEFS .................. */
-		/* .............................................. */
-		typedef std::string                   string;
-		typedef std::map<string,Channel *>    map_channels;
-		typedef std::pair<string,Channel *>   pair;
-		typedef std::vector<string>           vector_string;
-		typedef std::map<const int, User>     map_users;
-		typedef std::map<std::string, User *> map_operators;
 
 		/* .............................................. */
 		/* ................ MEMBER VARS ................. */
@@ -70,8 +70,16 @@ class Server
 
 		/* CONSTRUCT / DESTRUCT ..... */
 		/* .......................... */
+
+	public:
+		Server(void);
 		Server(string, string);
 		~Server(void);
+		map_users     & get_users(void)     { return _users;     }
+		map_operators & get_operators(void) { return _operators; }
+		map_channels  & get_channels(void)  { return _channels;  }
+		vector_string & get_allBuff(void)       { return _allBuff;   }
+		string        & get_buff(void)          { return _buff;      }
 
 		/* CORE ..................... */
 		/* .......................... */
