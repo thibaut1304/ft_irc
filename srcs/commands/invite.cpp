@@ -33,10 +33,10 @@ void invite(Server *serv, User user)
            send(user.getFd(), MSG7.c_str(), MSG7.length(), 0);
         else if (!serv->does_channel_exist(serv->_allBuff[2]))
            send(user.getFd(), MSG8.c_str(), MSG8.length(), 0);
-        else if (!serv->getChannel(serv->_allBuff[2])->isInChannel(user.getNickname()))
+        else if (!serv->getChannel(serv->_allBuff[2])->isInChannel(user.getNickname())  && !serv->is_server_operator(user.getNickname()))
            send(user.getFd(), MSG9.c_str(), MSG9.length(), 0);
-        else if (!serv->getChannel(serv->_allBuff[2])->isAdmin(user.getNickname()))
-           send(user.getFd(), MSG10.c_str(), MSG10.length(), 0);
+        else if (!serv->getChannel(serv->_allBuff[2])->isAdmin(user.getNickname()) && !serv->is_server_operator(user.getNickname()))
+                   send(user.getFd(), MSG10.c_str(), MSG10.length(), 0);
         else
           {
             serv->getChannel(serv->_allBuff[2])->inviteUser(serv->getUser(serv->_allBuff[1]));
