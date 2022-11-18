@@ -15,7 +15,7 @@
 #include <string>
 
 #define MSG1 (RPL_LISTSTART(user.getNickname()))
-#define MSG2 (RPL_LIST(user.getNickname(), channel, to_string(it->second->numberOfUsers()), options))
+#define MSG2 (RPL_LIST(user.getNickname(), channel, to_string(it->second->numberOfUsers()), options, topic))
 #define MSG3 (RPL_LISTEND(user.getNickname()))
 
 static std::string to_string(const int n)
@@ -49,6 +49,7 @@ static std::string get_options_from_channel(Channel *chan)
 void list(Server *serv, User user)
 {
     std::string options = "";
+    std::string topic = "";
     std::map<std::string, Channel *> tmp = serv->getChannels();
     if (serv->_allBuff.size() == 1)
     {
@@ -62,6 +63,7 @@ void list(Server *serv, User user)
                 {
                     channel.erase(0).insert(0, it->second->getName());
                     options = get_options_from_channel(it->second);
+                    topic = it->second->getTopic();
                 }
                 send(user.getFd(), MSG2.c_str(), MSG2.length(), 0);
             }

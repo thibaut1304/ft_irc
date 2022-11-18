@@ -80,7 +80,7 @@
 #define RPL_NAMREPLY(nick, channel, nicks) (NAME + " 353 " + nick + " = " + channel + " :" + nicks + "\r\n")
 #define RPL_ENDOFNAMES(nick, channel) (NAME + " 366 " + nick + " " + channel + ": END of / NAMES list.\r\n")
 #define RPL_LISTSTART(nick) (NAME + " 321 " + nick + " Channel :Users Name \r\n")
-#define RPL_LIST(nick, channel, usernumber, flags) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + "\r\n")
+#define RPL_LIST(nick, channel, usernumber, flags, topic) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + " " + topic + "\r\n")
 #define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
 #define RPL_INVITING(nick, channel, invited) (NAME + " 341 " + nick + " " + invited + " :" + channel + "\r\n")
 // #define ERR_NOSUCHNICK(nick, nickname) (NAME + " 402 " + nick + " :You must be a channel operator\r\n") 
