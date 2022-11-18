@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 19:30:19 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 11:19:43 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 19:10:26 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	notice(Server *serv, User user) {
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (serv->_allBuff.size() > 2 && user.getValidUser() == false) {
-		std::string msg = NAME + ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
