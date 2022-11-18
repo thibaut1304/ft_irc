@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 11:20:41 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:58:44 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,16 +357,21 @@ void Server::pingTime(void)
 	{
 		usleep(1);
 		tmp = difftime(time(NULL), it->second.getTimeActivity());
-		if (tmp > REGIS_TIME && it->second.getValidUser() == false && it->second.getPingStatus() == false)
+		if (tmp > REGIS_TIME && it->second.getValidUser() == false)
 		{
 			std::string msg = REGISTRATION_TIMEOUT(NAME_V, it->second.getIp());
 			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
 			if (it->second.getIsKill() == false)
 				killUserClient(it->second.getFd());
 			vecFd.push_back(it->second.getFd());
-			it->second.setPingStatus(true);
 		}
-		else if (tmp > PING_TIME && it->second.getValidUser() == true)
+		else if (tmp > PING_TIME && it->second.getValidUser() && it->second.getPingStatus() == false) {
+			std::string msg = PING(NAME);
+			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
+			it->second.setPingStatus(true);
+			it->second.setTimeActivity();
+		}
+		else if (tmp > PING_TIME && it->second.getValidUser() == true && it->second.getPingStatus() == true)
 		{
 			tmp = difftime(time(NULL), it->second.getTimeActivity());
 			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
