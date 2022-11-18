@@ -14,6 +14,27 @@
 
 #define __USER__ (user.getNickname().size() > 0 ? user.getNickname() : "*")
 
+/* ========================================================================== */
+/* --------------------------------- UTILS ---------------------------------- */
+/* ========================================================================== */
+static User * oper_get_user_ptr(Server *server, User user)
+{
+	(void)user;
+	Server::map_users::iterator  users_it  = server->_users.begin();
+	Server::map_users::iterator  users_ite = server->_users.end();
+
+	while (users_it != users_ite)
+	{
+		if (user.getNickname() == users_it->second.getNickname())
+			return &(users_it->second);
+		users_it++;
+	}
+	return NULL;
+}
+
+/* ========================================================================== */
+/* --------------------------------- CHECKS --------------------------------- */
+/* ========================================================================== */
 static bool oper_check_ERR_NEEDMOREPARAMS(Server *server, User user)
 {
 	std::string msg;
@@ -32,8 +53,9 @@ static bool oper_check_ERR_PASSWDMISMATCH(Server *server, User user)
 	BUFFER_ buffer = server->_allBuff;
 	BUFFER_::iterator bit = buffer.begin();
 	std::string msg;
-	std::string server_key = bit[2];
-	if (server_key != SERVER_PASSWORD)
+	std::string server_login = bit[1];
+	std::string server_key   = bit[2];
+	if (server_login != SERVER_LOGIN || server_key != SERVER_PASSWORD)
 	{
 		msg = ":" + NAME_V + " 491 " + __USER__ + " :Invalid oper credentials.\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
@@ -42,27 +64,11 @@ static bool oper_check_ERR_PASSWDMISMATCH(Server *server, User user)
 	return OK_ ;
 }
 
-static bool oper_check_ERR_OPERNICKTAKEN(Server *server, User user)
-{
-	BUFFER_ buffer = server->_allBuff;
-	BUFFER_::iterator bit = buffer.begin();
-	std::string msg;
-	std::string operator_name = bit[1];
-	if (server->does_operator_name_exist(operator_name) == true)
-	{
-		// NOTE 492 does not exist in rfc
-		msg = ":" + NAME_V + " 492 " + __USER__ + " :Operator username already in use.\r\n";
-		send(user.getFd(), msg.c_str(), msg.length(), 0);
-		return NOT_OK_;
-	}
-	return OK_;
-}
-
 static bool oper_check_ERR_ALREADYOPERATOR(Server * server, User user)
 {
-	std::string op_name = server->is_this_user_an_operator(user.getNickname());
+	(void)server;
 	std::string msg;
-	if (op_name.size() > 0)
+	if (user.get_is_operator() == true)
 	{
 		// NOTE 493 does not exist in rfc
 		msg = ":" + NAME_V + " 493 " + __USER__ + " :User is already an operator.\r\n";
@@ -72,11 +78,17 @@ static bool oper_check_ERR_ALREADYOPERATOR(Server * server, User user)
 	return OK_;
 }
 
-static void oper_send_to_all(Server *server, User user, std::string msg)
+/* ========================================================================== */
+/* ---------------------------------- SEND ---------------------------------- */
+/* ========================================================================== */
+
+static void notify_everyone_new_operator_created(Server *server, User user)
 {
-	Server::map_users users = server->get_users();
-	Server::map_users::iterator it = users.begin();
-	Server::map_users::iterator ite = users.end();
+	std::string msg;
+	Server::map_users           users = server->get_users();
+	Server::map_users::iterator it    = users.begin();
+	Server::map_users::iterator ite   = users.end();
+
 	while (it != ite)
 	{
 		msg = ":" + user.getNickname() + "!" + user.getHostname() + "@" + user.getIp() + " :";
@@ -88,23 +100,31 @@ static void oper_send_to_all(Server *server, User user, std::string msg)
 	}
 }
 
-void oper(Server *server, User user)
+static void send_RPL_YOUREOPER(User user)
 {
 	std::string msg;
-	BUFFER_ buffer = server->_allBuff;
-	BUFFER_::iterator bit = buffer.begin();
+	msg =  ":" + NAME_V;
+	msg += " 381 " ;
+	msg += user.getNickname();
+	msg += " :You are now an IRC operator\r\n";
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
+}
+
+/* ========================================================================== */
+/* ---------------------------------- MAIN ---------------------------------- */
+/* ========================================================================== */
+void oper(Server *server, User user)
+{
 
 	if (oper_check_ERR_NEEDMOREPARAMS (server, user) == NOT_OK_) { return ; }
 	if (oper_check_ERR_PASSWDMISMATCH (server, user) == NOT_OK_) { return ; }
-	if (oper_check_ERR_OPERNICKTAKEN  (server, user) == NOT_OK_) { return ; }
 	if (oper_check_ERR_ALREADYOPERATOR(server, user) == NOT_OK_) { return ; }
 
-	std::string operator_name = bit[1];
-	server->add_server_operator(user.getNickname(), operator_name);
-	msg = ":" + NAME_V + " 381 " + user.getNickname() +  " :You are now an IRC operator\r\n";
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
+	User * userptr = oper_get_user_ptr(server, user);
+	userptr->set_is_operator(true);
 
-	oper_send_to_all(server, user, msg);
+	send_RPL_YOUREOPER(user);
+	notify_everyone_new_operator_created(server, user);
 }
 
 //4.1.5 Oper
