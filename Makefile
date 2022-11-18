@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 09:48:37 by thhusser          #+#    #+#              #
-#    Updated: 2022/11/17 20:24:35 by thhusser         ###   ########.fr        #
+#    Updated: 2022/11/18 11:53:04 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,7 @@ _PURPLE = \033[0;95m
 _CYAN   = \033[0;36m
 _WHITE  = \033[0;37m
 
-DEBUG   =  1
 NAME    =  ircserv
-CLIENT  =  client
 RM      =  rm    -rf
 CC      =  c++
 FLAGS   =  -Wall -Wextra -Werror -std=c++98 -g
@@ -98,15 +96,12 @@ SRCS		:=                                                \
 
 
 # SRCS		+= SRCS_CMD
-SRCS_CLIENT := client.cpp
 DIR_SRCS    := ./srcs
 DIR_OBJ     := obj
 OBJS        := $(addprefix ${DIR_OBJ}/, ${SRCS:.cpp=.o})
 DEPS        =  $(OBJS:.o=.d)
-	# OBJS_CLIENT	:= $(addprefix ${DIR_OBJ}/, ${SRCS_CLIENT:.cpp=.o})
 
 all: $(NAME)
-# $(CLIENT)
 
 -include $(DEPS)
 
@@ -114,7 +109,7 @@ $(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.cpp
 	@mkdir -p $(dir $@)
 	@${CC} ${FLAGS} ${DIR_INC} -o $@ -c $< -MMD
 
-$(NAME):			$(OBJS)
+$(NAME):		$(OBJS)
 	@$(CC) $(FLAGS) ${DIR_INC} $(OBJS) -o $(NAME)
 	@printf "$(_GREEN)Generating $(NAME) $(_NC)\n"
 
@@ -123,7 +118,7 @@ clean:
 	@printf "$(_GREEN)Deletes objects files $(NAME) $(_NC)\n"
 
 fclean:		clean
-	@$(RM) $(NAME) $(CLIENT)
+	@$(RM) $(NAME)
 	@printf "$(_GREEN)Delete $(NAME) $(_NC)\n"
 
 re:			fclean all

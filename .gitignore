@@ -1,6 +1,7 @@
 *.o
 obj/
 ft_irc
+ircserv
 a.out
 client
 test.txt

@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 11:08:46 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:53:16 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define _HEADER_HPP
 
 # define Debug     0
+
 # define MAX_USERS 10
 # define BUFF_SIZE 4096
 
@@ -49,7 +50,6 @@
 # define NOT_OK_   0
 // WSZ END
 
-# include <algorithm>    // std::transform
 # include <cctype>
 
 # include <iostream>
