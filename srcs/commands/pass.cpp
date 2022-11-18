@@ -13,19 +13,19 @@
 #include <Server.hpp>
 
 void	pass(Server *serv, User user) {
-	if (serv->_allBuff.size() == 1) {
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), std::string("*"));
+	if (serv->get_buff().size() == 1) {
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_buff()), std::string("*"));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (user.getValidUser() == true) {
 		std::string msg = NAME + ERR_ALREADYREGISTRED(user.getNickname());
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
-	} else if (serv->getPasswd().compare(print_allBuff(serv->_allBuff))) {
+	} else if (serv->getPasswd().compare(print_allBuff(serv->get_buff()))) {
 		std::string msg = ERR_PASSWDMISMATCH(user.getNickname());
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
-		serv->_users[user.getFd()].setPASS(print_allBuff(serv->_allBuff));
+		serv->_users[user.getFd()].setPASS(print_allBuff(serv->get_buff()));
 	}
 	return ;
 }

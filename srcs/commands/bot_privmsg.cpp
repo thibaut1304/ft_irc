@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bot_privmsg.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:51:14 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/17 20:11:28 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:30:13 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void executeBot(Server *serv, User user) {
 	std::vector<std::string> recordCmd;
 	initStringCmd(recordCmd);
 
-	std::vector<std::string> allBuff = serv->_allBuff;
+	std::vector<std::string> allBuff = serv->get_buff();
 	allBuff.erase(allBuff.begin());
 	std::string cmd = print_allBuff(allBuff);
 	myToupper(cmd);

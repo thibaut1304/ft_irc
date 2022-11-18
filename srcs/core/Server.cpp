@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 11:20:41 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:32:49 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ std::string Server::getPasswd(void) const { return (_passwd); }
 std::string Server::getPort(void) const { return (_port); }
 void Server::setPasswd(std::string pass) { _passwd = pass; }
 void Server::setPort(std::string port) { _port = port; }
+std::vector<std::string> Server::get_buff() { return _allBuff; }
 
 /* ========================================================================== */
 /* ------------------------------ SERVER INIT ------------------------------- */

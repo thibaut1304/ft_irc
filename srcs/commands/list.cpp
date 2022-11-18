@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:00:39 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/10 19:22:25 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:36:45 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void list(Server *serv, User user)
 {
     std::string options = "";
     std::map<std::string, Channel *> tmp = serv->getChannels();
-    if (serv->_allBuff.size() == 1)
+    if (serv->get_buff().size() == 1)
     {
         std::string channel = "*";
         send(user.getFd(), MSG1.c_str(), MSG1.length(), 0);

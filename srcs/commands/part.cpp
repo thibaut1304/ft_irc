@@ -6,21 +6,21 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:25:04 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/16 16:29:54 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:38:28 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <Header.hpp>
 #include <Server.hpp>
 
-#define PART_MSG1 (ERR_NOSUCHCHANNEL(user.getNickname(), serv->_allBuff[1]))
+#define PART_MSG1 (ERR_NOSUCHCHANNEL(user.getNickname(), serv->get_buff()[1]))
 
 void part(Server *serv, User user)
 {
     if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
         return;
     std::vector<std::string> channels;
-    split(channels, serv->_allBuff[1], ",");
+    split(channels, serv->get_buff()()[1], ",");
     for (size_t i = 0; i < channels.size(); i++)
     {
         if (!serv->does_channel_exist(channels[i]))

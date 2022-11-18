@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/17 20:24:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:36:54 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@
 extern bool serverLife;
 class Server
 {
+	public:
+		/* .............................................. */
+		/* .................. TYPEDEFS .................. */
+		/* .............................................. */
+		typedef std::string                   string;
+		typedef std::map<string,Channel *>    map_channels;
+		typedef std::pair<string,Channel *>   pair;
+		typedef std::vector<string>           vector_string;
+		typedef std::map<const int, User>     map_users;
+		typedef std::map<std::string, User *> map_operators;
+
 	private:
 		Server(void);
 
@@ -40,28 +51,17 @@ class Server
 
 		// int					_nbUers;
 		std::map<int, std::string> _buffUsers;
-
+		vector_string _allBuff;
 		typedef void (*cmdFunc)(Server *, User );
 		std::map<std::string, cmdFunc> _listCmd;
 
 	public:
-		/* .............................................. */
-		/* .................. TYPEDEFS .................. */
-		/* .............................................. */
-		typedef std::string                   string;
-		typedef std::map<string,Channel *>    map_channels;
-		typedef std::pair<string,Channel *>   pair;
-		typedef std::vector<string>           vector_string;
-		typedef std::map<const int, User>     map_users;
-		typedef std::map<std::string, User *> map_operators;
-
 		/* .............................................. */
 		/* ................ MEMBER VARS ................. */
 		/* .............................................. */
 		map_users     _users; // --> creer classe user pour ajouter les infos pour les connections
 		map_operators _operators;
 		map_channels  _channels;
-		vector_string _allBuff;
 		string        _buff;
 
 		/* .............................................. */
@@ -86,6 +86,7 @@ class Server
 		void initCmd        (void);
 		void acceptUser     (User);
 		void exploreCmd     (int, std::string);
+		std::vector<std::string> get_buff();
 
 		void server_launch_start (int fdServer, int fdPoll, Server &server);
 
