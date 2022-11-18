@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:25:04 by adlancel          #+#    #+#             */
-/*   Updated: 2022/11/16 16:29:54 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:38:28 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void part(Server *serv, User user)
         else
         {
             serv->getChannel(channels[i])->removeUser(&user);
-            if (serv->getChannel(channels[i])->getUsers().size() == 0)
+            if (serv->getChannel(channels[i])->getSize() == 0)
                 serv->deleteChannel(channels[i]);
         }
     }

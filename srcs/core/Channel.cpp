@@ -21,6 +21,7 @@
 Channel::Channel(std::string ChannelName, User *channelAdmin) :
 	_name                (ChannelName),
 	_passwd              (""),
+	_nbUsers			 (0),
 	_passwd_required     (false),
 	_is_private          (false),
 	_is_secret           (false),
@@ -116,8 +117,6 @@ void Channel::removeUser(UserPtr user)
 	sendToAll(user, "PART");
 	(_users.erase(user->getNickname()));
 	_nbUsers--;
-	if (_nbUsers == 0)
-		delete(this);
 }
 
 void Channel::banUser(std::string nickname)
@@ -174,6 +173,9 @@ Channel::string Channel::getTopic(void) { return _topic; }
 
 std::map<std::string, Channel::UserPtr> Channel::getAdmin(void) { return _channelAdmin; }
 std::map<std::string, Channel::UserPtr> Channel::getUsers(void) { return _users; }
+std::map<std::string, Channel::UserPtr> &Channel::getUsersRef(void) { return _users; }
+
+
 Channel::vector_banned_users Channel::getUsersBanned(void) { return _users_banned; }
 std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return _users_invited; }
 
@@ -197,6 +199,7 @@ bool        Channel::get_mute_non_moderators (void) { return _mute_non_moderator
 size_t      Channel::get_user_limit          (void) { return _user_limit          ; }; // l - set the user limit to channel;
 std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
 bool Channel::get_is_accepting_messages_from_outside_client(void  ) {return _is_accepting_messages_from_outside_client;}
+size_t	Channel::getSize									   (void) {return _nbUsers;};
 
 Channel::vector_banned_users & Channel::get_banned_users() { return _users_banned; }
 

@@ -100,6 +100,8 @@ class Channel
 
 		std::map<std::string, Channel::UserPtr> getAdmin(void);
 		std::map<std::string, Channel::UserPtr> getUsers(void);
+std::map<std::string, Channel::UserPtr> &getUsersRef(void) ;
+
 		std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 		vector_banned_users getUsersBanned(void);
 
@@ -115,6 +117,7 @@ class Channel
 		string               get_channel_key                               (void); // k - set a channel key (password).
 		bool                 get_is_accepting_messages_from_outside_client (void); // n - no messages to channel from clients on the outside;
 		vector_banned_users& get_banned_users                              (void);
+		size_t				 getSize									   (void);
 
 		/* ---------------------------------------------- */
 		/* ------------------ SETTERS ------------------- */
