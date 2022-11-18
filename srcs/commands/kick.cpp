@@ -29,14 +29,15 @@ void kick(Server *serv, User user)
            send(user.getFd(), KICK_MSG2.c_str(), KICK_MSG2.length(), 0);
     else if (!serv->getUser(serv->_allBuff[2]))
            send(user.getFd(), KICK_MSG3.c_str(), KICK_MSG3.length(), 0);
-    else if (!serv->getChannel(serv->_allBuff[1])->isAdmin(user.getNickname())) 
+    else if (!serv->getChannel(serv->_allBuff[1])->isAdmin(user.getNickname()) && !serv->is_server_operator(user.getNickname())) 
            send(user.getFd(), KICK_MSG4.c_str(), KICK_MSG4.length(), 0);
-    else if (!serv->getChannel(serv->_allBuff[1])->isInChannel(user.getNickname())) 
+    else if (!serv->getChannel(serv->_allBuff[1])->isInChannel(user.getNickname()) && !serv->is_server_operator(user.getNickname()))  
            send(user.getFd(), KICK_MSG5.c_str(), KICK_MSG5.length(), 0);
     else
-	{
-		Channel *chan_test =serv->getChannel(serv->_allBuff[1]);
-    	chan_test->removeUser(serv->getUser(serv->_allBuff[2]));
+       {
+              serv->getChannel(serv->_allBuff[1])->removeUser(serv->getUser(serv->_allBuff[2]));
+              if (serv->getChannel(serv->_allBuff[1])->getSize() == 0)
+                     serv->deleteChannel(serv->_allBuff[1]);
 	}
 }
 
