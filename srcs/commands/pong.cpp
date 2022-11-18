@@ -13,16 +13,16 @@
 #include <Server.hpp>
 
 void	pong(Server *serv, User user) {
-	if (serv->_allBuff.size() == 1 && user.getValidUser() == false) {
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), std::string("*"));
+	if (serv->get_buff().size() == 1 && user.getValidUser() == false) {
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_buff()), std::string("*"));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (serv->_allBuff.size() == 1 && user.getValidUser() == true) {
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(user.getNickname(), print_cmd(serv->_allBuff));
+	else if (serv->get_buff().size() == 1 && user.getValidUser() == true) {
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(user.getNickname(), print_cmd(serv->get_buff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (serv->_allBuff.size() > 1 && user.getValidUser() == false) {
-		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+	else if (serv->get_buff().size() > 1 && user.getValidUser() == false) {
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->get_buff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 }

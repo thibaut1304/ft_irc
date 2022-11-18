@@ -56,10 +56,10 @@ void	motd(Server *serv, User user) {
 
 	s << std::setw(50) << citation();
 	if (user.getValidUser() == false) {
-		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->get_buff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
-	else if (user.getValidUser() == true && serv->_allBuff.size() > 1) {
+	else if (user.getValidUser() == true && serv->get_buff().size() > 1) {
 		return ;
 	}
 	else {

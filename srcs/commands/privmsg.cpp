@@ -34,7 +34,7 @@ static void	splitCmdClient(std::vector<std::string> & sCmd, std::string cmd) {
 
 static void	searchChannel(std::string nameChannel, Server *serv, User user, std::map<std::string, int> tmp) {
 	bool user_in = false;
-	std::vector<std::string> allBuff = serv->_allBuff;
+	std::vector<std::string> allBuff = serv->get_buff();
 	std::string cmd = *(allBuff.begin());
 	allBuff.erase(allBuff.begin());
 	std::string nameBot = "#bot";
@@ -77,7 +77,7 @@ static void	searchChannel(std::string nameChannel, Server *serv, User user, std:
 }
 
 static void		search_clientRPL(std::vector<std::string> Client, std::map<const int, User> user, Server *serv, User user_send) {
-	std::vector<std::string> allBuff = serv->_allBuff;
+	std::vector<std::string> allBuff = serv->get_buff();
 	std::string cmd = *(allBuff.begin());
 	allBuff.erase(allBuff.begin());
 	std::map<std::string, int> tmp;
@@ -102,20 +102,20 @@ static void		search_clientRPL(std::vector<std::string> Client, std::map<const in
 }
 
 void	privmsg(Server *serv, User user) {
-	if (serv->_allBuff.size() < 3) {
+	if (serv->get_buff().size() < 3) {
 		std::string nick = "*";
 		if (user.getValidUser() == true)
 			nick = user.getNickname();
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), nick);
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_buff()), nick);
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (user.getValidUser() == false) {
-		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->get_buff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
 		std::vector<std::string> client;
-		std::vector<std::string>::iterator it_buff = ++serv->_allBuff.begin();
+		std::vector<std::string>::iterator it_buff = ++serv->get_buff().begin();
 		splitCmdClient(client, *it_buff);
 		search_clientRPL(client, serv->_users, serv, user);
 	}

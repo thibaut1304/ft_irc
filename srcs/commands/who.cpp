@@ -70,7 +70,7 @@ static void	printUser(Server *serv, User user, std::string nick) {
 	std::string tmp_channel = "*";
 	std::string tmp_chan 	= " ";
 
-	std::string arg = print_allBuff(serv->_allBuff);
+	std::string arg = print_allBuff(serv->get_buff());
 
 	std::map<const int, User>::iterator it;
 	for (it = serv->_users.begin() ; it != serv->_users.end(); it++)
@@ -139,20 +139,20 @@ static void	recupNick(std::string & nick, std::vector<std::string> buff) {
 }
 
 void	who(Server *serv, User user) {
-	if (serv->_allBuff.size() == 1) {
+	if (serv->get_buff().size() == 1) {
 		std::string nick = "*";
 		if (user.getValidUser() == true)
 			nick =	user.getNickname();
-		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->_allBuff), nick);
+		std::string msg = NAME + ERR_NEEDMOREPARAMS(print_cmd(serv->get_buff()), nick);
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else if (user.getValidUser() == false) {
-		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->_allBuff));
+		std::string msg = ERR_NOTREGISTERED(print_cmd(serv->get_buff()));
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
 		std::string nick;
-		recupNick(nick, serv->_allBuff);
+		recupNick(nick, serv->get_buff());
 		if (!nick.compare("*") || !nick.compare("0"))
 			printAllUser(serv, user);
 		else

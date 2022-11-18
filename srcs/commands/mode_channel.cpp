@@ -288,7 +288,7 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 
 void mode_channel(Server* server, User user, std::string target)
 {
-	BUFFER_           buffer    = server->_allBuff;
+	BUFFER_           buffer    = server->get_buff();
 	Channel           *channel  = server->getChannel(target);
 	if (mode_channel_log(channel, user, buffer.size()) == true) return;
 	BUFFER_::iterator it        = buffer.begin();

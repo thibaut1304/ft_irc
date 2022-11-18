@@ -20,14 +20,14 @@
 
 void names(Server *serv, User user)
 {
-    if (serv->_allBuff.size() == 1)
+    if (serv->get_buff().size() == 1)
         send(user.getFd(), NAMES_MSG1.c_str(), NAMES_MSG1.length(), 0);
     else if (!check_ERR_NOTREGISTERED(serv, user))
         return;
     else
     {
         std::vector<std::string> channels;
-        split(channels, serv->_allBuff[1], ",");
+        split(channels, serv->get_buff()[1], ",");
 
         for (size_t i = 0; i < channels.size(); i++)
         {

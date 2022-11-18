@@ -65,7 +65,7 @@ static void sendOtherClient(Server *serv, User user, std::vector<std::string> tm
 				otherClient[it_user->first] = it_user->second->getFd();
 		}
 	}
-	printOtherClient(otherClient, user, serv->_allBuff);
+	printOtherClient(otherClient, user, serv->get_buff());
 }
 
 void	quit(Server *serv, User user) {
@@ -76,18 +76,18 @@ void	quit(Server *serv, User user) {
 	sendOtherClient(serv, user, tmp, otherClient);
 
 	std::string msg;
-	if (user.getValidUser() == false && serv->_allBuff.size() == 1) {
+	if (user.getValidUser() == false && serv->get_buff().size() == 1) {
 		msg = CLIENT_EXIT(NAME_V, user.getIp(), "Client exited");
 	}
 	else if (user.getValidUser() == false) {
-		std::string text = "Quit: " + print_allBuff(serv->_allBuff);
+		std::string text = "Quit: " + print_allBuff(serv->get_buff());
 		msg = CLIENT_EXIT(NAME_V, user.getIp(), text);
 	}
-	else if (user.getValidUser() == true && serv->_allBuff.size() == 1) {
+	else if (user.getValidUser() == true && serv->get_buff().size() == 1) {
 		msg = CLIENT_EXIT(user.getUsername(), user.getIp(), "Client exited");
 	}
 	else {
-		std::string text = "Quit: " + print_allBuff(serv->_allBuff);
+		std::string text = "Quit: " + print_allBuff(serv->get_buff());
 		msg = CLIENT_EXIT(user.getUsername(), user.getIp(), text);
 	}
 	send(user.getFd(), msg.c_str(), msg.length(), 0);

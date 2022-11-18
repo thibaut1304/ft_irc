@@ -154,7 +154,7 @@ static bool check_ERR_UNKNOWNMODE(User user, char mode)
 void mode_user(Server* server, User user, std::string target)
 {
 	(void)target;
-	BUFFER_           buffer      = server->_allBuff;
+	BUFFER_           buffer      = server->get_buff();
 	BUFFER_::iterator it          = buffer.begin();
 	std::string       target_user = it[1];
 	std::string       msg;

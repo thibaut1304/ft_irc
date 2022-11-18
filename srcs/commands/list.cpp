@@ -50,7 +50,7 @@ void list(Server *serv, User user)
 {
     std::string options = "";
     std::map<std::string, Channel *> tmp = serv->getChannels();
-    if (serv->_allBuff.size() == 1)
+    if (serv->get_buff().size() == 1)
     {
         std::string channel = "*";
         send(user.getFd(), MSG1.c_str(), MSG1.length(), 0);

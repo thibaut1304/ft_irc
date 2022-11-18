@@ -75,7 +75,7 @@ std::string mode_trim_sign (std::string modes)
 
 bool mode_check_arg_error(Server *server, int arg_index, bool toggle)
 {
-	BUFFER_           buffer          = server->_allBuff;
+	BUFFER_           buffer          = server->get_buff();
 	BUFFER_::iterator it              = buffer.begin();
 	BUFFER_::iterator first_arg = it + 3;
 	int arg_count = 0;

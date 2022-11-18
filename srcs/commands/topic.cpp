@@ -15,7 +15,7 @@
 static void get_topic(Server * server, User user)
 {
 	int               destination = user.getFd();
-	BUFFER_           buffer      = server->_allBuff;
+	BUFFER_           buffer      = server->get_buff();
 	BUFFER_::iterator it          = buffer.begin();
 
 	if (buffer.size() == 2)
@@ -38,7 +38,7 @@ static void get_topic(Server * server, User user)
 
 static void set_topic(Server * server, User user)
 {
-	BUFFER_           buffer = server->_allBuff;
+	BUFFER_           buffer = server->get_buff();
 	BUFFER_::iterator it     = buffer.begin();
 	std::string msg;
 

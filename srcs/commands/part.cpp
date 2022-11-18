@@ -13,14 +13,14 @@
 #include <Header.hpp>
 #include <Server.hpp>
 
-#define PART_MSG1 (ERR_NOSUCHCHANNEL(user.getNickname(), serv->_allBuff[1]))
+#define PART_MSG1 (ERR_NOSUCHCHANNEL(user.getNickname(), serv->get_buff()[1]))
 
 void part(Server *serv, User user)
 {
     if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
         return;
     std::vector<std::string> channels;
-    split(channels, serv->_allBuff[1], ",");
+    split(channels, serv->get_buff()[1], ",");
     for (size_t i = 0; i < channels.size(); i++)
     {
         if (!serv->does_channel_exist(channels[i]))

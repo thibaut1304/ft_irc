@@ -34,8 +34,8 @@ void join(Server *serv, User user)
 	if (!check_ERR_NEEDMOREPARAMS(serv, user) || !check_ERR_NOTREGISTERED(serv, user))
 		return;
 	std::vector<std::string> channels, passwords;
-	split(channels, serv->_allBuff[1], ",");
-	split(passwords, serv->_allBuff[2], ",");
+	split(channels, serv->get_buff()[1], ",");
+	split(passwords, serv->get_buff()[2], ",");
 	for (size_t i = 0; i < channels.size(); i++)
 	{
 		
@@ -45,7 +45,7 @@ void join(Server *serv, User user)
 		{
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
 			if (it->second->isInChannel(user.getNickname()))
-				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
+				serv->get_buff()[1].erase(serv->get_buff()[1].find(it->first),(it->first.size() + 1));
 			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
 				send(user.getFd(), JOIN_MSG2.c_str(), JOIN_MSG2.length(), 0);
 			else if (it->second->is_password_only_channel() && !it->second->checkPassword(passwords[i]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:40:12 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/17 20:24:14 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:51:54 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,7 @@
 extern bool serverLife;
 class Server
 {
-	private:
-		Server(void);
-
-		int _fdServer;
-		int _fdPoll;
-
-		struct sockaddr_in _serverAddress;
-		struct sockaddr_in _clientAddress;
-
-		std::string _passwd;
-		std::string _port;
-
-		// int					_nbUers;
-		std::map<int, std::string> _buffUsers;
-
-		typedef void (*cmdFunc)(Server *, User );
-		std::map<std::string, cmdFunc> _listCmd;
-
+	
 	public:
 		/* .............................................. */
 		/* .................. TYPEDEFS .................. */
@@ -55,15 +38,36 @@ class Server
 		typedef std::map<const int, User>     map_users;
 		typedef std::map<std::string, User *> map_operators;
 
+	private:
+		Server(void);
+
+		int _fdServer;
+		int _fdPoll;
+
+		struct sockaddr_in _serverAddress;
+		struct sockaddr_in _clientAddress;
+
+		std::string _passwd;
+		std::string _port;
+		
+
+		// int					_nbUers;
+		std::map<int, std::string> _buffUsers;
+		vector_string _allBuff;
+
+		typedef void (*cmdFunc)(Server *, User );
+		std::map<std::string, cmdFunc> _listCmd;
+
 		/* .............................................. */
 		/* ................ MEMBER VARS ................. */
 		/* .............................................. */
+
+	public:
+
 		map_users     _users; // --> creer classe user pour ajouter les infos pour les connections
 		map_operators _operators;
 		map_channels  _channels;
-		vector_string _allBuff;
 		string        _buff;
-
 		/* .............................................. */
 		/* .................. METHODS ................... */
 		/* .............................................. */
@@ -96,6 +100,7 @@ class Server
 		string    getPort   ()     const;
 		void      setPasswd (string);
 		void      setPort   (string);
+		std::vector<std::string> get_buff();
 
 		/* CHANNEL REQUESTS ......... */
 		/* .......................... */

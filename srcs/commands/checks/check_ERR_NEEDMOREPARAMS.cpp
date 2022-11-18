@@ -15,7 +15,7 @@
 bool check_ERR_NEEDMOREPARAMS(Server *server, User user)
 {
 	int               destination = user.getFd();
-	BUFFER_           buffer      = server->_allBuff;
+	BUFFER_           buffer      = server->get_buff();
 	BUFFER_::iterator it          = buffer.begin();
 	STR_              username    = user.getNickname();
 	STR_              msg;

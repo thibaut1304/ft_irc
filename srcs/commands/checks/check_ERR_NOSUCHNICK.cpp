@@ -15,7 +15,7 @@
 bool check_ERR_NOSUCHNICK(Server * server, User user)
 {
 	int                  destination = user.getFd();
-	VEC_<STR_>           buffer      = server->_allBuff;
+	VEC_<STR_>           buffer      = server->get_buff();
 	VEC_<STR_>::iterator it          = buffer.begin();
 	std::string          nick        = it[1];
 	std::string msg;
