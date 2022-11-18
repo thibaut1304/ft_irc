@@ -115,7 +115,7 @@ static void send_RPL_YOUREOPER(User user)
 /* ========================================================================== */
 void oper(Server *server, User user)
 {
-
+	if (check_ERR_NOTREGISTERED       (server, user) == NOT_OK_) { return ; }
 	if (oper_check_ERR_NEEDMOREPARAMS (server, user) == NOT_OK_) { return ; }
 	if (oper_check_ERR_PASSWDMISMATCH (server, user) == NOT_OK_) { return ; }
 	if (oper_check_ERR_ALREADYOPERATOR(server, user) == NOT_OK_) { return ; }
