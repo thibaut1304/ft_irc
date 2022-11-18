@@ -18,7 +18,7 @@ void	kill(Server *serv, User user) {
 		std::cout << "CMD KILL " << user.getFd() << " port number " << serv->getPort() << std::endl;
 		send(user.getFd(), "Le client doit etre kill\n", strlen("Le client doit etre kill\n"), 0);
 	}
-	serv->_users[user.getFd()].setIsKill(true);
+	serv->getUsers()[user.getFd()].setIsKill(true);
 	serv->killUserClient(user.getFd());
 
 }

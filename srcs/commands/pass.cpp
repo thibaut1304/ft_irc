@@ -25,7 +25,7 @@ void	pass(Server *serv, User user) {
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 	}
 	else {
-		serv->_users[user.getFd()].setPASS(print_allBuff(serv->get_buff()));
+		serv->getUsers()[user.getFd()].setPASS(print_allBuff(serv->get_buff()));
 	}
 	return ;
 }

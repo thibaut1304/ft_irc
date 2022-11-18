@@ -54,6 +54,7 @@ class Server
 		// int					_nbUers;
 		std::map<int, std::string> _buffUsers;
 		vector_string _allBuff;
+		map_users     _users; // --> creer classe user pour ajouter les infos pour les connections
 
 		typedef void (*cmdFunc)(Server *, User );
 		std::map<std::string, cmdFunc> _listCmd;
@@ -64,7 +65,6 @@ class Server
 
 	public:
 
-		map_users     _users; // --> creer classe user pour ajouter les infos pour les connections
 		map_operators _operators;
 		map_channels  _channels;
 		string        _buff;

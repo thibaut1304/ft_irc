@@ -26,8 +26,8 @@ static int charset(std::string charset, std::string str)
 }
 void join(Server *serv, User user)
 {
-	Server::map_users::iterator _it = serv->_users.begin();
-	Server::map_users::iterator _ite = serv->_users.end();
+	Server::map_users::iterator _it = serv->getUsers().begin();
+	Server::map_users::iterator _ite = serv->getUsers().end();
 	for (; _it != _ite; _it++)
 		if (_it->second.getNickname().compare(user.getNickname()) == 0)
 			break;

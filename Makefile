@@ -52,8 +52,6 @@ SRCS		:=                                                \
 				utils/split/splitCmd.cpp                      \
 				utils/split/split_classic.cpp                 \
 				\
-				utils/debug/debug.cpp                         \
-				\
 				commands/connection.cpp                       \
 				commands/init_commands.cpp                    \
 				commands/nick.cpp                             \

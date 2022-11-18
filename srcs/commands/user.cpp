@@ -56,9 +56,9 @@ void	user(Server *serv, User user) {
 	}
 	else {
 		std::vector<std::string>::iterator it = ++serv->get_buff().begin();
-		serv->_users[user.getFd()].setUsername(*it++);
-		serv->_users[user.getFd()].setHostname(*it++);
-		serv->_users[user.getFd()].setHostname(*it);
-		serv->_users[user.getFd()].setFullName(bis);
+		serv->getUsers()[user.getFd()].setUsername(*it++);
+		serv->getUsers()[user.getFd()].setHostname(*it++);
+		serv->getUsers()[user.getFd()].setHostname(*it);
+		serv->getUsers()[user.getFd()].setFullName(bis);
 	}
 }

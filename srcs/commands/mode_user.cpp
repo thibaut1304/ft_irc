@@ -22,8 +22,8 @@
 static User * mode_get_user_ptr(Server *server, User user, std::string target_user)
 {
 	(void)user;
-	Server::map_users::iterator  users_it  = server->_users.begin();
-	Server::map_users::iterator  users_ite = server->_users.end();
+	Server::map_users::iterator  users_it  = server->getUsers().begin();
+	Server::map_users::iterator  users_ite = server->getUsers().end();
 
 	while (users_it != users_ite)
 	{

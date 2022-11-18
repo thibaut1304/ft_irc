@@ -51,8 +51,8 @@ static void	printAllUser(Server *serv, User user) {
 		}
 	}
 	tmp_chan = " ";
-	std::map<const int, User>::iterator it_user = serv->_users.begin();
-	for (;it_user != serv->_users.end(); it_user++) {
+	std::map<const int, User>::iterator it_user = serv->getUsers().begin();
+	for (;it_user != serv->getUsers().end(); it_user++) {
 		if (tmp.find(it_user->second.getNickname()) == tmp.end()) {
 			std::string msg = RPL_WHOREPLY352(	user.getNickname(), \
 												tmp_channel, \
@@ -73,10 +73,10 @@ static void	printUser(Server *serv, User user, std::string nick) {
 	std::string arg = print_allBuff(serv->get_buff());
 
 	std::map<const int, User>::iterator it;
-	for (it = serv->_users.begin() ; it != serv->_users.end(); it++)
+	for (it = serv->getUsers().begin() ; it != serv->getUsers().end(); it++)
 		if (it->second.getNickname().compare(nick) == 0)
 			break ;
-	if (it == serv->_users.end())
+	if (it == serv->getUsers().end())
 		if (arg[0] != '#') {
 			std::string msg_315 = RPL_ENDOFWHO(user.getNickname(), nick);
 			send(user.getFd(), msg_315.c_str(), msg_315.length(), 0);

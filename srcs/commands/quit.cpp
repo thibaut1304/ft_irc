@@ -91,6 +91,6 @@ void	quit(Server *serv, User user) {
 		msg = CLIENT_EXIT(user.getUsername(), user.getIp(), text);
 	}
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	serv->_users[user.getFd()].setIsKill(true);
+	serv->getUsers()[user.getFd()].setIsKill(true);
 	serv->killUserClient(user.getFd());
 }

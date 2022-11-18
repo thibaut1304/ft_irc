@@ -380,8 +380,8 @@ void mode_channel(Server* server, User user, std::string target)
 	}
 	if (mode_is_in_charset("opsitnvmlbk", msg[1]) == true)
 	{
-		Server::map_users::iterator it =  server->_users.begin();
-		Server::map_users::iterator ite = server->_users.end();
+		Server::map_users::iterator it =  server->getUsers().begin();
+		Server::map_users::iterator ite = server->getUsers().end();
 		for (; it != ite; it++)
 			if (it->second.getNickname() == user.getNickname())
 				break ;

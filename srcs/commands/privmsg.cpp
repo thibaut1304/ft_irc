@@ -117,6 +117,6 @@ void	privmsg(Server *serv, User user) {
 		std::vector<std::string> client;
 		std::vector<std::string>::iterator it_buff = ++serv->get_buff().begin();
 		splitCmdClient(client, *it_buff);
-		search_clientRPL(client, serv->_users, serv, user);
+		search_clientRPL(client, serv->getUsers(), serv, user);
 	}
 }
