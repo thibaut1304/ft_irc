@@ -91,7 +91,7 @@ static void notify_everyone_new_operator_created(Server *server, User user)
 
 	while (it != ite)
 	{
-		msg = ":" + user.getNickname() + "!" + user.getHostname() + "@" + user.getIp() + " :";
+		msg = ":" + user.getNickname() + "!" + user.getUsername() + "@" + user.getIp() + " :";
 		msg += user.getNickname() + " ";
 		msg += "has been promoted to server operator\r\n";
 		if (it->second.getNickname() != user.getNickname())

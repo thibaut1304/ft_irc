@@ -34,6 +34,9 @@ void kick(Server *serv, User user)
     else if (!serv->getChannel(serv->_allBuff[1])->isInChannel(user.getNickname())) 
            send(user.getFd(), KICK_MSG5.c_str(), KICK_MSG5.length(), 0);
     else
-            serv->getChannel(serv->_allBuff[1])->removeUser(serv->getUser(serv->_allBuff[2]));
+	{
+		Channel *chan_test =serv->getChannel(serv->_allBuff[1]);
+    	chan_test->removeUser(serv->getUser(serv->_allBuff[2]));
+	}
 }
 
