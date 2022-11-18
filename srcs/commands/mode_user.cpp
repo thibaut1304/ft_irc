@@ -173,8 +173,8 @@ void mode_user(Server* server, User user, std::string target)
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
 	{
 		mode = modes[mode_index];
-		if (check_ERR_UNKNOWNMODE(user, mode) == NOT_OK_ ) return;
-		msg += set_bool_modes(server, user, mode, toggle, target_user);
+		if (check_ERR_UNKNOWNMODE(user, mode) == OK_ )
+			msg += set_bool_modes(server, user, mode, toggle, target_user);
 	}
 
 	if (mode_is_in_charset("owsi", msg[1])) // Checking if any modification has been made

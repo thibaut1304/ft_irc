@@ -13,7 +13,7 @@
 #ifndef _HEADER_HPP
 # define _HEADER_HPP
 
-# define Debug     0
+# define Debug     1
 
 # define MAX_USERS 10
 # define BUFF_SIZE 4096
