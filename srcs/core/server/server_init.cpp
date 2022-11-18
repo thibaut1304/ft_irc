@@ -32,7 +32,6 @@ void server_init_socket_fd(int *fd)
 
 void server_init_socket_struct(int fd, sockaddr_in & server_sock_struct, std::string port)
 {
-
 	server_sock_struct.sin_family      = AF_INET;                    // Address family - IPv4?
 	server_sock_struct.sin_addr.s_addr = INADDR_ANY;                 // 32 bit IP address  - htonl, htons, ntohl, ntohs - convert values between host and network byte or
 	server_sock_struct.sin_port        = htons(atoi(port.c_str())); // 16 bit port number - htonl, htons, ntohl, ntohs - convert values between host and network byte or

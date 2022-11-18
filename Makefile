@@ -20,7 +20,7 @@ _CYAN   = \033[0;36m
 _WHITE  = \033[0;37m
 
 DEBUG   = 1
-NAME    = ft_irc
+NAME    = ircserv
 CLIENT  = client
 RM      = rm      -rf
 CC      = c++

@@ -27,7 +27,9 @@
 # define VERSION std::string("0.2")
 # define NAME_V  std::string("ft_irc.local")
 # define DATE    std::string("30/10/2022")
-# define SERVER_PASSWORD "1234"
+
+# define SERVER_LOGIN    "%"
+# define SERVER_PASSWORD "****"
 
 # define _NC     "\033[0;0m"
 # define _RED    "\033[0;31m"

@@ -215,27 +215,8 @@ bool Server::does_operator_name_exist(std::string name)
 
 std::string Server::is_this_user_an_operator(std::string user_name)
 {
-	map_users::iterator bit = _users.begin();
-	map_users::iterator bite = _users.end();
-	while (bit != bite)
-	{
-		if (bit->second.getNickname() == user_name)
-			break ;
-		bit++;
-	}
-	if (bit == bite)
-		return "";
-
-	map_operators * operators = get_server_operators();
-	map_operators::iterator it = operators->begin();
-	map_operators::iterator ite = operators->end();
-	while (it != ite)
-	{
-		if (&(bit->second) == it->second)
-			return it->first;
-		it++;
-	}
-	return "";
+	User * user = getUser(user_name);
+	return (user->get_is_operator() ? user_name : "");
 }
 
 void Server::add_server_operator(std::string user_nickname, std::string op_nickname)
@@ -257,9 +238,8 @@ void Server::add_server_operator(std::string user_nickname, std::string op_nickn
 
 bool Server::is_server_operator(std::string nick)
 {
-	if (is_this_user_an_operator(nick).size())
-		return true;
-	return false;
+	User * user = getUser(nick);
+	return (user->get_is_operator() ? true : false);
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
