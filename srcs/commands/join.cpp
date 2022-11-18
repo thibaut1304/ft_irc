@@ -46,9 +46,9 @@ void join(Server *serv, User user)
 			std::map<std::string, Channel *>::iterator it = serv->_channels.find(channels[i]);
 			if (it->second->isInChannel(user.getNickname()))
 				serv->_allBuff[1].erase(serv->_allBuff[1].find(it->first),(it->first.size() + 1));
-			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()))
+			else if (it->second->is_invite_only_channel() && !it->second->isInvited(user.getNickname()) && !serv->is_server_operator(user.getNickname())) 
 				send(user.getFd(), JOIN_MSG2.c_str(), JOIN_MSG2.length(), 0);
-			else if (it->second->is_password_only_channel() && !it->second->checkPassword(passwords[i]))
+			else if (it->second->is_password_only_channel() && !it->second->checkPassword(passwords[i]) && !serv->is_server_operator(user.getNickname())) 
 				send(user.getFd(), JOIN_MSG3.c_str(), JOIN_MSG3.length(), 0);
 			else
 				it->second->addUser(&(_it->second));
