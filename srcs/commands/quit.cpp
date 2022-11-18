@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 22:00:09 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/17 21:00:38 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:12:01 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,19 @@ void	quit(Server *serv, User user) {
 		std::string text = "Quit: " + print_allBuff(serv->_allBuff);
 		msg = CLIENT_EXIT(user.getUsername(), user.getIp(), text);
 	}
+
+	std::vector<std::string> tmp_chan;
+	std::map<std::string, Channel *>::iterator it = serv->_channels.begin();
+	for(; it != serv->_channels.end();it++) {
+		if (it->second->does_user_exist(user.getNickname()))
+			tmp_chan.push_back(it->first);
+	}
+	for(std::vector<std::string>::iterator vit = tmp_chan.begin(); vit != tmp_chan.end(); vit++) {
+		serv->getChannel(*vit)->removeUser(&user);
+		if (serv->getChannel(*vit)->getSize() == 0)
+			serv->deleteChannel(*vit);
+	}
+	
 	send(user.getFd(), msg.c_str(), msg.length(), 0);
 	serv->_users[user.getFd()].setIsKill(true);
 	serv->killUserClient(user.getFd());
