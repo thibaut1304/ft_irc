@@ -53,6 +53,7 @@
 # include <cctype>
 
 # include <iostream>
+# include <sstream>
 # include <cstdio>				// perror
 # include <cstdlib>				// exit
 # include <sys/socket.h>		// socket && bind

@@ -27,7 +27,8 @@ static bool check_CHANNELS(Server * server, User user, std::string target)
 	if (target[0] == '#')
 	{
 		if (check_ERR_NOSUCHCHANNEL (server, user) == NOT_OK_) return NOT_OK_;
-		if (check_ERR_NOTONCHANNEL  (server, user) == NOT_OK_) return NOT_OK_;
+		if (user.get_is_operator() == false)
+			if (check_ERR_NOTONCHANNEL  (server, user) == NOT_OK_) return NOT_OK_;
 	}
 	return OK_;
 }
@@ -41,8 +42,7 @@ void mode(Server *server, User  user)
 	if (check_ERR_NOTREGISTERED  (server, user)         == NOT_OK_) return ;
 	if (check_CHANNELS           (server, user, target) == NOT_OK_) return ;
 	if (check_USERS              (server, user, target) == NOT_OK_) return ;
-	//if (check_ERR_CHANOPRIVSNEEDED (server, user) == NOT_OK_) return ;
-	//if (check_ERR_KEYSET           (server, user) == NOT_OK_) return ;
+
 	if (target[0] == '#') mode_channel(server, user, target);
 	else                  mode_user   (server, user, target);
 }

@@ -17,11 +17,7 @@
 #include <Users.hpp>
 #include <Channel.hpp>
 #include <Commands.hpp>
-#include <sstream>
-
 #include <connectionReplies.hpp>
-#include <serverQueries.hpp>
-#include <cerrno>
 
 /* ========================================================================== */
 /* --------------------------------- SERVER --------------------------------- */
@@ -153,15 +149,15 @@ void server_new_connection_epoll_ctl (int fdNew,    int fdPoll);
 /* ...................................................... */
 /* ....................... UTILS ........................ */
 /* ...................................................... */
-void splitCmdIrssi(std::vector<std::string> &sCmd, std::string cmd);
-void splitCmdUser(std::vector<std::string> &sCmd, std::string cmd);
-void splitCmd(std::vector<std::string> &sCmd, std::string cmd);
-void split(std::vector<std::string> &sCmd, std::string cmd, std::string delimiter);
-void print_buff(std::vector<std::string> buff);
-void myToupper(std::string &emma);
-void perror_and_exit(std::string code);
-int findCharParsing(std::string buff);
-void send_to_client(int fd, std::string msg, std::string err_code = "");
+void splitCmdIrssi   (std::vector<std::string> &sCmd, std::string cmd);
+void splitCmdUser    (std::vector<std::string> &sCmd, std::string cmd);
+void splitCmd        (std::vector<std::string> &sCmd, std::string cmd);
+void split           (std::vector<std::string> &sCmd, std::string cmd, std::string delimiter);
+void print_buff      (std::vector<std::string> buff);
+void myToupper       (std::string &emma);
+void perror_and_exit (std::string code);
+int  findCharParsing (std::string buff);
+void send_to_client  (int fd, std::string msg, std::string err_code = "");
 
 
 int         get_year    (void);

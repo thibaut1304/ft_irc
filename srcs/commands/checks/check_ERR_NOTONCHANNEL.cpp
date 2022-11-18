@@ -33,6 +33,8 @@ bool check_ERR_NOTONCHANNEL(Server *server, User user)
 	std::string       ch_name = *(it + 1);
 	std::string msg;
 
+	if (user.get_is_operator() == true)
+		return OK_;
 	if (check(server, user) == NOT_OK_)
 	{
 		msg += ERR_NOTONCHANNEL(user.getNickname(), ch_name);
