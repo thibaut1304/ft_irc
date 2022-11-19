@@ -18,7 +18,6 @@
 /* ----------------------- CONSTRUCTORS / DESTRUCTOR ------------------------ */
 /* ========================================================================== */
 
-// NOTE TODO @thibault added _fdServer(-1) to default constructor, please check if ok
 Server::Server(void) : _fdServer(-1), _passwd(), _port() {}
 Server::Server(std::string passwd, std::string port) : _fdServer(-1), _passwd(passwd), _port(port)
 {
@@ -246,10 +245,9 @@ bool Server::is_server_operator(std::string nick)
 	return (user->get_is_operator() ? true : false);
 }
 
-/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-/* ------------------------- TODO CLEANUP          -------------------------- */
-/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-
+/* ========================================================================== */
+/* ----------------------- EXPLORE CMD - PARSE INPUT ------------------------ */
+/* ========================================================================== */
 void parse_prefix(std::string &buff)
 {
 	std::string::iterator it = buff.begin();
@@ -348,6 +346,10 @@ void Server::exploreCmd(int fd, std::string buff)
 		_users[fd].setTimeActivity();
 	buff.clear();
 }
+
+/* ========================================================================== */
+/* -------------------------------- PINGTIME -------------------------------- */
+/* ========================================================================== */
 
 void Server::pingTime(void)
 {

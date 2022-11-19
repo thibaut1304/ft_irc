@@ -62,15 +62,65 @@ Channel::~Channel()
 }
 
 /* ========================================================================== */
+/* -------------------------------- SETTERS --------------------------------- */
+/* ========================================================================== */
+
+void Channel::set_is_private          (bool b)          { _is_private          = b; }   // p - private channel flag;
+void Channel::set_is_secret           (bool b)          { _is_secret           = b; }   // s - secret channel flag;
+void Channel::set_is_invite_only      (bool b)          { _is_invite_only      = b; }   // i - invite-only channel flag;
+void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   = b; }   // t - topic settable by channel operator only flag;
+void Channel::set_is_moderated        (bool b)          { _is_moderated        = b; }   // m - moderated channel;
+void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators = b; }   // v - give/take the ability to speak on a moderated channel;
+void Channel::set_user_limit          (size_t s)        { _user_limit          = s; } // l - set the user limit to channel;
+void Channel::set_channel_key         (string str)      { _channel_key         = str; _passwd_required = true; }; // k - set a channel key (password).
+void Channel::setTopic                (string str)      { _topic = str; }
+void Channel::set_is_accepting_messages_from_outside_client(bool b) {_is_accepting_messages_from_outside_client = b;} //// n - no messages to channel from clients on the outside;
+
+/* ========================================================================== */
+/* -------------------------------- GETTERS --------------------------------- */
+/* ========================================================================== */
+
+bool        Channel::get_is_private           (void) { return _is_private          ; }// p - private channel flag;
+bool        Channel::get_is_secret            (void) { return _is_secret           ; }// s - secret channel flag;
+bool        Channel::get_is_invite_only       (void) { return _is_invite_only      ; }// i - invite-only channel flag;
+bool        Channel::get_is_topic_unlocked    (void) { return _is_topic_unlocked   ; }// t - topic settable by channel operator only flag;
+bool        Channel::get_is_moderated         (void) { return _is_moderated        ; }// m - moderated channel;
+bool        Channel::get_mute_non_moderators  (void) { return _mute_non_moderators ; }// v - give/take the ability to speak on a moderated channel;
+bool        Channel::is_invite_only_channel   (void) { return _is_invite_only      ; }
+bool        Channel::is_password_only_channel (void) { return _passwd_required     ; }
+int         Channel::numberOfUsers            (void) { return _nbUsers             ; }
+size_t      Channel::get_user_limit           (void) { return _user_limit          ; }// l - set the user limit to channel;
+size_t      Channel::getSize                  (void) { return _nbUsers             ; }
+std::string Channel::get_channel_key          (void) { return _channel_key         ; }// k - set a channel key (password).
+std::string Channel::getTopic                 (void) { return _topic               ; }
+std::string Channel::getName                  (void) { return _name                ; }
+
+bool Channel::get_is_accepting_messages_from_outside_client (void) {return _is_accepting_messages_from_outside_client;}
+
+/* CHANNEL USERS .................... */
+/* .................................. */
+Channel::vector_banned_users            Channel::getUsersBanned  (void) { return _users_banned;  }
+Channel::vector_banned_users&           Channel::get_banned_users(void) { return _users_banned;  }
+std::map<std::string,Channel::UserPtr>  Channel::getAdmin        (void) { return _channelAdmin;  }
+std::map<std::string,Channel::UserPtr>  Channel::getUsers        (void) { return _users;         }
+std::map<std::string,Channel::UserPtr>& Channel::getUsersRef     (void) { return _users;         }
+std::map<std::string,Channel::UserPtr>  Channel::getUsersInvited (void) { return _users_invited; }
+
+ /* USER STATES ..................... */
+ /* ................................. */
+int Channel::isAdmin    (std::string nickname) { return (_channelAdmin.find(nickname)  == _channelAdmin.end()  ? false : true); }
+int Channel::isInvited  (std::string nickname) { return (_users_invited.find(nickname) == _users_invited.end() ? false : true); }
+int Channel::isInChannel(std::string nickname) { return (_users.find(nickname)         == _users.end()) ? false : true;         }
+
+bool Channel::checkPassword (string password) { return password == this->_channel_key; }
+
+/* ========================================================================== */
 /* ---------------------------- CHANNEL METHODS ----------------------------- */
 /* ========================================================================== */
 
-bool Channel::is_invite_only_channel() { return _is_invite_only;}
-bool Channel::is_password_only_channel() { return _passwd_required; }
-bool Channel::checkPassword(std::string password) {
-	return password == this->_channel_key;
-}
 
+/* COMMUNICATION .................... */
+/* .................................. */
 void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg )
 {
 	std::string msg = ":" + user->getNickname() + "!" + user->getUsername() + "@" + user->getIp() + " ";
@@ -84,45 +134,17 @@ void Channel::sendToAll(UserPtr user, std::string command, std::string other_msg
 		send(it->second->getFd(), msg.c_str(), msg.length(), 0);
 }
 
-void Channel::addUser(UserPtr user)
+/* USER ADD ......................... */
+/* .................................. */
+
+void Channel::addAdmin (UserPtr user) { _channelAdmin.insert(std::make_pair(user->getNickname(), user)); }
+void Channel::addUser  (UserPtr user)
 {
 	_users.insert(std::make_pair(user->getNickname(), user));
 	sendToAll(user, "JOIN");
 	_nbUsers++;
 }
 
-void Channel::addAdmin(UserPtr user)
-{
-	_channelAdmin.insert(std::make_pair(user->getNickname(), user));
-}
-
-void Channel::removeAdmin(std::string nick) { _channelAdmin.erase(nick);}
-
-
-void Channel::inviteUser(UserPtr user)
-{
-	_users_invited.insert(std::make_pair(user->getNickname(), user));
-	for (std::map<std::string, UserPtr>::iterator it = _users_invited.begin(); it != _users_invited.end(); it++)
-	{
-		if (Debug)
-			std::cout << "user invited : " << it->second->getNickname() << std::endl;
-	}
-}
-std::string Channel::getName()
-{
-	return (_name);
-}
-void Channel::removeUser(UserPtr user)
-{
-	sendToAll(user, "PART");
-	(_users.erase(user->getNickname()));
-	_nbUsers--;
-}
-
-void Channel::banUser(std::string nickname)
-{
-	_users_banned.push_back(nickname);
-}
 void Channel::unbanUser(std::string nickname)
 {
 	vector_banned_users::iterator it  = _users_banned.begin();
@@ -137,10 +159,33 @@ void Channel::unbanUser(std::string nickname)
 		_users_banned.erase(it);
 }
 
-int Channel::isInChannel(std::string nickname)
+/* USER REMOVE ...................... */
+/* .................................. */
+void Channel::removeAdmin (std::string nick)     { _channelAdmin.erase(nick);         }
+void Channel::banUser     (std::string nickname) { _users_banned.push_back(nickname); }
+
+void Channel::removeUser(UserPtr user)
 {
-	return (_users.find(nickname) == _users.end()) ? false : true;
+	sendToAll(user, "PART");
+	(_users.erase(user->getNickname()));
+	_nbUsers--;
 }
+
+/* USER INVITE ...................... */
+/* .................................. */
+void Channel::inviteUser(UserPtr user)
+{
+	_users_invited.insert(std::make_pair(user->getNickname(), user));
+	for (std::map<std::string, UserPtr>::iterator it = _users_invited.begin(); it != _users_invited.end(); it++)
+	{
+		if (Debug)
+			std::cout << "user invited : " << it->second->getNickname() << std::endl;
+	}
+}
+
+/* USER QUERIES ..................... */
+/* .................................. */
+
 int Channel::isBanned(std::string nickname)
 {
 	vector_banned_users::iterator it  = _users_banned.begin();
@@ -155,53 +200,7 @@ int Channel::isBanned(std::string nickname)
 		return true;
 	return false;
 }
-int Channel::isInvited(std::string nickname)
-{
-	return (_users_invited.find(nickname) == _users_invited.end() ? false : true);
-}
-int Channel::isAdmin(std::string nickname)
-{
-	return (_channelAdmin.find(nickname) == _channelAdmin.end() ? false : true);
-}
-int Channel::numberOfUsers()
-{
-	return (_nbUsers);
-}
-void Channel::setTopic(string str) { _topic = str; }
 
-Channel::string Channel::getTopic(void) { return _topic; }
-
-std::map<std::string, Channel::UserPtr> Channel::getAdmin(void) { return _channelAdmin; }
-std::map<std::string, Channel::UserPtr> Channel::getUsers(void) { return _users; }
-std::map<std::string, Channel::UserPtr> &Channel::getUsersRef(void) { return _users; }
-
-
-Channel::vector_banned_users Channel::getUsersBanned(void) { return _users_banned; }
-std::map<std::string, Channel::UserPtr> Channel::getUsersInvited(void) { return _users_invited; }
-
-void Channel::set_is_private          (bool b)          { _is_private          = b; };   // p - private channel flag;
-void Channel::set_is_secret           (bool b)          { _is_secret           = b; };   // s - secret channel flag;
-void Channel::set_is_invite_only      (bool b)          { _is_invite_only      = b; };   // i - invite-only channel flag;
-void Channel::set_is_topic_unlocked   (bool b)          { _is_topic_unlocked   = b; };   // t - topic settable by channel operator only flag;
-void Channel::set_is_moderated        (bool b)          { _is_moderated        = b; };   // m - moderated channel;
-void Channel::set_mute_non_moderators (bool b)          { _mute_non_moderators = b; };   // v - give/take the ability to speak on a moderated channel;
-void Channel::set_user_limit          (size_t s)        { _user_limit          = s; }; // l - set the user limit to channel;
-void Channel::set_channel_key         (std::string str) { _channel_key         = str; _passwd_required = true; }; // k - set a channel key (password).
-																												  //
-void Channel::set_is_accepting_messages_from_outside_client(bool b) {_is_accepting_messages_from_outside_client = b;} //// n - no messages to channel from clients on the outside;
-
-bool        Channel::get_is_private          (void) { return _is_private          ; }; // p - private channel flag;
-bool        Channel::get_is_secret           (void) { return _is_secret           ; }; // s - secret channel flag;
-bool        Channel::get_is_invite_only      (void) { return _is_invite_only      ; }; // i - invite-only channel flag;
-bool        Channel::get_is_topic_unlocked   (void) { return _is_topic_unlocked   ; }; // t - topic settable by channel operator only flag;
-bool        Channel::get_is_moderated        (void) { return _is_moderated        ; }; // m - moderated channel;
-bool        Channel::get_mute_non_moderators (void) { return _mute_non_moderators ; }; // v - give/take the ability to speak on a moderated channel;
-size_t      Channel::get_user_limit          (void) { return _user_limit          ; }; // l - set the user limit to channel;
-std::string Channel::get_channel_key         (void) { return _channel_key         ; }; // k - set a channel key (password).
-bool Channel::get_is_accepting_messages_from_outside_client(void  ) {return _is_accepting_messages_from_outside_client;}
-size_t	Channel::getSize									   (void) {return _nbUsers;};
-
-Channel::vector_banned_users & Channel::get_banned_users() { return _users_banned; }
 
 bool Channel::does_user_exist(std::string user_name)
 {
@@ -216,21 +215,3 @@ bool Channel::does_user_exist(std::string user_name)
 	}
 	return (false);
 }
-
-//std::vector<std::string> Channel::get_ban_mask(void) { return _ban_mask			  ; }; // b - set a ban mask to keep users out;
-//void Channel::set_ban_mask            (std::string str) { _ban_mask.push_back(str); }; // b - set a ban mask to keep users out;
-//bool Channel::does_ban_mask_exist(std::string ban_mask) {
-	//std::vector<std::string>::iterator it = _ban_mask.begin();
-
-	//for(;it != _ban_mask.end();it++) {
-		//if (*it == ban_mask)
-			//return (true);
-	//}
-	//return (false);
-//}
-
-//        ERR_NEEDMOREPARAMS              ERR_BANNEDFROMCHAN
-//        ERR_INVITEONLYCHAN              ERR_BADCHANNELKEY
-//        ERR_CHANNELISFULL               ERR_BADCHANMASK
-//        ERR_NOSUCHCHANNEL               ERR_TOOMANYCHANNELS
-//        RPL_TOPIC

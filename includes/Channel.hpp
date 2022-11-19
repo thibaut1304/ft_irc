@@ -100,7 +100,7 @@ class Channel
 
 		std::map<std::string, Channel::UserPtr> getAdmin(void);
 		std::map<std::string, Channel::UserPtr> getUsers(void);
-std::map<std::string, Channel::UserPtr> &getUsersRef(void) ;
+		std::map<std::string, Channel::UserPtr> &getUsersRef(void) ;
 
 		std::map<std::string, Channel::UserPtr> getUsersInvited(void);
 		vector_banned_users getUsersBanned(void);
@@ -140,19 +140,4 @@ std::map<std::string, Channel::UserPtr> &getUsersRef(void) ;
 		bool does_user_exist     (std::string user_name);
 		bool does_ban_mask_exist (std::string);
 		void sendToAll           (UserPtr user, std::string command, std::string other_msg = "");
-
-		/* ---------------------------------------------- */
-		/* ------------------ ARCHIVE ------------------- */
-		/* ---------------------------------------------- */
-		// int addUser    (UserPtr user);
-		// int removeUser (UserPtr user);
-		// int banUser    (UserPtr user);
-		// int unbanUser  (UserPtr user);
-		//
-		// int isInChannel (UserPtr user);
-		// int isBanned    (UserPtr user);
-		// int isInvited   (UserPtr user);
-		//
-		// void setTopic                (string str);
-		// string getTopic (void);
 };
