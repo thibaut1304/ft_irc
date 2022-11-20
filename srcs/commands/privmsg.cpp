@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 01:43:34 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 11:19:53 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:58:29 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	searchChannel(std::string nameChannel, Server *serv, User user, std:
 		std::map<std::string, User * > tabUser = it_chan->second->getUsers();
 		std::map<std::string, User * >::iterator it_user = tabUser.begin();
 		for (; it_user != tabUser.end();it_user++) {
-			if (it_user->first.compare(user.getNickname()) == 0)
+			if (it_user->first.compare(user.getNickname()) == 0 || user.get_is_operator())
 				user_in = true;
 		}
 		if (!user_in) {
