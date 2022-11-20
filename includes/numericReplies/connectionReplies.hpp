@@ -22,13 +22,13 @@
 /* ...................................................... */
 
 // 001
-#define RPL_WELCOME(nick, user, host) (" :Welcome to the Internet Relay Network " + nick + "!" + user + "@" + host + "\r\n");
+#define RPL_WELCOME(nick, user, host) (":Welcome to the Internet Relay Network " + nick + "!" + user + "@" + host + "\r\n");
 // 002
-#define RPL_YOURHOST(servername, version) (" :Your host is " + servername + ", running version " + version + "\r\n");
+#define RPL_YOURHOST(servername, version) (":Your host is " + servername + ", running version " + version + "\r\n");
 // 003
-#define RPL_CREATED(date) (" :This server was created " + date + "\r\n")
+#define RPL_CREATED(date) (":This server was created " + date + "\r\n")
 // 004
-#define RPL_MYINFO(servername, version, userMode, channelMode) (" " + servername + " " + version + " " + userMode + " " + channelMode + "\r\n");
+#define RPL_MYINFO(servername, version, userMode, channelMode) ("" + servername + " " + version + " " + userMode + " " + channelMode + "\r\n");
 
 /* ...................................................... */
 /* .................. Error Nick ........................ */

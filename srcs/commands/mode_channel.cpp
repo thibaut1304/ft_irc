@@ -260,7 +260,8 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 {
 	bool        modified = false;
 	std::string num_arg  = toggle ? arg : "0";
-
+	if (arg.size() == 0)
+		num_arg = "0";
 	std::string msg;
 	if (channel->isAdmin(user.getNickname()) == false)
 		if (user.get_is_operator() == false)
