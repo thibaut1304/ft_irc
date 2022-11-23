@@ -17,7 +17,6 @@ void	split(std::vector<std::string> & sCmd, std::string cmd, std::string delimit
 
 	size_t					pos = 0;
 	std::string::iterator	it;
-
 	while ((pos = cmd.find_first_of(delimiter)) != std::string::npos)
 	{
 		sCmd.push_back(cmd.substr(0, pos));

@@ -48,18 +48,19 @@ static void set_topic(Server * server, User user)
 		std::string new_topic = it[2];
 		Channel     *channel   = server->getChannel(ch_name);
 
-		if (channel->isAdmin(user.getNickname()) == false)
-			if (user.get_is_operator() == false)
-			{
-				msg = ":" + NAME_V;
-				msg += " 324 ";
-				msg += user.getNickname() + " " ;
-				msg += channel->getName();
-				msg += " ::You must have channel op access or above to set channel topic";
-				msg += "\r\n";
-				send(user.getFd(), msg.c_str(), msg.length(), 0);
-				return;
-			}
+		if (channel->get_is_topic_unlocked() == true)
+			if (channel->isAdmin(user.getNickname()) == false)
+				if (user.get_is_operator() == false)
+				{
+					msg = ":" + NAME_V;
+					msg += " 324 ";
+					msg += user.getNickname() + " " ;
+					msg += channel->getName();
+					msg += " ::You must have channel op access or above to set channel topic";
+					msg += "\r\n";
+					send(user.getFd(), msg.c_str(), msg.length(), 0);
+					return;
+				}
 
 		channel->setTopic(new_topic);
 		std::string msg = "Topic set : " + new_topic;

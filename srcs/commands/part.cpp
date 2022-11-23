@@ -27,7 +27,10 @@ void part(Server *serv, User user)
             send(user.getFd(), PART_MSG1.c_str(), PART_MSG1.length(), 0);
         else
         {
+            if (serv->getChannel(channels[i])->isAdmin(user.getNickname()))
+                serv->getChannel(channels[i])->removeAdmin(user.getNickname());
             serv->getChannel(channels[i])->removeUser(&user);
+
             if (serv->getChannel(channels[i])->getSize() == 0)
                 serv->deleteChannel(channels[i]);
         }

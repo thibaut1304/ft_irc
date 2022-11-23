@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 17:42:50 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 18:11:28 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/21 16:55:49 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,11 +377,6 @@ void Server::pingTime(void)
 		}
 		else if (tmp > PING_TIME && it->second.getValidUser() == true && it->second.getPingStatus() == true)
 		{
-			tmp = difftime(time(NULL), it->second.getTimeActivity());
-			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
-			send(it->second.getFd(), msg.c_str(), msg.length(), 0);
-			vecFd.push_back(it->second.getFd());
-			
 			std::vector<std::string> tmp_chan;
 			std::map<std::string, Channel *>::iterator it_c = _channels.begin();
 			for(; it_c != _channels.end();it_c++) {
@@ -389,13 +384,19 @@ void Server::pingTime(void)
 					tmp_chan.push_back(it_c->first);
 			}
 			for(std::vector<std::string>::iterator vit = tmp_chan.begin(); vit != tmp_chan.end(); vit++) {
+				if (getChannel(*vit)->isAdmin(it->second.getNickname()))
+					getChannel(*vit)->removeAdmin(it->second.getNickname());
 				getChannel(*vit)->removeUser(&it->second);
 				if (getChannel(*vit)->getSize() == 0)
 					deleteChannel(*vit);
 			}
-		
+			tmp = difftime(time(NULL), it->second.getTimeActivity());
+			std::string msg = PING_TIMEOUT(it->second.getUsername(), it->second.getIp());
+			vecFd.push_back(it->second.getFd());
+			send(it->second.getFd(), msg.c_str(), msg.length(), MSG_NOSIGNAL);
 			if (it->second.getIsKill() == false)
 				killUserClient(it->second.getFd());
+
 		}
 		else if (it->second.getIsKill() == true)
 		{

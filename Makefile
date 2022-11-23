@@ -22,7 +22,7 @@ _WHITE  = \033[0;37m
 NAME    =  ircserv
 RM      =  rm    -rf
 CC      =  c++
-FLAGS   =  -Wall -Wextra -Werror -std=c++98 -g
+FLAGS   =  -Wall -Wextra -Werror -std=c++98
 DIR_INC =  -I    ./includes/
 DIR_INC += -I    ./includes/numericReplies/
 

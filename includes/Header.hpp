@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 12:19:04 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 16:01:01 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/21 16:56:07 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define REFRESH_DELAY 128 // Refresh rate in ms
 
-# define VERSION std::string("0.5")
+# define VERSION std::string("1.0")
 # define NAME_V  std::string("ircserv.local")
 # define NAME    std::string(":ircserv.local")
 # define DATE    std::string("30/10/2022")

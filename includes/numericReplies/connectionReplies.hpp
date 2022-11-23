@@ -83,13 +83,16 @@
 #define RPL_LIST(nick, channel, usernumber, flags, topic) (NAME + " 322 " + nick + " " + channel + " " + usernumber + " :" + flags + " " + topic + "\r\n")
 #define RPL_LISTEND(nick) (NAME + " 323 " + nick + " :End of channel list\r\n")
 #define RPL_INVITING(nick, channel, invited) (NAME + " 341 " + nick + " " + invited + " :" + channel + "\r\n")
+
 // #define ERR_NOSUCHNICK(nick, nickname) (NAME + " 402 " + nick + " :You must be a channel operator\r\n") 
 /* ...................................................... */
 
 /* ...................................................... */
 /* .................. Error join ........................ */
 /* ...................................................... */
+#define ERR_CHANNELISFULL(nick, channel) (" 471 " + nick + " " + channel + " :Cannot join channel (channel is full)" + "\r\n")
 #define ERR_INVITEONLYCHAN(nick, channel) (" 473 " + nick + " " + channel + " :Cannot join channel (invite only)" + "\r\n")
+#define ERR_BANNEDFROMCHAN(nick, channel) (" 474 " + nick + " " + channel  + " :Cannot join channel (you're banned)" + "\r\n")
 #define ERR_BADCHANNELKEY(nick, channel) (" 475 " + nick + " " + channel + " :Cannot join channel (incorrect channel key)" + "\r\n")
 #define ERR_BADCHANMASK(nick, channel) (" 476 " + nick + " " + channel + " :Invalid channel name" + "\r\n")
 /* ...................................................... */

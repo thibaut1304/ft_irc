@@ -125,7 +125,7 @@ bool mode_is_invalid_password(Channel * channel, User user, std::string password
 		msg += " 467 ";
 		msg += user.getNickname() + " " ;
 		msg += channel->getName();
-		msg += " :Channel key already set";
+		msg += " k * :Invalid password";
 		msg += "\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return true;
@@ -134,7 +134,44 @@ bool mode_is_invalid_password(Channel * channel, User user, std::string password
 }
 
 
+bool mode_is_missing_limit(Channel * channel, User user, std::string limit)
+{
+	std::string msg;
+	if (limit.size() == 0)
+	{
+		msg += ":" + NAME_V;
+		msg += " 696 ";
+		msg += user.getNickname() + " ";
+		msg += channel->getName() + " ";
+		msg += "l * :You must specify a parameter for the limit mode. Syntax: <limit>.";
+		msg += "\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return true;
+	}
+	return false;
+}
 
+static bool is_digits(const std::string &str)
+{
+    return str.find_first_not_of("0123456789") == std::string::npos;
+}
 
+bool mode_is_invalid_limit(Channel * channel, User user, std::string limit, bool toggle)
+{
+	(void)toggle;
+	std::string msg;
 
+	if (is_digits(limit) == false)
+	{
+		msg += ":" + NAME_V;
+		msg += " 697 ";
+		msg += user.getNickname() + " " ;
+		msg += channel->getName();
+		msg += " l * :Invalid limit format (unsigned numbers only)";
+		msg += "\r\n";
+		send(user.getFd(), msg.c_str(), msg.length(), 0);
+		return true;
+	}
+	return false;
+}
 

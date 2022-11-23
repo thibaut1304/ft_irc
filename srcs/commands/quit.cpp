@@ -6,7 +6,7 @@
 /*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 22:00:09 by thhusser          #+#    #+#             */
-/*   Updated: 2022/11/18 18:22:26 by thhusser         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:53:04 by thhusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,22 @@ static void sendOtherClient(Server *serv, User user, std::vector<std::string> tm
 }
 
 void	quit(Server *serv, User user) {
+	std::map<const int, User>::iterator it_u_s = serv->get_users().begin();
+	for(; it_u_s != serv->get_users().end(); it_u_s++) {
+		if (it_u_s->second.getNickname() == user.getNickname())
+			break ;
+	}
 	std::vector<std::string> tmp_chan;
 	std::map<std::string, Channel *>::iterator it = serv->get_channels().begin();
 	for(; it != serv->get_channels().end();it++) {
 		if (it->second->does_user_exist(user.getNickname()))
 			tmp_chan.push_back(it->first);
 	}
+
 	for(std::vector<std::string>::iterator vit = tmp_chan.begin(); vit != tmp_chan.end(); vit++) {
-		serv->getChannel(*vit)->removeUser(&user);
+		if (serv->getChannel(*vit)->isAdmin(user.getNickname()))
+			serv->getChannel(*vit)->removeAdmin(user.getNickname());
+		serv->getChannel(*vit)->removeUser(&(it_u_s->second));
 		if (serv->getChannel(*vit)->getSize() == 0)
 			serv->deleteChannel(*vit);
 	}

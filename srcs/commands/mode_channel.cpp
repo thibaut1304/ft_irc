@@ -271,13 +271,24 @@ static char set_arg_modes(Channel* channel, User user, char mode, std::string ar
 			return char(0);
 		}
 
-	if (mode == 'l') modified = channel_mode_l(mode_str_to_num(num_arg), channel);
+	if (mode == 'l')
+	{
+		if (toggle == true)
+		{
+			if (mode_is_missing_limit(channel, user, arg)         == true) return char(0);
+			if (mode_is_invalid_limit(channel, user, arg, toggle) == true) return char(0);
+			modified = channel_mode_l(mode_str_to_num(arg),  channel);
+		}
+		if (toggle == false)
+			modified = channel_mode_l(mode_str_to_num("0"),  channel);
+	}
+
 	if (mode == 'k')
 	{
 		if (mode_is_missing_password(channel, user, arg)         == true) return char(0);
 		if (mode_is_invalid_password(channel, user, arg, toggle) == true) return char(0);
-		if      (toggle == true  && channel->get_channel_key().size() == 0) modified = channel_mode_k(arg, channel);
-		else if (toggle == false && channel->get_channel_key() == arg)      modified = channel_mode_k("",  channel);
+		if      (toggle == true)  modified = channel_mode_k(arg, channel);
+		else if (toggle == false) modified = channel_mode_k("",  channel);
 	}
 	return modified ? mode : char(0);
 }
@@ -312,10 +323,10 @@ void mode_channel(Server* server, User user, std::string target)
 	if (Debug) __debug_modes(channel, "Before");
 	/////////////////////// TODO delete
 
-	bool triggered_l = false;
-	bool triggered_k = false;
-	bool triggered_b = false;
-	bool triggered_o = false;
+	//bool triggered_l = false;
+	//bool triggered_k = false;
+	//bool triggered_b = false;
+	//bool triggered_o = false;
 
 	for (size_t mode_index = 0; mode_index < modes.length(); mode_index++)
 	{
@@ -325,13 +336,9 @@ void mode_channel(Server* server, User user, std::string target)
 		/* ................................ */
 		if (mode_is_in_charset("o", mode) == true)
 		{
-			if (triggered_o == false)
-			{
-				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				arg = first_arg + arg_index >= buffer.end() ? "" : first_arg[arg_index];
 				msg += set_operator(server, channel, user, mode, toggle, arg);
 				arg_index++;
-				triggered_o = true;
-			}
 		}
 		/* BOOL MODES ............... */
 		/* .......................... */
@@ -342,33 +349,21 @@ void mode_channel(Server* server, User user, std::string target)
 		/* .......................... */
 		else if (mode_is_in_charset("b", mode) == true)
 		{
-			if (triggered_b == false)
-			{
-				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				arg = first_arg + arg_index >= buffer.end() ? "" : first_arg[arg_index];
 				msg += ban_unban_user(channel, user, mode, arg, toggle);
 				arg_index++;
-				triggered_b = true;
-			}
 		}
 		else if (mode_is_in_charset("k", mode) == true)
 		{
-			if (triggered_k == false)
-			{
-				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				arg = first_arg + arg_index >= buffer.end() ? "" : first_arg[arg_index];
 				msg += set_arg_modes(channel, user, mode, arg, toggle);
 				arg_index++;
-				triggered_k = true;
-			}
 		}
 		else if (mode_is_in_charset("l", mode) == true) // i am lazy
 		{
-			if (triggered_l == false)
-			{
-				arg = first_arg == buffer.end() ? "" : first_arg[arg_index];
+				arg = first_arg + arg_index >= buffer.end() ? "" : first_arg[arg_index];
 				msg += set_arg_modes(channel, user, mode, arg, toggle);
 				arg_index++;
-				triggered_l = true;
-			}
 		}
 
 		/* MODE NOT FOUND ........... */

@@ -17,6 +17,7 @@ bool check_ERR_NEEDMOREPARAMS(Server *server, User user)
 	int               destination = user.getFd();
 	BUFFER_           buffer      = server->get_allBuff();
 	BUFFER_::iterator it          = buffer.begin();
+	BUFFER_::iterator ite         = buffer.end();
 	STR_              username    = user.getNickname();
 	STR_              msg;
 
@@ -24,6 +25,8 @@ bool check_ERR_NEEDMOREPARAMS(Server *server, User user)
 
 	if (buffer.size() < 2)
 	{
+		if (it == ite)
+			return NOT_OK_;
 		msg = NAME;
 		msg += ERR_NEEDMOREPARAMS(*it, username);
 		send(destination, msg.c_str(), msg.length(), 0);

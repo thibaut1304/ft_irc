@@ -121,7 +121,7 @@ static char set_bool_modes(Server * server, User user, char mode, bool toggle, s
 		msg += ":" + NAME_V;
 		msg += " 481 ";
 		msg += user.getNickname() + " " ;
-		msg += ":Permission Denied - Only operators may set user mode o";
+		msg += "o :Permission Denied - Only operators may set user mode o";
 		msg += "\r\n";
 		send(user.getFd(), msg.c_str(), msg.length(), 0);
 		return char(0);
